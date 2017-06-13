@@ -1,7 +1,7 @@
-# Test Driven Development Courses
+# 测试驱动开发课程
 
-1. Run locally - `bundle exec jekyll serve`
-1. Create build - `JEKYLL_ENV=production bundle exec jekyll build`
+1. 本地运行 - `bundle exec jekyll serve`
+1. 构建 - `JEKYLL_ENV=production bundle exec jekyll build`
 
 ## Todo
 
