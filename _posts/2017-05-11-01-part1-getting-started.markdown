@@ -133,7 +133,7 @@ def ping_pong():
     })
 ```
 
-再次运行应用，这个时候[debug mode](http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode) 应该打开了：
+再次运行应用，这个时候[调试模式](http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode)应该打开了：
 
 ```sh
 $ python manage.py runserver
