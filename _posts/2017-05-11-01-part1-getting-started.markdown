@@ -1,16 +1,16 @@
 ---
-title: Getting Started
+title: 开始
 layout: post
 date: 2017-05-11 23:59:58
 permalink: part-one-getting-started
 share: true
 ---
 
-In this lesson, we'll set up the base project structure and define the first service...
+本节，我们将设置基本项目结构以及定义第一个服务……
 
 ---
 
-Create a new project and install Flask:
+创建一个新项目并且安装Flask:
 
 ```sh
 $ mkdir flask-microservices-users && cd flask-microservices-users
@@ -19,8 +19,7 @@ $ python3.6 -m venv env
 $ source env/bin/activate
 (env)$ pip install flask==0.12.2
 ```
-
-Add an *\_\_init\_\_.py* file to the "project" directory and configure the first route:
+添加 *\_\_init\_\_.py* 文件到"project"目录并配置第一个路由：
 
 ```python
 # project/__init__.py
@@ -29,7 +28,7 @@ Add an *\_\_init\_\_.py* file to the "project" directory and configure the first
 from flask import Flask, jsonify
 
 
-# instantiate the app
+# 初始化应用
 app = Flask(__name__)
 
 
@@ -41,13 +40,13 @@ def ping_pong():
     })
 ```
 
-Next, add [Flask-Script](https://flask-script.readthedocs.io/en/latest/), which will be used to run and manage the app from the command line:
+接下来安装 [Flask-Script](https://flask-script.readthedocs.io/en/latest/), 用来在命令行执行以及管理我们的应用：
 
 ```sh
 (env)$ pip install flask-script==2.0.5
 ```
 
-Add a *manage.py* file to the project root:
+在项目根目录下增加 *manage.py* 文件:
 
 ```python
 # manage.py
@@ -65,15 +64,15 @@ if __name__ == '__main__':
     manager.run()
 ```
 
-Here, we created a new `Manager` instance to handle all of the manager commands from the command line.
+在这里，我们创建了`Manager`实例来处理命令行命令。
 
-Run the server:
+运行服务器:
 
 ```sh
 (env)$ python manage.py runserver
 ```
 
-Navigate to [http://localhost:5000/ping](http://localhost:5000/ping) in your browser. You should see:
+浏览器访问 [http://localhost:5000/ping](http://localhost:5000/ping)，你将看到：
 
 ```json
 {
@@ -82,7 +81,7 @@ Navigate to [http://localhost:5000/ping](http://localhost:5000/ping) in your bro
 }
 ```
 
-Kill the server and add a new file called *config.py* to the "project" directory:
+结束掉服务器，然后增加*config.py*文件到"project"目录下：
 
 ```python
 # project/config.py
@@ -110,7 +109,7 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
 ```
 
-Update *\_\_init\_\_.py* to pull in the dev config on init:
+更新*\_\_init\_\_.py*文件初始化时获取开发环境配置：
 
 ```python
 # project/__init__.py
@@ -134,7 +133,7 @@ def ping_pong():
     })
 ```
 
-Run the app again. This time, [debug mode](http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode) should be on:
+再次运行应用，这个时候[debug mode](http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode) 应该打开了：
 
 ```sh
 $ python manage.py runserver
@@ -144,18 +143,19 @@ $ python manage.py runserver
  * Debugger PIN: 107-952-069
 ```
 
-Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a *requirements.txt* file to the root directory:
+现在当你修改代码，应用将自动重新加载。确认成功后，结束服务器并且退出虚拟环境，然后在根目录增加*requirements.txt*文件：
+
 
 ```
 Flask==0.12.1
 Flask-Script==2.0.5
 ```
 
-Finally, add a *.gitignore*, to the project root as well:
+最后, 同样将*.gitignore*文件增加到项目根目录：
 
 ```
 __pycache__
 env
 ```
 
-Init a git repo and commit your code.
+初始化一个git仓库并提交你的代码。
