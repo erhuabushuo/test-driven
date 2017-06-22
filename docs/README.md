@@ -1,7 +1,7 @@
-# Test Driven Development Courses
+# 测试驱动开发课程
 
-1. Run locally - `bundle exec jekyll serve`
-1. Create build - `JEKYLL_ENV=production bundle exec jekyll build`
+1. 本地运行 - `bundle exec jekyll serve`
+1. 构建 - `JEKYLL_ENV=production bundle exec jekyll build`
 
 ## Todo
 
@@ -32,7 +32,7 @@
 1. Add CI/CD - open pr, test, merge, test, deploy
 1. Add JSX and es6 lexers to pygments
 
-## Microservices
+## 微服务
 
 - Complexity shifts from the inside (code, vertical stack) to the outside (platform, horizontal stack), managing each dependency, which *can* be good if you have a younger team in terms of developers. Junior developers are free to experiment and muck up smaller apps. You must have solid dev ops support though.
 - Less coupling, which makes scaling easier
@@ -40,10 +40,10 @@
 - Can be slower since multiple requests and responses are often required
 - Smaller code base, less coupled, solid API design, not having to understand the full system = easier to read code
 
-### Stateful vs stateless services
+### 有状态 vs 无状态服务
 
-- Stateful - databases, message queues, service discovery
-- Stateless - apps
+- 有状态 - 数据库, 消息队列, 服务发现
+- 无状态 - 应用
 
 Stateful containers should not come down. You should limit the number of these since they are hard to scale.
 
