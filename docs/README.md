@@ -23,14 +23,14 @@
 1. Add google analytics - DONE
 1. Add infrastructure image to part 2 - DONE
 1. Fix syntax highlighting issues - DONE
-1. Splash page with mailchimp
-1. Add min height to main content
-1. Outline part 4
+1. Start part 3 - DONE
+1. Outline part 4 - DONE
 1. Update readmes for each project
-1. Start part 3
 1. Paywall
 1. Add CI/CD - open pr, test, merge, test, deploy
 1. Add JSX and es6 lexers to pygments
+1. Splash page with mailchimp
+1. Add min height to main content
 
 ## 微服务
 

@@ -1,0 +1,49 @@
+---
+title: Introduction
+layout: post
+date: 2017-06-11 23:59:59
+permalink: part-three-intro
+part: 3
+share: true
+---
+
+In Part 3, we'll add *database migrations* along with *password hashing* in order to implement *token-based authentication* to the users service with JSON Web Tokens (JWTs). We'll then turn our attention to the client and add *React Router* to the React app to enable client-side routing along with client-side authentication.
+
+#### Objectives
+
+By the end of part 3, you should be able to...
+
+1. Use Flask Migration to handle database migrations
+1. Configure Flask Bcrypt for password hashing
+1. Implement user authentication with JWTs
+1. Write tests to create and verify JWTs and user authentication
+1. Use React Router to define client-side routes in React
+1. Build UI components with React Bootstrap
+1. Explain the difference between user authentication and authorization
+1. Implement user authorization
+
+#### App
+
+<div style="text-align:left;">
+  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+</div>
+
+Check out the live app, running on EC2 - [http://54.89.0.180/](http://54.89.0.180/)
+
+You can also test out the following endpoints...
+
+| Endpoint        | HTTP Method | Authenticated?  | Active?   | Admin? |
+|-----------------|-------------|-----------------|-----------|--------|
+| /auth/register  | POST        | No              | N/A       | N/A    |
+| /auth/login     | POST        | No              | N/A       | N/A    |
+| /auth/logout    | Get         | Yes             | Yes       | No     |
+| /auth/status    | Get         | Yes             | Yes       | No     |
+| /users          | GET         | No              | N/A       | N/A    |
+| /users/:id      | GET         | No              | N/A       | N/A    |
+| /users          | POST        | Yes             | Yes       | Yes    |
+
+Grab the code:
+
+1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main)
+1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users)
+1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client)

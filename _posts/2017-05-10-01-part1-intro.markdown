@@ -38,7 +38,16 @@ share: true
 1. Axios v0.16.2
 1. Flask-CORS v3.0.2
 
-在开始前，你应该熟悉以下主题，参考如下获取更多信息：
+**Part 3**
+
+1. Flask-Migrate v2.0.4
+1. Flask-Bcrypt v0.7.1
+1. PyJWT v1.5.0
+1. react-router-dom v4.1.1
+1. React Bootstrap v0.31.0
+1. React Router Bootstrap v@0.24.2
+
+Before b在开始前，你应该熟悉以下主题，参考如下获取更多信息：
 
 | Topic            | Resource |
 |------------------|----------|

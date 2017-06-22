@@ -8,9 +8,9 @@ $(function() {
 
   setSideBarDisplay($obj, $top);
 
-  $(window).scroll(function (event) {
-    setSideBarDisplay($obj, $top);
-  });
+  // $(window).scroll(function (event) {
+  //   setSideBarDisplay($obj, $top);
+  // });
 
   /*
     side bar - set active

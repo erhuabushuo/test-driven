@@ -276,6 +276,138 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-flask-migrate"
+            >Flask Migrate</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-flask-bcrypt"
+            >Flask Bcrypt</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-jwt-setup"
+            >JWT Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-auth-routes"
+            >Auth Routes</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-router"
+            >React Router</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-bootstrap"
+            >React Bootstrap</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-authentication"
+            >React Authentication</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-authorization"
+            >Authorization</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-update-component"
+            >Update Component</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-update-docker"
+            >Update Docker</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="4" class="collapsible-header  waves-effect waves-teal">
+              Part 4
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
+              Part 5
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -287,21 +419,100 @@
 
           <h2>Introduction</h2>
 
-          <p>By the end of part 3, you should be able to...</p>
+          <p>In Part 3, we&#39;ll add <em>database migrations</em> along with <em>password hashing</em> in order to implement <em>token-based authentication</em> to the users service with JSON Web Tokens (JWTs). We&#39;ll then turn our attention to the client and add <em>React Router</em> to the React app to enable client-side routing along with client-side authentication.</p>
+
+<h4 id="objectives">Objectives</h4>
+
+<p>By the end of part 3, you should be able to...</p>
 
 <ol>
+<li>Use Flask Migration to handle database migrations</li>
+<li>Configure Flask Bcrypt for password hashing</li>
 <li>Implement user authentication with JWTs</li>
 <li>Write tests to create and verify JWTs and user authentication</li>
-<li>Discuss the benefits of using JWTs versus sessions and cookies for authentication</li>
-<li>Log errors as necessary</li>
-<li>Configure Swagger to interact with a service</li>
+<li>Use React Router to define client-side routes in React</li>
+<li>Build UI components with React Bootstrap</li>
+<li>Explain the difference between user authentication and authorization</li>
+<li>Implement user authorization</li>
 </ol>
 
-<hr>
+<h4 id="app">App</h4>
 
-<p>Handle errors in react (user already exists)</p>
+<div style="text-align:left;">
+  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+</div>
 
-<p>Coming soon!</p>
+<p>Check out the live app, running on EC2 - <a href="http://54.89.0.180/">http://54.89.0.180/</a></p>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Active?</th>
+<th>Admin?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>Get</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>Get</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<p>Grab the code:</p>
+
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+</ol>
 
 
           
@@ -314,6 +525,8 @@
             
               <a class="prev btn left-align" href="/part-two-flask-refactor">&laquo; Flask Refactor</a>
             
+            
+              <a class="next btn right-align" href="/part-three-flask-migrate">Flask Migrate &raquo;</a>
             
           </div>
 
@@ -323,21 +536,100 @@
 
           <h2>Introduction</h2>
 
-          <p>By the end of part 3, you should be able to...</p>
+          <p>In Part 3, we&#39;ll add <em>database migrations</em> along with <em>password hashing</em> in order to implement <em>token-based authentication</em> to the users service with JSON Web Tokens (JWTs). We&#39;ll then turn our attention to the client and add <em>React Router</em> to the React app to enable client-side routing along with client-side authentication.</p>
+
+<h4 id="objectives">Objectives</h4>
+
+<p>By the end of part 3, you should be able to...</p>
 
 <ol>
+<li>Use Flask Migration to handle database migrations</li>
+<li>Configure Flask Bcrypt for password hashing</li>
 <li>Implement user authentication with JWTs</li>
 <li>Write tests to create and verify JWTs and user authentication</li>
-<li>Discuss the benefits of using JWTs versus sessions and cookies for authentication</li>
-<li>Log errors as necessary</li>
-<li>Configure Swagger to interact with a service</li>
+<li>Use React Router to define client-side routes in React</li>
+<li>Build UI components with React Bootstrap</li>
+<li>Explain the difference between user authentication and authorization</li>
+<li>Implement user authorization</li>
 </ol>
 
-<hr>
+<h4 id="app">App</h4>
 
-<p>Handle errors in react (user already exists)</p>
+<div style="text-align:left;">
+  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+</div>
 
-<p>Coming soon!</p>
+<p>Check out the live app, running on EC2 - <a href="http://54.89.0.180/">http://54.89.0.180/</a></p>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Active?</th>
+<th>Admin?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>Get</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>Get</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<p>Grab the code:</p>
+
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+</ol>
 
 
           
@@ -350,6 +642,8 @@
             
               <a class="prev btn left-align" href="/part-two-flask-refactor">&laquo; Flask Refactor</a>
             
+            
+              <a class="next btn right-align" href="/part-three-flask-migrate">Flask Migrate &raquo;</a>
             
           </div>
 

@@ -112,7 +112,7 @@ if __name__ == '__main__':
 *test_users.py*:
 
 ```python
-# project/tests/test__user.py
+# project/tests/test_users.py
 
 
 import json

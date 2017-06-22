@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  
+    <title>Microservices with Docker, Flask, and React - React Router</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link
+    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
+  >
+  <link
+    rel="stylesheet"
+    href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  >
+  <link
+    href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link href="/assets/css/styles.css" rel="stylesheet">
+  <script
+    src="//code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    type="text/javascript"
+    src="/assets/js/main.js"
+  ></script>
+</head>
+
+
+  <body>
+
+    <nav class="red darken-1">
+  <div class="container hide-on-small-and-down">
+    <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
+  </div>
+  <div class="hide-on-med-and-up">
+    <h3 class="brand-logo"><a href="/">TDD Courses</a></h3>
+  <div>
+</nav>
+
+
+    <br>
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col m3 hide-on-small-and-down">
+  <br>
+  <div id="toc-block" class="collection hide-on-small-and-down">
+    <ul class="collapsible collapsible-accordion">
+      
+        
+          <li>
+            <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+              Part 1
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-getting-started"
+            >Getting Started</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-docker-config"
+            >Docker Config</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-postgres-setup"
+            >Postgres Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-test-setup"
+            >Test Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-flask-blueprints"
+            >Flask Blueprints</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-restful-routes"
+            >RESTful Routes</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-aws-deployment"
+            >Deployment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-jinja-templates"
+            >Jinja Templates</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+              Part 2
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-project-refactor"
+            >Project Refactor</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-code-coverage"
+            >Code Coverage</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-continuous-integration"
+            >Continuous Integration</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-react-setup"
+            >React Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-flask-deployment"
+            >Flask Deployment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-react-forms"
+            >React Forms</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-react-docker"
+            >React and Docker</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-flask-refactor"
+            >Flask Refactor</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
+              Part 3
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-flask-migrate"
+            >Flask Migrate</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-flask-bcrypt"
+            >Flask Bcrypt</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-jwt-setup"
+            >JWT Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-auth-routes"
+            >Auth Routes</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-router"
+            >React Router</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-bootstrap"
+            >React Bootstrap</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-authentication"
+            >React Authentication</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-authorization"
+            >Authorization</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-update-component"
+            >Update Component</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-update-docker"
+            >Update Docker</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="4" class="collapsible-header  waves-effect waves-teal">
+              Part 4
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
+              Part 5
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+    </div>
+  </li>
+    </ul>
+  </div>
+</div>
+
+
+        <div class="col m9 hide-on-small-and-down">
+
+          <h2>React Router</h2>
+
+          <p>In this lesson, we&#39;ll wire up routing in our React App to manage navigation between different components so the end user has unique pages to interact with...</p>
+
+<hr>
+
+<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just ran in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
+
+<blockquote>
+<p>Keep in mind that React Router is only necessary for apps that have more than one page.</p>
+</blockquote>
+
+<p>In the terminal, open <em>flask-microservices-client</em> and then install <a href="https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom">react-router-dom</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --save react-router-dom@4.1.1
+</code></pre></div>
+<h4 id="check-your-understanding">Check Your Understanding</h4>
+
+<blockquote>
+<p>This part is optional but highly recommended.</p>
+</blockquote>
+
+<p>Put your skills to test!</p>
+
+<ol>
+<li>Start a new React App on your own with Create React App in a new project directory.</li>
+<li>Add two components - <code>Home</code> and <code>Contact</code>. These should be functional components that just display an <code>&lt;h2&gt;</code> element with the name of the component.</li>
+<li>Follow the official <a href="https://reacttraining.com/react-router/web/guides/quick-start">Quick Start</a> guide to add react-router-dom to your app.</li>
+</ol>
+
+<h4 id="refactor">Refactor</h4>
+
+<p>Before adding the Router, let&#39;s move the <code>App</code> component out of <em>index.js</em> to clean things up. Add an <em>App.jsx</em> file to the &quot;src&quot; directory, and then update both files...</p>
+
+<p><em>App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">AddUser</span> <span class="nx">from</span> <span class="s1">&#39;./components/AddUser&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">()</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">users</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
+    <span class="p">}</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">handleChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+            <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">AddUser</span>
+              <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+              <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span>
+</code></pre></div>
+<p><em>index.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">&#39;./App.jsx&#39;</span><span class="p">;</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">App</span><span class="o">/&gt;</span><span class="p">,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>To test locally, open a new terminal window to <em>flask-microservices-users</em>, activate a virtual environment, and then run the Flask server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py runserver
+</code></pre></div>
+<p>And then set the environment variable back in <em>flask-microservices-client</em> and run the React app:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://127.0.0.1:5000
+<span class="nv">$ </span>npm start
+</code></pre></div>
+<p>Make sure all is well!</p>
+
+<h4 id="router-setup">Router Setup</h4>
+
+<p>Let&#39;s start with a basic <code>/about</code> route.</p>
+
+<p><a href="https://github.com/ReactTraining/react-router">React Router</a> has two main components:</p>
+
+<ol>
+<li><code>Router</code>: keeps your UI and URL in sync</li>
+<li><code>Route</code>: maps a route to a component</li>
+</ol>
+
+<blockquote>
+<p>We&#39;ll be using the <code>BrowserRouter</code> for routing, which uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/History_API">HTML 5 History API</a>. Review the <a href="https://reacttraining.com/react-router/web/api/BrowserRouter">docs</a> for more info.</p>
+</blockquote>
+
+<p>Add the router to <em>index.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">BrowserRouter</span> <span class="nx">as</span> <span class="nx">Router</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span>
+
+<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">&#39;./App.jsx&#39;</span><span class="p">;</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">((</span>
+  <span class="o">&lt;</span><span class="nx">Router</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="err">/Router&gt;</span>
+<span class="p">),</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">))</span>
+</code></pre></div>
+<p>Let&#39;s add a new component to use for the route. Add a new file called <em>About.jsx</em> to &quot;src&quot;:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">About</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">About</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+    <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">something</span> <span class="nx">relevant</span> <span class="nx">here</span><span class="p">.</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">)</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">About</span><span class="p">;</span>
+</code></pre></div>
+<p>To get a quick sanity check, import the component into <em>App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">About</span> <span class="nx">from</span> <span class="s1">&#39;./components/About&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Then add the component to the <code>render</code> method, just below the <code>UsersList</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">...</span>
+<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">About</span><span class="o">/&gt;</span>
+<span class="p">...</span>
+</code></pre></div>
+<p>Make sure you can see the HTML in the browser.</p>
+
+<p>Now, to render the <code>About</code> component in a different route, update the <code>render</code> method again:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="nx">Switch</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+              <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+                <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">AddUser</span>
+                  <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+                  <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+                <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="p">)}</span> <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/Switch&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Here, we used the <code>&lt;Switch&gt;</code> component to group <code>&lt;Route&gt;</code>s and then defined two routes - <code>/</code> and <code>/about</code>.</p>
+
+<blockquote>
+<p>Make sure to review the official documentation on the <a href="https://reacttraining.com/react-router/web/api/Switch">Switch</a> component.</p>
+</blockquote>
+
+<p>Don&#39;t forget the import:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Route</span><span class="p">,</span> <span class="nx">Switch</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span>
+</code></pre></div>
+<p>Save, and then test each route in the browser. Once done, commit and push your code.</p>
+
+
+          
+  <br><br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Router&amp;url=http%3A%2F%2Ftestdriven.io/part-three-react-router&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-three-auth-routes">&laquo; Auth Routes</a>
+            
+            
+              <a class="next btn right-align" href="/part-three-react-bootstrap">React Bootstrap &raquo;</a>
+            
+          </div>
+
+        </div>
+
+        <div class="hide-on-med-and-up">
+
+          <h2>React Router</h2>
+
+          <p>In this lesson, we&#39;ll wire up routing in our React App to manage navigation between different components so the end user has unique pages to interact with...</p>
+
+<hr>
+
+<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just ran in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
+
+<blockquote>
+<p>Keep in mind that React Router is only necessary for apps that have more than one page.</p>
+</blockquote>
+
+<p>In the terminal, open <em>flask-microservices-client</em> and then install <a href="https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom">react-router-dom</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --save react-router-dom@4.1.1
+</code></pre></div>
+<h4 id="check-your-understanding">Check Your Understanding</h4>
+
+<blockquote>
+<p>This part is optional but highly recommended.</p>
+</blockquote>
+
+<p>Put your skills to test!</p>
+
+<ol>
+<li>Start a new React App on your own with Create React App in a new project directory.</li>
+<li>Add two components - <code>Home</code> and <code>Contact</code>. These should be functional components that just display an <code>&lt;h2&gt;</code> element with the name of the component.</li>
+<li>Follow the official <a href="https://reacttraining.com/react-router/web/guides/quick-start">Quick Start</a> guide to add react-router-dom to your app.</li>
+</ol>
+
+<h4 id="refactor">Refactor</h4>
+
+<p>Before adding the Router, let&#39;s move the <code>App</code> component out of <em>index.js</em> to clean things up. Add an <em>App.jsx</em> file to the &quot;src&quot; directory, and then update both files...</p>
+
+<p><em>App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">AddUser</span> <span class="nx">from</span> <span class="s1">&#39;./components/AddUser&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">()</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">users</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
+    <span class="p">}</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">handleChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+            <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">AddUser</span>
+              <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+              <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span>
+</code></pre></div>
+<p><em>index.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">&#39;./App.jsx&#39;</span><span class="p">;</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">App</span><span class="o">/&gt;</span><span class="p">,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>To test locally, open a new terminal window to <em>flask-microservices-users</em>, activate a virtual environment, and then run the Flask server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py runserver
+</code></pre></div>
+<p>And then set the environment variable back in <em>flask-microservices-client</em> and run the React app:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://127.0.0.1:5000
+<span class="nv">$ </span>npm start
+</code></pre></div>
+<p>Make sure all is well!</p>
+
+<h4 id="router-setup">Router Setup</h4>
+
+<p>Let&#39;s start with a basic <code>/about</code> route.</p>
+
+<p><a href="https://github.com/ReactTraining/react-router">React Router</a> has two main components:</p>
+
+<ol>
+<li><code>Router</code>: keeps your UI and URL in sync</li>
+<li><code>Route</code>: maps a route to a component</li>
+</ol>
+
+<blockquote>
+<p>We&#39;ll be using the <code>BrowserRouter</code> for routing, which uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/History_API">HTML 5 History API</a>. Review the <a href="https://reacttraining.com/react-router/web/api/BrowserRouter">docs</a> for more info.</p>
+</blockquote>
+
+<p>Add the router to <em>index.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">BrowserRouter</span> <span class="nx">as</span> <span class="nx">Router</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span>
+
+<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">&#39;./App.jsx&#39;</span><span class="p">;</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">((</span>
+  <span class="o">&lt;</span><span class="nx">Router</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="err">/Router&gt;</span>
+<span class="p">),</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">))</span>
+</code></pre></div>
+<p>Let&#39;s add a new component to use for the route. Add a new file called <em>About.jsx</em> to &quot;src&quot;:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">About</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">About</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+    <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">something</span> <span class="nx">relevant</span> <span class="nx">here</span><span class="p">.</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">)</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">About</span><span class="p">;</span>
+</code></pre></div>
+<p>To get a quick sanity check, import the component into <em>App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">About</span> <span class="nx">from</span> <span class="s1">&#39;./components/About&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Then add the component to the <code>render</code> method, just below the <code>UsersList</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">...</span>
+<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">About</span><span class="o">/&gt;</span>
+<span class="p">...</span>
+</code></pre></div>
+<p>Make sure you can see the HTML in the browser.</p>
+
+<p>Now, to render the <code>About</code> component in a different route, update the <code>render</code> method again:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="nx">Switch</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+              <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+                <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">AddUser</span>
+                  <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+                  <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+                <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="p">)}</span> <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/Switch&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Here, we used the <code>&lt;Switch&gt;</code> component to group <code>&lt;Route&gt;</code>s and then defined two routes - <code>/</code> and <code>/about</code>.</p>
+
+<blockquote>
+<p>Make sure to review the official documentation on the <a href="https://reacttraining.com/react-router/web/api/Switch">Switch</a> component.</p>
+</blockquote>
+
+<p>Don&#39;t forget the import:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Route</span><span class="p">,</span> <span class="nx">Switch</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span>
+</code></pre></div>
+<p>Save, and then test each route in the browser. Once done, commit and push your code.</p>
+
+
+          
+  <br><br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Router&amp;url=http%3A%2F%2Ftestdriven.io/part-three-react-router&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-three-auth-routes">&laquo; Auth Routes</a>
+            
+            
+              <a class="next btn right-align" href="/part-three-react-bootstrap">React Bootstrap &raquo;</a>
+            
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+     <footer class="page-footer white">
+  <div class="container footer-container center-align">
+    <ul>
+      <li>Content by Michael Herman (michael@realpython.com)</li>
+      <li>&copy; Copyright 2017 <a href="http://realpython.com">Real Python</a></li>
+    </ul>
+  </div>
+</footer>
+
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+
+    
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-100160465-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+
+  </body>
+</html>

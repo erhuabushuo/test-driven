@@ -48,8 +48,10 @@ You can also test out the following endpoints...
 | /users/:id  | GET         | READ        | get single user |
 | /users      | POST        | CREATE      | add a user      |
 
+> The `/users` POST endpoint is restricted as of Part 3.
+
 Grab the code:
 
-1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main)
-1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users)
-1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client)
+1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main/releases/tag/part2)
+1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users/releases/tag/part2)
+1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client/releases/tag/part2)
