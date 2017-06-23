@@ -1,16 +1,16 @@
 ---
-title: Docker Config
+title: Docker配置
 layout: post
 date: 2017-05-11 23:59:59
 permalink: part-one-docker-config
 share: true
 ---
 
-Let's containerize the Flask app...
+让我们将Flask app放入容器里
 
 ---
 
-Start by ensuring that you have Docker, Docker Compose, and Docker Machine installed:
+我们先确保机器已经安装了Docker，Docker Compose和Docker Machine：
 
 ```sh
 $ docker -v
@@ -21,16 +21,16 @@ $ docker-machine -v
 docker-machine version 0.10.0, build 76ed2a6
 ```
 
-Next, we need to [create](https://docs.docker.com/machine/reference/create/) a new Docker host with [Docker Machine](https://docs.docker.com/machine/) and point the Docker client at it:
+接下来，我们需要通过[Docker Machine](https://docs.docker.com/machine/)创建Docker主机，并且将Docker client指向它：
 
 ```sh
 $ docker-machine create -d virtualbox dev
 $ eval "$(docker-machine env dev)"
 ```
 
-> Learn more about the above command [here](https://stackoverflow.com/questions/40038572/eval-docker-machine-env-default/40040077#40040077).
+>想了解更多上面命令查看 [这里](https://stackoverflow.com/questions/40038572/eval-docker-machine-env-default/40040077#40040077).
 
-Add a *Dockerfile* to the root directory, making sure to review the code comments:
+添加*Dockerfile*到跟目录，确保代码如下所示：
 
 ```
 FROM python:3.6.1
@@ -52,7 +52,7 @@ ADD . /usr/src/app
 CMD python manage.py runserver -h 0.0.0.0
 ```
 
-Then add a *docker-compose.yml* file to the root:
+然后添加 *docker-compose.yml* 文件到根目录下：
 
 ```
 version: '2.1'
@@ -68,35 +68,35 @@ services:
       - 5001:5000 # expose ports - HOST:CONTAINER
 ```
 
-This config will create a container called `users-service`, from the Dockerfile.
+该配置用来通过Dockerfile创建一个`users-service`容器。
 
-> Directories are relative to the *docker-compose.yml* file.
+> *docker-compose.yml* 文件使用的是相对路径。
 
-The `volume` is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image after each code change.
+`volume`用来将代码挂载到容器里。这个用来在开发环境中更新代码所用。没有这个，你就每次更改代码都要重新构建镜像。
 
-Take note of the [Docker compose file version](https://docs.docker.com/compose/compose-file/) used - `2.1`. Keep in mind that this does *not* relate directly to the version of Docker Compose installed  - it simply specifies the file format that you want to use.
+注意到在[Docker compose文件版本(version)](https://docs.docker.com/compose/compose-file/) 使用了`2.1`，记住了它*不是**指明Docker Compose安装的版本，仅仅用来指明使用哪种格式。
 
-Build the image:
+构建镜像：
 
 ```sh
 $ docker-compose build
 ```
 
-This will take a few minutes the first time. Subsequent builds will be much faster since Docker caches the results of the first build. Once done, fire up the container:
+首次构建时需要花费一段时间。后面再构建的话就会很快，Docker会在第一次构建后会缓存构建结果。完成后，启动容器：
 
 ```sh
 $ docker-compose up -d
 ```
 
-> The `-d` flag is used to run the containers in the background.
+>`-d`参数用来指明容器运行在后端。
 
-Grab the IP associated with the machine:
+获取机器IP地址：
 
 ```sh
 $ docker-machine ip dev
 ```
 
-Navigate to [http://YOUR-IP:5001/ping](http://YOUR-IP:5001/ping). Make sure you see the same JSON response as before. Next, add an environment variable to the *docker-compose.yml* file to load the app config for the dev environment:
+访问[http://YOUR-IP:5001/ping](http://YOUR-IP:5001/ping)。确保看到了会之前一样的JSON结果输出。接下来，配置*docker-compose.yml*加载开发环境配置：
 
 ```
 version: '2.1'
@@ -114,7 +114,7 @@ services:
       - APP_SETTINGS=project.config.DevelopmentConfig
 ```
 
-Then update *project/\_\_init\_\_.py*, to pull in the environment variables:
+然后更新 *project/\_\_init\_\_.py* 通过环境变量来加载配置：
 
 ```python
 # project/__init__.py
@@ -140,25 +140,24 @@ def ping_pong():
     })
 ```
 
-Update the container:
+更新容器：
 
 ```sh
 $ docker-compose up -d
 ```
 
-Want to test? Add a `print` statement to the *\_\_init\_\_.py*, right before the route handler, to view the app config to ensure that it is working:
+如果向测试的话，在 *\_\_init\_\_.py*路由处理之前增加`print`语句，查看app的config来确保工作：
 
 ```python
 print(app.config)
 ```
-
-Then just view the logs:
+然后看看日志输出：
 
 ```sh
 $ docker-compose logs -f users-service
 ```
 
-You should see something like:
+你应该会看到如下输出：
 
 ```
 <Config {
@@ -179,4 +178,4 @@ You should see something like:
 >
 ```
 
-Make sure to remove the `print` statement before moving on.
+在继续之前确保移除`print`语句。
