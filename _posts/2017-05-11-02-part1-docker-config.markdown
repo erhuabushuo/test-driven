@@ -74,7 +74,7 @@ services:
 
 `volume`用来将代码挂载到容器里。这个用来在开发环境中更新代码所用。没有这个，你就每次更改代码都要重新构建镜像。
 
-注意到在[Docker compose文件版本(version)](https://docs.docker.com/compose/compose-file/) 使用了`2.1`，记住了它*不是**指明Docker Compose安装的版本，仅仅用来指明使用哪种格式。
+注意到在[Docker compose文件版本(version)](https://docs.docker.com/compose/compose-file/) 使用了`2.1`，记住了它*不是*指明Docker Compose安装的版本，仅仅用来指明使用哪种格式。
 
 构建镜像：
 
