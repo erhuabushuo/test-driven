@@ -1,22 +1,22 @@
 ---
-title: Test Setup
+title: 测试配置
 layout: post
 date: 2017-05-12 23:59:58
 permalink: part-one-test-setup
 share: true
 ---
 
-Let's get our tests up and running for this endpoint...
+让我们来针对我们的endpoint构建测试……
 
 ---
 
-Add a "tests" directory to "project", and then create the following files inside the newly created directory:
+添加"tests"目录到"project"目录下，然后在新创建的目录再创建如下文件：
 
 ```sh
 $ touch __init__.py base.py test_config.py test_users.py
 ```
 
-Update each file...
+更新每个文件……
 
 *\_\_init\_\_.py*:
 
@@ -132,13 +132,13 @@ class TestUserService(BaseTestCase):
         self.assertIn('success', data['status'])
 ```
 
-Add [Flask-Testing](https://pythonhosted.org/Flask-Testing/) to the requirements file:
+增加 [Flask-Testing](https://pythonhosted.org/Flask-Testing/) 到 requirements 文件:
 
 ```
 Flask-Testing==0.6.2
 ```
 
-Add a new command to *manage.py*, to discover and run the tests:
+添加一个新的命令到*manage.py*，用来发现和执行tests：
 
 ```python
 @manager.command
@@ -151,31 +151,31 @@ def test():
     return 1
 ```
 
-Don't forget to import `unittest`:
+别忘了导入 `unittest`:
 
 ```python
 import unittest
 ```
 
-We need to re-build the images since requirements are installed at build time rather than run time:
+我们需要重新构建镜像，因为requirements是在构建时间安装而非运行时间：
 
 ```sh
 $ docker-compose up -d --build
 ```
 
-With the containers up and running, run the tests:
+容器跑起来后，执行tests：
 
 ```sh
 $ docker-compose run users-service python manage.py test
 ```
 
-You should see the following error:
+你应该会得到如下错误：
 
 ```sh
 self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
 ```
 
-Update the base config:
+更新 BaseConfig:
 
 ```python
 class BaseConfig:
@@ -186,7 +186,7 @@ class BaseConfig:
     SECRET_KEY = 'my_precious'
 ```
 
-Then re-test!
+然后重新测试！
 
 ```sh
 ----------------------------------------------------------------------
