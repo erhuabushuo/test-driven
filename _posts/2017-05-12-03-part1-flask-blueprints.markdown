@@ -1,18 +1,18 @@
 ---
-title: Flask Blueprints
+title: Flask 蓝图
 layout: post
 date: 2017-05-12 23:59:59
 permalink: part-one-flask-blueprints
 share: true
 ---
 
-With tests in place, let's refactor the app, adding in Blueprints...
+通过相应的测试，我们来重构应用，加入蓝图(Blueprints)……
 
 ---
 
-> Unfamiliar with Blueprints? Check out the official Flask [documentation](http://flask.pocoo.org/docs/0.12/blueprints/). Essentially, they are self-contained components, used for encapsulating code, templates, and static files.
+> 不熟悉Blueprints? 查看 [Flask官方文档](http://flask.pocoo.org/docs/0.12/blueprints/). 基本上它是独立组件，用来包装代码，模板和静态文件。
 
-Create a new directory in "project" called "api", and add an *\_\_init\_\_.py* file along with *views.py* and *models.py*. Then within *views.py* add the following:
+创建一个新目录"api" 到"project"目录下，增加一个*\_\_init\_\_.py*文件以及*views.py*和*models.py*。然后修改*views.py*如下内容：
 
 ```python
 # project/api/views.py
@@ -32,7 +32,7 @@ def ping_pong():
     })
 ```
 
-Here, we created a new instance of the `Blueprint` class and bound the `ping_pong()` function to it.
+在这里，我们创建了`Blueprint`类实例并且绑定了`ping_pong()`函数。
 
 *models.py*:
 
@@ -50,7 +50,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), nullable=False)
-    active = db.Column(db.Boolean(), default=False, nullable=False)
+    active = db.Column(db.Boolean, default=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, username, email):
@@ -59,7 +59,7 @@ class User(db.Model):
         self.created_at = datetime.datetime.now()
 ```
 
-Update *project/\_\_init\_\_.py*
+更新 *project/\_\_init\_\_.py*
 
 ```python
 # project/__init__.py
@@ -93,7 +93,7 @@ def create_app():
     return app
 ```
 
-Update *manage.py*:
+更新 *manage.py*:
 
 ```python
 # manage.py
@@ -133,7 +133,7 @@ if __name__ == '__main__':
     manager.run()
 ```
 
-Update the imports at the top of *project/tests/base.py* and *project/tests/test_config.py*:
+更新*project/tests/base.py* 和 *project/tests/test_config.py*里app导入：
 
 ```python
 from project import create_app
@@ -141,9 +141,9 @@ from project import create_app
 app = create_app()
 ```
 
-(import `db` as well in *base.py*)
+( `db` 在 *base.py* 导入依赖保留)
 
-Test!
+测试！
 
 ```sh
 $ docker-compose up -d
@@ -151,4 +151,4 @@ $ docker-compose run users-service python manage.py recreate_db
 $ docker-compose run users-service python manage.py test
 ```
 
-Correct any errors and move on...
+修正相应错误然后我们继续前进……
