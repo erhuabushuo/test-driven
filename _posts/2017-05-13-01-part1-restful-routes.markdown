@@ -185,7 +185,7 @@ def add_user():
         return make_response(jsonify(response_object)), 400
 ```
 
-Add the import:
+增加导入:
 
 ```python
 from sqlalchemy import exc
