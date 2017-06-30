@@ -191,11 +191,11 @@ def add_user():
 from sqlalchemy import exc
 ```
 
-Ensure the tests pass, and then move on to the next route...
+确保测试通过，然后我们继续下一个路由：
 
-#### GET single user
+#### GET 单个用户
 
-Start with a test:
+先从测试开始：
 
 ```python
 def test_single_user(self):
@@ -213,14 +213,14 @@ def test_single_user(self):
         self.assertIn('success', data['status'])
 ```
 
-Add the following imports:
+增加如下导入：
 
 ```python
 from project import db
 from project.api.models import User
 ```
 
-Ensure the test breaks before writing the view:
+确保在编写view之前测试中断：
 
 ```python
 @users_blueprint.route('/users/<user_id>', methods=['GET'])
@@ -238,12 +238,12 @@ def get_single_user(user_id):
     return make_response(jsonify(response_object)), 200
 ```
 
-The tests should pass. Now, what about error handling?
+这是测试应该可以通过。那现在错误处理怎么弄？
 
-1. An id is not provided
-1. The id does not exist
+1. 如果不提供id
+1. 如果id不存在
 
-Tests:
+测试：
 
 ```python
 def test_single_user_no_id(self):
@@ -265,7 +265,7 @@ def test_single_user_incorrect_id(self):
         self.assertIn('fail', data['status'])
 ```
 
-Updated view:
+更新view：
 
 ```python
 @users_blueprint.route('/users/<user_id>', methods=['GET'])
@@ -293,9 +293,9 @@ def get_single_user(user_id):
         return make_response(jsonify(response_object)), 404
 ```
 
-#### GET all users
+#### GET 所有用户
 
-Again, let's start with a test. Since we'll have to add a few users first, let's add a quick helper function to the top of the *project/tests/test_user.py* file, just above the `TestUserService()` class.
+再一次，我们从测试开始。因为我们需要快速增加多个用户，我们通过在*project/tests/test_user.py*文件顶部`TestUserService()`类之前增加一个辅助函数。
 
 ```python
 def add_user(username, email):
@@ -305,7 +305,7 @@ def add_user(username, email):
     return user
 ```
 
-Now, refactor the *test_single_user()* test, like so:
+现在我们重构*test_single_user()* 测试， 如下：
 
 ```python
 def test_single_user(self):
@@ -321,7 +321,7 @@ def test_single_user(self):
         self.assertIn('success', data['status'])
 ```
 
-With that, let's add the new test:
+好了，我们增加新的测试：
 
 ```python
 def test_all_users(self):
@@ -344,7 +344,7 @@ def test_all_users(self):
         self.assertIn('success', data['status'])
 ```
 
-Make sure it fails. Then add the view:
+确保测试执行失败，然后增加view：
 
 ```python
 @users_blueprint.route('/users', methods=['GET'])
@@ -369,9 +369,9 @@ def get_all_users():
     return make_response(jsonify(response_object)), 200
 ```
 
-Does the test past?
+看看这个测试成功！
 
-Before moving on, let's test the route in the browser - [http://YOUR-IP:5000/users](http://YOUR-IP:5000/users). You should see:
+在继续之前，我们来在浏览器进行一些测试 -  [http://YOUR-IP:5000/users](http://YOUR-IP:5000/users). 你将看到:
 
 ```json
 {
@@ -382,7 +382,7 @@ Before moving on, let's test the route in the browser - [http://YOUR-IP:5000/use
 }
 ```
 
-Add a seed command to the *manage.py* file to populate the database with some initial data:
+增加一个数据库数据初始化(seed)命令到*manage.py*文件：
 
 ```python
 @manager.command
@@ -393,10 +393,9 @@ def seed_db():
     db.session.commit()
 ```
 
-Try it out:
+试试：
 
 ```sh
 $ docker-compose run users-service python manage.py seed_db
 ```
-
-Make sure you can view the users in the JSON response [http://YOUR-IP:5000/users](http://YOUR-IP:5000/users).
+确保你可以在JSON响应中看到之前增加的用户 [http://YOUR-IP:5000/users](http://YOUR-IP:5000/users).
