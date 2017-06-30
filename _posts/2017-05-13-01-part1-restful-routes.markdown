@@ -1,12 +1,12 @@
 ---
-title: RESTful Routes
+title: RESTful 路由
 layout: post
 date: 2017-05-13 23:59:57
 permalink: part-one-restful-routes
 share: true
 ---
 
-Next, let's set up three new routes, following RESTful best practices, with TDD:
+接下来，我们来设置三个新路由，遵循使用TDD进行RESTful最佳实践：
 
 | Endpoint    | HTTP Method | CRUD Method | Result          |
 |-------------|-------------|-------------|-----------------|
@@ -14,18 +14,18 @@ Next, let's set up three new routes, following RESTful best practices, with TDD:
 | /users/:id  | GET         | READ        | get single user |
 | /users      | POST        | CREATE      | add a user      |
 
-For each, we'll-
+针对每一项，我们将
 
-1. write a test
-1. run the test, watching it fail (**red**)
-1. write just enough code to get the test to pass (**green**)
-1. **refactor** (if necessary)
+1. 写一个测试
+1. 执行一个测试，并看着它失败 (**red**)
+1. 简单编写让代码通过测试 (**green**)
+1. **重构** (如果需要的话)
 
-Let' start with the POST route...
+让我们从POST路由开始……
 
 #### POST
 
-Add the test to *project/tests/test_user.py*:
+增加一个测试到 *project/tests/test_users.py*：
 
 ```python
 def test_add_user(self):
@@ -34,7 +34,7 @@ def test_add_user(self):
         response = self.client.post(
             '/users',
             data=json.dumps(dict(
-                useruser='michael',
+                username='michael',
                 email='michael@realpython.com'
             )),
             content_type='application/json',
@@ -45,13 +45,13 @@ def test_add_user(self):
         self.assertIn('success', data['status'])
 ```
 
-Run the test to ensure it fails:
+执行测试，并确定该测试失败：
 
 ```sh
 $ docker-compose run users-service python manage.py test
 ```
 
-Then add the route handler to *project/api/views.py*
+然后添加路由处理器到*project/api/views.py*
 
 ```python
 @users_blueprint.route('/users', methods=['POST'])
@@ -68,7 +68,7 @@ def add_user():
     return make_response(jsonify(response_object)), 201
 ```
 
-Update the imports as well:
+更新导入包:
 
 ```python
 from flask import Blueprint, jsonify, request, make_response
@@ -77,7 +77,7 @@ from project.api.models import User
 from project import db
 ```
 
-Run the tests. They all should pass:
+执行测试，应该是所有都是通过的:
 
 ```sh
 Ran 5 tests in 0.201s
@@ -85,13 +85,13 @@ Ran 5 tests in 0.201s
 OK
 ```
 
-What about errors and exceptions? Like:
+那错误和异常处理呢？例如：
 
-1. A payload is not sent
-1. The payload is invalid - i.e., the JSON object is empty or it contains the wrong keys
-1. The user already exists in the database
+1. 没有发送消息内容
+1. 发送内容无效 - 例如，JSON对象为空，或者包含错误的键。
+1. 数据库已经存在该用户
 
-Add some tests:
+再增加一些测试：
 
 ```python
 def test_add_user_invalid_json(self):
@@ -146,7 +146,7 @@ def test_add_user_duplicate_user(self):
         self.assertIn('fail', data['status'])
 ```
 
-Ensure the tests fail, and then update the route handler:
+确保测试失败，然后我们更新路由处理器：
 
 ```python
 @users_blueprint.route('/users', methods=['POST'])
