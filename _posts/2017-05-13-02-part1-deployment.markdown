@@ -1,41 +1,41 @@
 ---
-title: Deployment
+title: 部署
 layout: post
 date: 2017-05-13 23:59:57
 permalink: part-one-aws-deployment
 share: true
 ---
 
-With the routes up and tested, let's get this app deployed!
+路由完成和测试后，让我们来部署我们的应用！
 
 ---
 
-Follow the instructions [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html ) to sign up for AWS (if necessary) and create an IAM user (again, if necessary), making sure to add the credentials to an *~/.aws/credentials* file. Then create the new host:
+根据 [这里](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html )提供的操作指令来注册AWS (有必要的乎) 然后创建一个IAM用户（有必要的话），确保将证书放置在*~/.aws/credentials* 文件，然后新建一个新的主机：
 
 ```sh
 $ docker-machine create --driver amazonec2 aws
 ```
 
-> For more, review the [Amazon Web Services (AWS) EC2 example](https://docs.docker.com/machine/examples/aws/) from Docker.
+> 要了解更多查看Docker [Amazon Web Services (AWS) EC2 示例](https://docs.docker.com/machine/examples/aws/)。
 
-Once done, set it as the active host and point the Docker client at it:
+一旦完成后，设置为当前活跃host并且将Docker client指向它：
 
 ```sh
 $ docker-machine env aws
 $ eval $(docker-machine env aws)
 ```
 
-Run the following command to view the currently running Machines:
+运行如下指令查看当前执行机器：
 
 ```sh
 $ docker-machine ls
 ```
 
-Create a new compose file called *docker-compose-prod.yml* and add the contents of the other compose file minus the `volumes`.
+创建一个新的compose文件命名为*docker-compose-prod.yml* ，将除了`volumes`的其他参数都拷贝过来。
 
-> What would happen if you left this in?
+> 如果你保留该参数会发生什么？
 
-Spin up the containers, create the database, seed, and run the tests:
+启动容器，创建数据库，基础数据以及运行测试：
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml up -d --build
@@ -44,21 +44,21 @@ $ docker-compose -f docker-compose-prod.yml run users-service python manage.py s
 $ docker-compose -f docker-compose-prod.yml run users-service python manage.py test
 ```
 
-Add port 5001 to the [Security Group](http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group).
+将5001端口加入到 [安全组](http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group).
 
-Grab the IP and make sure to test in the browser.
+拿到IP并确保在浏览器中能正常访问。
 
-#### Config
+#### 配置
 
-What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:
+那app的配置和环境变量怎么弄？这些配置都正常码？我们是否用的是生产环境配置？要检查的话，运行：
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml run users-service env
 ```
 
-You should see the `APP_SETTINGS` variable assigned to `project.config.DevelopmentConfig`.
+你应该看到了`APP_SETTINGS`变量赋予值为`project.config.DevelopmentConfig`。
 
-To update this, change the environment variables within *docker-compose-prod.yml*:
+要更新该项，通过*docker-compose-prod.yml*更改环境变量：
 
 ```
 environment:
@@ -67,48 +67,48 @@ environment:
   - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
 ```
 
-Update:
+更新：
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml up -d
 ```
 
-Re-create the db and apply the seed again:
+重新创建db和初始数据：
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
 $ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
 ```
 
-Ensure the app is still running and check the environment variables again.
+确保app仍然运行，再次检查环境变量：
 
 #### Gunicorn
 
-To use Gunicorn, first add the dependency to the *requirements.txt* file:
+要使用Gunicorn, 首先增加用来到*requirements.txt* 文件：
 
 ```
 gunicorn==19.7.1
 ```
 
-Then update *docker-compose-prod.yml* by adding a `command` key to the `users-service`:
+然后更新*docker-compose-prod.yml*加入`command`键到`users-service`：
 
 ```
 command: gunicorn -b 0.0.0.0:5000 manage:app
 ```
 
-This will override the `CMD` within *services/users/Dockerfile*, `python manage.py runserver -h 0.0.0.0`.
+它将覆盖*services/users/Dockerfile*文件里的`CMD`指令，`python manage.py runserver -h 0.0.0.0`。
 
-Update:
+更新：
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml up -d --build
 ```
 
-> The `--build` flag is necessary since we need to install the new dependency.
+> `--build`参数是必须的，因为我们需要重新安装依赖。
 
 #### Nginx
 
-Next, let's get Nginx up and running as a reverse proxy to the web server. Create a new folder called "nginx" in the project root, and then add a *Dockerfile*:
+接下来，我们将使用Nginx作为反向代理Web服务器。创建一个新的文件夹名为"nginx"在project目录下，在创建*Dockerfile**文件，敲如如下内容：
 
 ```
 FROM nginx:1.13.0
@@ -117,7 +117,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 ADD /flask.conf /etc/nginx/conf.d
 ```
 
-Add a new config file called *flask.conf* to the "nginx" folder as well:
+再新建一个*flask.conf*的配置文件到"nginx"文件夹：
 
 ```
 server {
@@ -134,7 +134,7 @@ server {
 }
 ```
 
-Add an `nginx` service to the *docker-compose-prod.yml*:
+添加一个`nginx`服务到*docker-compose-prod.yml*：
 
 ```
 nginx:
@@ -150,24 +150,24 @@ nginx:
     - users-service
 ```
 
-And remove the exposed `ports` from the users service and only expose port 5000 to other containers:
+移除`ports`暴露到宿主端口，仅暴露到其他容器：
 
 ```
 expose:
   - '5000'
 ```
 
-Build the image and run the container:
+构建镜像并执行容器：
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml up -d --build nginx
 ```
 
-Add port 80 to the Security Group on AWS. Test the site in the browser again.
+将80端口添加到AWS安全组。在浏览器测试网站。
 
-Let's update this locally as well.
+让我们将本地也进行更新下:
 
-First, add nginx to the *docker-compose.yml* file:
+首先也给 *docker-compose.yml* 文件添加nginx服务:
 
 ```sh
 nginx:
@@ -183,25 +183,25 @@ nginx:
     - users-service
 ```
 
-Next, we need to update the active host. To check which host is currently active run:
+接下来，我们需要更新当前活跃host，通过如下命令确认：
 
 ```sh
 $ docker-machine active
 aws
 ```
 
-Change the active machine to `dev`:
+切换到`dev`：
 
 ```sh
 $ eval "$(docker-machine env dev)"
 ```
 
-Run the nginx container:
+执行nginx容器：
 
 ```sh
 $ docker-compose up -d --build nginx
 ```
 
-Grab the IP and test it out!
+查看IP并且进行测试
 
-> Did you notice that you can access the site locally with or without the ports - [http://YOUR-IP/users](http://YOUR-IP/users) or [http://YOUR-IP:5001/users](http://YOUR-IP:5001/users). Why?
+> 注意到你访问本地站点时需要或者不需要端口吗？ - [http://YOUR-IP/users](http://YOUR-IP/users) 或者 [http://YOUR-IP:5001/users](http://YOUR-IP:5001/users). 为什么？
