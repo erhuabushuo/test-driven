@@ -1,16 +1,16 @@
 ---
-title: Jinja Templates
+title: Jinja 模板
 layout: post
 date: 2017-05-13 23:59:58
 permalink: part-one-jinja-templates
 share: true
 ---
 
-Instead of just serving up a JSON API, let's spice it up with server-side templates...
+目前我们返回结果是JSON，我们来给它弄成模板……
 
 ---
 
-Add a new route handler to *project/api/views.py*:
+添加一个新的路由处理器*project/api/views.py*: 
 
 ```python
 @users_blueprint.route('/', methods=['GET'])
@@ -18,13 +18,12 @@ def index():
     return render_template('index.html')
 ```
 
-Update the Blueprint config as well:
+更新Blueprint配置：
 
 ```python
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 ```
-
-Then add a "templates" folder to "project/api", and add an *index.html* file to that folder:
+然后添加"templates"目录到"project/api"，在该目录创建*index.html*文件：
 
 {% raw %}
 ```html
@@ -81,9 +80,9 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
 ```
 {% endraw %}
 
-Ready to test? Simply open your browser and navigate to the IP associated with the `dev` machine.
+准备好测试了码？打开你浏览器并访问`dev`机器绑定的IP地址。
 
-How about a test?
+那么测试怎么写？
 
 ```python
 def test_main_no_users(self):
@@ -95,13 +94,13 @@ def test_main_no_users(self):
     self.assertIn(b'<p>No users!</p>', response.data)
 ```
 
-Do they pass?
+看看测试是否通过？
 
 ```sh
 $ docker-compose run users-service python manage.py test
 ```
 
-Let's update the route handler to grab all users from the database and send them to the template, starting with a test:
+让我们来更新路由处理，从数据库获取所有用户并且在模板中显示出来，先从编写测试开始：
 
 ```python
 def test_main_with_users(self):
@@ -117,7 +116,7 @@ def test_main_with_users(self):
     self.assertIn(b'<strong>fletcher</strong>', response.data)
 ```
 
-Make sure it fails, and then update the view:
+确保执行测试失败，然后更新视图：
 
 ```python
 @users_blueprint.route('/', methods=['GET'])
@@ -126,9 +125,9 @@ def index():
     return render_template('index.html', users=users)
 ```
 
-It should now pass!
+现在应该是测试通过了！
 
-How about the form? Users should be able to add a new user and submit the form, which will then add the user to the database. Again, start with a test:
+那表单怎么搞？用户应该可以通过提交表来来添加一个新用户，该用户就会保存到数据库去，再写测试：
 
 ```python
 def test_main_add_user(self):
@@ -145,7 +144,7 @@ def test_main_add_user(self):
         self.assertIn(b'<strong>michael</strong>', response.data)
 ```
 
-Then update the view:
+运行测试确保测试不通过，更新视图：
 
 ```python
 @users_blueprint.route('/', methods=['GET', 'POST'])
@@ -159,7 +158,7 @@ def index():
     return render_template('index.html', users=users)
 ```
 
-Finally, let's update the code on AWS.
+最后我们将代码更新到AWS中。
 
 1. `eval $(docker-machine env aws)`
 1. `docker-compose -f docker-compose-prod.yml up -d`
