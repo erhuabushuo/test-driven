@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -496,7 +538,7 @@
 <h4 id="handle-form-submit-event">Handle form submit event</h4>
 
 <p>Turn to <em>Form.jsx</em>. Which method gets fired on the form submit?</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
 </code></pre></div>
 <p>Add the method to the <code>App</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -581,7 +623,7 @@
 
 <ol>
 <li>Clear the <code>formData</code> object</li>
-<li>Save the auth token in the browser&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Storage/LocalStorage">LocalStorage</a></li>
+<li>Save the auth token in the browser&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Storage/LocalStorage">LocalStorage</a>, a client-side data store</li>
 <li>Update the state to indicate that the user is authenticated</li>
 <li>Redirect the user to <code>/</code></li>
 </ol>
@@ -606,7 +648,7 @@
 </code></pre></div>
 <p>Try logging in again. After a successful login, open the Application tab within <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>. Click the arrow before <a href="https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage">LocalStorage</a> and select <code>http://localhost:3000</code>. You should see a key of <code>authToken</code> with a value of the actual token in the pane.</p>
 
-<p>Instead of always checking LocalStorage for the auth token, let&#39;s add a boolean to the state so we can quickly tell if there us a user authenticated.</p>
+<p>Instead of always checking LocalStorage for the auth token, let&#39;s add a boolean to the state so we can quickly tell if there is a user authenticated.</p>
 
 <p>Add an <code>isAuthenticated</code> property to the state:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
@@ -788,7 +830,6 @@
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.id}&lt;/li&gt;</span>
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.email}&lt;/li&gt;</span>
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.username}&lt;/li&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Created</span> <span class="nb">Date</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.created_at}&lt;/li&gt;</span>
       <span class="o">&lt;</span><span class="err">/ul&gt;</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
@@ -866,7 +907,6 @@
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.id}&lt;/li&gt;</span>
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.email}&lt;/li&gt;</span>
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.username}&lt;/li&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Created</span> <span class="nb">Date</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.created_at}&lt;/li&gt;</span>
       <span class="o">&lt;</span><span class="err">/ul&gt;</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
@@ -933,7 +973,7 @@
 <h4 id="handle-form-submit-event">Handle form submit event</h4>
 
 <p>Turn to <em>Form.jsx</em>. Which method gets fired on the form submit?</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
 </code></pre></div>
 <p>Add the method to the <code>App</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -1018,7 +1058,7 @@
 
 <ol>
 <li>Clear the <code>formData</code> object</li>
-<li>Save the auth token in the browser&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Storage/LocalStorage">LocalStorage</a></li>
+<li>Save the auth token in the browser&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Storage/LocalStorage">LocalStorage</a>, a client-side data store</li>
 <li>Update the state to indicate that the user is authenticated</li>
 <li>Redirect the user to <code>/</code></li>
 </ol>
@@ -1043,7 +1083,7 @@
 </code></pre></div>
 <p>Try logging in again. After a successful login, open the Application tab within <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>. Click the arrow before <a href="https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage">LocalStorage</a> and select <code>http://localhost:3000</code>. You should see a key of <code>authToken</code> with a value of the actual token in the pane.</p>
 
-<p>Instead of always checking LocalStorage for the auth token, let&#39;s add a boolean to the state so we can quickly tell if there us a user authenticated.</p>
+<p>Instead of always checking LocalStorage for the auth token, let&#39;s add a boolean to the state so we can quickly tell if there is a user authenticated.</p>
 
 <p>Add an <code>isAuthenticated</code> property to the state:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
@@ -1225,7 +1265,6 @@
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.id}&lt;/li&gt;</span>
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.email}&lt;/li&gt;</span>
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.username}&lt;/li&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Created</span> <span class="nb">Date</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.created_at}&lt;/li&gt;</span>
       <span class="o">&lt;</span><span class="err">/ul&gt;</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
@@ -1303,7 +1342,6 @@
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.id}&lt;/li&gt;</span>
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.email}&lt;/li&gt;</span>
         <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.username}&lt;/li&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Created</span> <span class="nb">Date</span><span class="o">:&lt;</span><span class="err">/strong&gt; {this.state.created_at}&lt;/li&gt;</span>
       <span class="o">&lt;</span><span class="err">/ul&gt;</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>

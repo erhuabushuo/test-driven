@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -492,8 +534,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install react-scripts@0.9.5 -g
+RUN npm install --silent
+RUN npm install react-scripts@0.9.5 -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -563,8 +605,8 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install pushstate-server -g
+RUN npm install --silent
+RUN npm install pushstate-server -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -790,8 +832,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install react-scripts@0.9.5 -g
+RUN npm install --silent
+RUN npm install react-scripts@0.9.5 -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -861,8 +903,8 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install pushstate-server -g
+RUN npm install --silent
+RUN npm install pushstate-server -g --silent
 
 # add app
 ADD . /usr/src/app

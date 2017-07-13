@@ -371,7 +371,7 @@ def get_all_users():
 
 Does the test past?
 
-Before moving on, let's test the route in the browser - [http://YOUR-IP:5000/users](http://YOUR-IP:5000/users). You should see:
+Before moving on, let's test the route in the browser - [http://YOUR-IP:5001/users](http://YOUR-IP:5001/users). You should see:
 
 ```json
 {
@@ -399,4 +399,4 @@ Try it out:
 $ docker-compose run users-service python manage.py seed_db
 ```
 
-Make sure you can view the users in the JSON response [http://YOUR-IP:5000/users](http://YOUR-IP:5000/users).
+Make sure you can view the users in the JSON response [http://YOUR-IP:5001/users](http://YOUR-IP:5001/users).

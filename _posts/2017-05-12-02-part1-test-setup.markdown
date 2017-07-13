@@ -69,7 +69,7 @@ class TestDevelopmentConfig(TestCase):
         return app
 
     def test_app_is_development(self):
-        self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+        self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
         self.assertTrue(app.config['DEBUG'] is True)
         self.assertFalse(current_app is None)
         self.assertTrue(
@@ -84,7 +84,7 @@ class TestTestingConfig(TestCase):
         return app
 
     def test_app_is_testing(self):
-        self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+        self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
         self.assertTrue(app.config['DEBUG'])
         self.assertTrue(app.config['TESTING'])
         self.assertFalse(app.config['PRESERVE_CONTEXT_ON_EXCEPTION'])
@@ -100,7 +100,7 @@ class TestProductionConfig(TestCase):
         return app
 
     def test_app_is_production(self):
-        self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+        self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
         self.assertFalse(app.config['DEBUG'])
         self.assertFalse(app.config['TESTING'])
 
@@ -172,7 +172,7 @@ $ docker-compose run users-service python manage.py test
 You should see the following error:
 
 ```sh
-self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
 ```
 
 Update the base config:

@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Microservices with Docker, Flask, and React - e2e Test Specs</title>
+    <title>Microservices with Docker, Flask, and React - End-to-End Test Specs</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link
@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -474,7 +516,7 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>e2e Test Specs</h2>
+          <h2>End-to-End Test Specs</h2>
 
           <p>With TestCafe in place, we can now write tests...</p>
 
@@ -568,15 +610,6 @@
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
 
-  <span class="c1">// assert date is correct</span>
-  <span class="kr">const</span> <span class="nx">createdDate</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">innerText</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="nx">formattedDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">createdDate</span><span class="p">)</span>
-  <span class="nx">await</span> <span class="nx">t</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span>
-      <span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">())</span>
-
 <span class="p">});</span>
 </code></pre></div>
 <p>Add the import and global variables at the top:</p>
@@ -584,7 +617,6 @@
 
 <span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
 <span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
-<span class="kr">const</span> <span class="nx">currentDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
 </code></pre></div>
 <p>Make sure to install the dependency as well:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install randomstring --save
@@ -634,6 +666,10 @@
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
 
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
+
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
     <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
@@ -671,6 +707,10 @@
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
 
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
@@ -746,36 +786,18 @@
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
 
-  <span class="c1">// log a user in</span>
-  <span class="nx">await</span> <span class="nx">t</span>
-    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
-
   <span class="c1">// assert &#39;/status&#39; is displayed properly</span>
   <span class="nx">await</span> <span class="nx">t</span>
-    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">status</span><span class="err">`</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User ID:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Email:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Username:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Created Date:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
-
-  <span class="c1">// assert date is correct</span>
-  <span class="kr">const</span> <span class="nx">createdDate</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
-    <span class="s1">&#39;Created Date:&#39;</span><span class="p">).</span><span class="nx">parent</span><span class="p">().</span><span class="nx">child</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">innerText</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="nx">formattedDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">createdDate</span><span class="p">)</span>
-  <span class="nx">await</span> <span class="nx">t</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span>
-      <span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">())</span>
 
 <span class="p">});</span>
 </code></pre></div></li>
@@ -870,7 +892,16 @@
 <p>Set the <code>TEST_URL</code> variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
 </code></pre></div>
-<p>Run the tests to ensure they pass:</p>
+<p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is reset to its initial value of false.</p>
+
+<p>To fix this, we can set the state of <code>isAuthenticated</code> to <code>true</code> if there is a token in LocalStorage by adding the following Lifecycle Method to the <code>App</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Update the containers, and then run the tests again to ensure they pass:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ testcafe chrome e2e
 Running tests in:
 - Chrome 58.0.3029 / Mac OS X 10.11.6
@@ -906,7 +937,7 @@ should display user info if user is logged in
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - e2e Test Specs&amp;url=http%3A%2F%2Ftestdriven.io/part-four-e2e-test-specs&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - End-to-End Test Specs&amp;url=http%3A%2F%2Ftestdriven.io/part-four-e2e-test-specs&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
@@ -915,7 +946,7 @@ should display user info if user is logged in
               <a class="prev btn left-align" href="/part-four-e2e-test-setup">&laquo; End-to-End Test Setup</a>
             
             
-              <a class="next btn right-align" href="/part-four-react-form-validation">React Form Validation &raquo;</a>
+              <a class="next btn right-align" href="/part-four-react-component-refactor">React Component Refactor &raquo;</a>
             
           </div>
 
@@ -923,7 +954,7 @@ should display user info if user is logged in
 
         <div class="hide-on-med-and-up">
 
-          <h2>e2e Test Specs</h2>
+          <h2>End-to-End Test Specs</h2>
 
           <p>With TestCafe in place, we can now write tests...</p>
 
@@ -1017,15 +1048,6 @@ should display user info if user is logged in
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
 
-  <span class="c1">// assert date is correct</span>
-  <span class="kr">const</span> <span class="nx">createdDate</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">innerText</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="nx">formattedDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">createdDate</span><span class="p">)</span>
-  <span class="nx">await</span> <span class="nx">t</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span>
-      <span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">())</span>
-
 <span class="p">});</span>
 </code></pre></div>
 <p>Add the import and global variables at the top:</p>
@@ -1033,7 +1055,6 @@ should display user info if user is logged in
 
 <span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
 <span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
-<span class="kr">const</span> <span class="nx">currentDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
 </code></pre></div>
 <p>Make sure to install the dependency as well:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install randomstring --save
@@ -1083,6 +1104,10 @@ should display user info if user is logged in
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
 
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
+
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
     <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
@@ -1120,6 +1145,10 @@ should display user info if user is logged in
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
 
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
@@ -1195,36 +1224,18 @@ should display user info if user is logged in
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
 
-  <span class="c1">// log a user in</span>
-  <span class="nx">await</span> <span class="nx">t</span>
-    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
-
   <span class="c1">// assert &#39;/status&#39; is displayed properly</span>
   <span class="nx">await</span> <span class="nx">t</span>
-    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">status</span><span class="err">`</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User ID:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Email:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Username:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Created Date:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
-
-  <span class="c1">// assert date is correct</span>
-  <span class="kr">const</span> <span class="nx">createdDate</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
-    <span class="s1">&#39;Created Date:&#39;</span><span class="p">).</span><span class="nx">parent</span><span class="p">().</span><span class="nx">child</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">innerText</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="nx">formattedDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">createdDate</span><span class="p">)</span>
-  <span class="nx">await</span> <span class="nx">t</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span>
-      <span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">())</span>
 
 <span class="p">});</span>
 </code></pre></div></li>
@@ -1319,7 +1330,16 @@ should display user info if user is logged in
 <p>Set the <code>TEST_URL</code> variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
 </code></pre></div>
-<p>Run the tests to ensure they pass:</p>
+<p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is reset to its initial value of false.</p>
+
+<p>To fix this, we can set the state of <code>isAuthenticated</code> to <code>true</code> if there is a token in LocalStorage by adding the following Lifecycle Method to the <code>App</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Update the containers, and then run the tests again to ensure they pass:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ testcafe chrome e2e
 Running tests in:
 - Chrome 58.0.3029 / Mac OS X 10.11.6
@@ -1355,7 +1375,7 @@ should display user info if user is logged in
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - e2e Test Specs&amp;url=http%3A%2F%2Ftestdriven.io/part-four-e2e-test-specs&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - End-to-End Test Specs&amp;url=http%3A%2F%2Ftestdriven.io/part-four-e2e-test-specs&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
@@ -1364,7 +1384,7 @@ should display user info if user is logged in
               <a class="prev btn left-align" href="/part-four-e2e-test-setup">&laquo; End-to-End Test Setup</a>
             
             
-              <a class="next btn right-align" href="/part-four-react-form-validation">React Form Validation &raquo;</a>
+              <a class="next btn right-align" href="/part-four-react-component-refactor">React Component Refactor &raquo;</a>
             
           </div>
 

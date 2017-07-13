@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -518,7 +560,8 @@ services:
   - docker
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.11.2
+  global:
+    - DOCKER_COMPOSE_VERSION=1.11.2
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -601,7 +644,8 @@ services:
   - docker
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.11.2
+  global:
+    - DOCKER_COMPOSE_VERSION=1.11.2
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose

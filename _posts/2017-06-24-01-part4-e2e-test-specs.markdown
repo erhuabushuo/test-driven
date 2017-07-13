@@ -1,5 +1,5 @@
 ---
-title: e2e Test Specs
+title: End-to-End Test Specs
 layout: post
 date: 2017-06-24 23:59:59
 permalink: part-four-e2e-test-specs
@@ -95,15 +95,6 @@ Now add the following test specs:
         .expect(Selector('a').withText('Register').exists).notOk()
         .expect(Selector('a').withText('Log In').exists).notOk()
 
-      // assert date is correct
-      const createdDate = await tableRow.child('td').nth(3).innerText;
-      const formattedDate = new Date(createdDate)
-      await t
-        .expect(currentDate.getUTCMonth()).eql(formattedDate.getUTCMonth())
-        .expect(currentDate.getUTCDate()).eql(formattedDate.getUTCDate())
-        .expect(
-          currentDate.getUTCFullYear()).eql(formattedDate.getUTCFullYear())
-
     });
     ```
 
@@ -114,7 +105,6 @@ Now add the following test specs:
 
     const username = randomstring.generate();
     const email = `${username}@test.com`;
-    const currentDate = new Date();
     ```
 
     Make sure to install the dependency as well:
@@ -171,6 +161,10 @@ Now add the following test specs:
         .typeText('input[name="password"]', 'test')
         .click(Selector('input[type="submit"]'))
 
+      // log a user out
+      await t
+        .click(Selector('a').withText('Log Out'))
+
       // log a user in
       await t
         .navigateTo(`${TEST_URL}/login`)
@@ -209,6 +203,10 @@ test(`should allow a user to sign in`, async (t) => {
     .typeText('input[name="email"]', email)
     .typeText('input[name="password"]', 'test')
     .click(Selector('input[type="submit"]'))
+
+  // log a user out
+  await t
+    .click(Selector('a').withText('Log Out'))
 
   // log a user in
   await t
@@ -292,36 +290,18 @@ Add the following test specs:
         .typeText('input[name="password"]', 'test')
         .click(Selector('input[type="submit"]'))
 
-      // log a user in
-      await t
-        .navigateTo(`${TEST_URL}/login`)
-        .typeText('input[name="email"]', email)
-        .typeText('input[name="password"]', 'test')
-        .click(Selector('input[type="submit"]'))
-
       // assert '/status' is displayed properly
       await t
-        .click(Selector('a').withText('User Status'))
+        .navigateTo(`${TEST_URL}/status`)
         .expect(Selector('li > strong').withText('User ID:').exists).ok()
         .expect(Selector('li > strong').withText('Email:').exists).ok()
         .expect(Selector('li').withText(email).exists).ok()
         .expect(Selector('li > strong').withText('Username:').exists).ok()
         .expect(Selector('li').withText(username).exists).ok()
-        .expect(Selector('li > strong').withText('Created Date:').exists).ok()
         .expect(Selector('a').withText('User Status').exists).ok()
         .expect(Selector('a').withText('Log Out').exists).ok()
         .expect(Selector('a').withText('Register').exists).notOk()
         .expect(Selector('a').withText('Log In').exists).notOk()
-
-      // assert date is correct
-      const createdDate = await Selector('li > strong').withText(
-        'Created Date:').parent().child('li').nth(3).innerText;
-      const formattedDate = new Date(createdDate)
-      await t
-        .expect(currentDate.getUTCMonth()).eql(formattedDate.getUTCMonth())
-        .expect(currentDate.getUTCDate()).eql(formattedDate.getUTCDate())
-        .expect(
-          currentDate.getUTCFullYear()).eql(formattedDate.getUTCFullYear())
 
     });
     ```
@@ -430,7 +410,19 @@ Set the `TEST_URL` variable:
 $ export TEST_URL=DOCKER_MACHINE_DEV_IP
 ```
 
-Run the tests to ensure they pass:
+Run the tests. You should see *should display user info if user is logged in* fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the `/status` link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, `isAuthenticated` is reset to its initial value of false.
+
+To fix this, we can set the state of `isAuthenticated` to `true` if there is a token in LocalStorage by adding the following Lifecycle Method to the `App` component:
+
+```javascript
+componentWillMount() {
+  if (window.localStorage.getItem('authToken')) {
+    this.setState({ isAuthenticated: true });
+  }
+}
+```
+
+Update the containers, and then run the tests again to ensure they pass:
 
 ```
 $ testcafe chrome e2e

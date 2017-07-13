@@ -33,7 +33,7 @@ $ docker-machine ls
 
 Create a new compose file called *docker-compose-prod.yml* and add the contents of the other compose file minus the `volumes`.
 
-> What would happen if you left this in?
+> What would happen if you left the volumes in?
 
 Spin up the containers, create the database, seed, and run the tests:
 

@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -508,13 +550,13 @@
 </code></pre></div>
 <p>Before writing any code, add the following test to <code>TestUserModel()</code> in <em>flask-microservices-users/project/tests/test_user_model.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_encode_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
     <span class="n">auth_token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span>
 </code></pre></div>
 <p>As always, make sure the tests fail. Next, add the <code>encode_auth_token</code> method to the <code>User()</code> class in <em>models.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">encode_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates the auth toke&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Generates the auth token&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;exp&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
@@ -534,7 +576,7 @@
 
 <ol>
 <li><code>exp</code>: token expiration date</li>
-<li><code>iat</code>: token generation date</li>
+<li><code>iat</code> (issued at): token generation date</li>
 <li><code>sub</code>: the subject of the token e.g., - the user whom it identifies</li>
 </ol>
 
@@ -546,7 +588,7 @@
 <p>Turn to the app config. The secret key needs to be updated for production. Let&#39;s configure it with an environment variable.</p>
 
 <p>First, within <em>test_config.py</em>, change:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
 </code></pre></div>
 <p>To:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
@@ -683,7 +725,7 @@
 
 <p>Moving on, add the following test to <em>test_user_model.py</em> for decoding a token:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_decode_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
     <span class="n">auth_token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
@@ -756,13 +798,13 @@
 </code></pre></div>
 <p>Before writing any code, add the following test to <code>TestUserModel()</code> in <em>flask-microservices-users/project/tests/test_user_model.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_encode_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
     <span class="n">auth_token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span>
 </code></pre></div>
 <p>As always, make sure the tests fail. Next, add the <code>encode_auth_token</code> method to the <code>User()</code> class in <em>models.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">encode_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates the auth toke&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Generates the auth token&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;exp&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
@@ -782,7 +824,7 @@
 
 <ol>
 <li><code>exp</code>: token expiration date</li>
-<li><code>iat</code>: token generation date</li>
+<li><code>iat</code> (issued at): token generation date</li>
 <li><code>sub</code>: the subject of the token e.g., - the user whom it identifies</li>
 </ol>
 
@@ -794,7 +836,7 @@
 <p>Turn to the app config. The secret key needs to be updated for production. Let&#39;s configure it with an environment variable.</p>
 
 <p>First, within <em>test_config.py</em>, change:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
 </code></pre></div>
 <p>To:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
@@ -931,7 +973,7 @@
 
 <p>Moving on, add the following test to <em>test_user_model.py</em> for decoding a token:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_decode_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
     <span class="n">auth_token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>

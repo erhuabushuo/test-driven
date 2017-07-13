@@ -6,7 +6,7 @@ permalink: part-three-update-docker
 share: true
 ---
 
-In this lesson, we'll update Docker locally and on AWS...
+In this lesson, we'll update Docker locally and on AWS, since we've been working outside of Docker this entire part thus far...
 
 ---
 
@@ -50,6 +50,16 @@ server {
     }
 
     location /users {
+        proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /ping {
         proxy_pass http://users-service:5000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -142,6 +152,7 @@ To create a key, open the Python shell and run:
 
 ```python
 >>> import binascii
+>>> import os
 >>> binascii.hexlify(os.urandom(24))
 b'0ccd512f8c3493797a23557c32db38e7d51ed74f14fa7580'
 ```
@@ -158,7 +169,7 @@ Grab the IP for the `aws` machine and use it for the `REACT_APP_USERS_SERVICE_UR
 $ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_AWS_IP
 ```
 
-Update the containers, e-create and seed the database, and run the tests:
+Update the containers, re-create and seed the database, and run the tests:
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml up -d --build

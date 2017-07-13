@@ -86,7 +86,7 @@ class User(db.Model):
     def __init__(self, username, email):
         self.username = username
         self.email = email
-        self.created_at = datetime.datetime.now()
+        self.created_at = datetime.datetime.utcnow()
 
 
 # routes

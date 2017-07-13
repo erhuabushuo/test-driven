@@ -1,9 +1,19 @@
 # Todo
 
+1. Update auth - look to localStorage
 1. Finish part 4
+1. Merge 3b into master
+1. Add youtube embed
+1. Refactor React Form Validation
 1. Paywall
 1. Add CI/CD - open pr, test, merge, test, deploy
 1. Add microservices intro to part 1
+1. Add banner to mherman.org
+1. Autotweet when updates are made?
+1. Tech debt:
+  - "In the test util file: "def add_user(username, email, created_at=datetime.datetime.now()):" - this is arguably more correct usage, but might even want to mock out time (otherwise the test success technically depends on when it was run)"
+  - "Minor, but in "test_add_user_invalid_json_keys_no_password" why create a dict() object instead of directly define in {}?"
+  - "It seems like some of these tests could also be trimmed down with some shared setup code, although it could also make them more difficult to read individually - maybe for a future refactoring"
 
 ## Completed
 

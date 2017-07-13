@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -476,7 +518,7 @@
 
           <h2>React Form Validation</h2>
 
-          <p>In this lesson, we&#39;ll add form validation to the register and sign in forms...</p>
+          <p>In this lesson, we&#39;ll add form validation to the register and sign in forms (<a href="https://www.youtube.com/watch?v=cN1IzZDgxZo">example</a>)...</p>
 
 <hr>
 
@@ -494,308 +536,6 @@
 
 <p>Since we now have a means of testing on the client, let&#39;s test-drive this change.</p>
 
-<h4 id="class-based-component">Class-based component</h4>
-
-<p>Before jumping into validation, let&#39;s refactor the <code>Form</code> component into a class-based component, so state can be managed in the component itself.</p>
-
-<p>Update <em>src/components/Form.jsx</em> like so:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
-
-<span class="kr">class</span> <span class="nx">Form</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
-  <span class="p">}</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="o">/&gt;</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-        <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
-          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;Register&#39;</span> <span class="o">&amp;&amp;</span>
-            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-              <span class="o">&lt;</span><span class="nx">input</span>
-                <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-                <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-                <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
-                <span class="nx">required</span>
-                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-                <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
-              <span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="p">}</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">input</span>
-              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
-              <span class="nx">required</span>
-              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
-            <span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">input</span>
-              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
-              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
-              <span class="nx">required</span>
-              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
-              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
-            <span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="nx">input</span>
-            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
-            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
-            <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
-          <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="err">/form&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
-</code></pre></div>
-<p>Update the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
-</code></pre></div>
-<p>And then run the tests to ensure we didn&#39;t break anything.</p>
-
-<p>Now, instead of passing everything down via the props, we can manage the state of the component within the component itself.</p>
-
-<p>Again, update <em>src/components/Form.jsx</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
-
-<span class="kr">class</span> <span class="nx">Form</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-        <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="nx">clearForm</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
-      <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
-    <span class="p">});</span>
-  <span class="p">}</span>
-  <span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
-    <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-    <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span>
-    <span class="kd">let</span> <span class="nx">data</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-        <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
-        <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-        <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">auth</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">formType</span><span class="p">}</span><span class="err">`</span>
-    <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">);</span>
-    <span class="p">})</span>
-    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
-  <span class="p">}</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="o">/&gt;</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=</span><span class="s2">&quot;textTransform:capitalize;&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-        <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
-          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span> <span class="o">&amp;&amp;</span>
-            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-              <span class="o">&lt;</span><span class="nx">input</span>
-                <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-                <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-                <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
-                <span class="nx">required</span>
-                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-                <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-              <span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="p">}</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">input</span>
-              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
-              <span class="nx">required</span>
-              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-            <span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">input</span>
-              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
-              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
-              <span class="nx">required</span>
-              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
-              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-            <span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="nx">input</span>
-            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
-            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
-            <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
-          <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="err">/form&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
-</code></pre></div>
-<p>Then update <em>src/App.jsx</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">Route</span><span class="p">,</span> <span class="nx">Switch</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span>
-<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
-
-<span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">About</span> <span class="nx">from</span> <span class="s1">&#39;./components/About&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">NavBar</span> <span class="nx">from</span> <span class="s1">&#39;./components/NavBar&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">Form</span> <span class="nx">from</span> <span class="s1">&#39;./components/Form&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">Logout</span> <span class="nx">from</span> <span class="s1">&#39;./components/Logout&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">UserStatus</span> <span class="nx">from</span> <span class="s1">&#39;./components/UserStatus&#39;</span><span class="p">;</span>
-
-<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">()</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
-      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;TestDriven.io&#39;</span><span class="p">,</span>
-      <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">users</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
-    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
-  <span class="p">}</span>
-  <span class="nx">logoutUser</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span> <span class="p">});</span>
-  <span class="p">}</span>
-  <span class="nx">loginUser</span><span class="p">(</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">,</span> <span class="nx">token</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">NavBar</span>
-          <span class="nx">title</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span>
-          <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-        <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
-              <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-              <span class="o">&lt;</span><span class="nx">Switch</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">UsersList</span>
-                    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">Form</span>
-                    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;register&#39;</span><span class="p">}</span>
-                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-                    <span class="nx">loginUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/login&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">Form</span>
-                    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;login&#39;</span><span class="p">}</span>
-                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-                    <span class="nx">loginUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/logout&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">Logout</span>
-                    <span class="nx">logoutUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/status&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">UserStatus</span>
-                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-              <span class="o">&lt;</span><span class="err">/Switch&gt;</span>
-            <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-        <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span>
-</code></pre></div>
-<p>Review the changes. Notice anything new? There&#39;s a number of changes, but really the only thing new is the use of the <code>componentWillReceiveProps</code> <a href="https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle">Lifecycle Method</a>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>This method is called <em>after</em> the initial rendering and <em>before</em> a component receives new props. So, if you have a change in props, not on the initial render, then this method will fire.</p>
-
-<p>Remember: We are sharing state for both signing up and logging in. This can cause problems with form validation on a route change - i.e., <code>/login</code> to <code>/register</code> - if the state is not cleared out. In other words, if an end user fills out the login form, and it validates correctly, and for whatever reason does not submit the form but instead navigates to <code>/register</code>, the registration form will automatically be valid. To prevent that from happening, <code>componentWillReceiveProps()</code> fires on the route change, clearing the form.</p>
-
-<p>It&#39;s important to note that this method can be called by React for strange reasons, at odd times. For that reason, you should <em>always</em> compare the current (<code>this.props.formType</code>) and next prop values (<code>nextProps.formType</code>) if you only want to do something based on a prop change.</p>
-
-<p>With that, update the containers and run the tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
-<span class="nv">$ </span>testcafe chrome e2e
-</code></pre></div>
 <h4 id="disable-button">Disable button</h4>
 
 <p>Let&#39;s add a <code>disabled</code> attribute to the button and set the initial value to <code>true</code> so the form cannot be submitted. Then, when the form validates properly, <code>disabled</code> will be set to <code>false</code>.</p>
@@ -846,11 +586,289 @@
   <span class="k">this</span><span class="p">.</span><span class="nx">validateForm</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Re-build. Run the tests. Now, we need to add validation logic to <code>validateForm()</code>...</p>
+<p>Re-build. Run the tests.</p>
+
+<p>We still need to add validation logic to <code>validateForm()</code>, but before that we need to defined the rules...</p>
 
 <h4 id="validation-rules">Validation rules</h4>
 
-<p>WIP</p>
+<p>Next, let&#39;s add the validation rules below each input field, starting with some tests...</p>
+
+<p>Update <em>should display the sign in form</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">sign</span> <span class="k">in</span> <span class="nx">form</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Login&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Email must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Update <em>should display the registration form</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">registration</span> <span class="nx">form</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Username must be greater than 5 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>To fix, we first need to define the rules:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+  <span class="p">},</span>
+  <span class="nx">formRules</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Username must be greater than 5 characters.&#39;</span><span class="p">,</span>
+      <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Email must be greater than 10 characters.&#39;</span><span class="p">,</span>
+      <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Email must be a valid email address.&#39;</span><span class="p">,</span>
+      <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">,</span>
+      <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You could render these within the <code>Form</code> component, but since there is a bit of logic separate from the form, let&#39;s create a new functional component.</p>
+
+<p><em>FormErrors.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="s1">&#39;./FormErrors.css&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">FormErrors</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;validation-list&quot;</span><span class="o">&gt;</span>
+        <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">props</span><span class="p">.</span><span class="nx">formRules</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">rule</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">rule</span><span class="p">.</span><span class="nx">field</span> <span class="o">===</span> <span class="s1">&#39;username&#39;</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;error&quot;</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/li&gt;</span>
+              <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+              <span class="k">return</span> <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;error&quot;</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/li&gt;</span>
+            <span class="p">}</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/ul&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">FormErrors</span><span class="p">;</span>
+</code></pre></div>
+<p>Add this file to the &quot;components&quot; directory, and then add the associated styles to a new file called <em>FormErrors.css</em>:</p>
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.validation-list</span> <span class="p">{</span>
+  <span class="k">padding-left</span><span class="o">:</span> <span class="m">25px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.validation-list</span> <span class="o">&gt;</span> <span class="nt">li</span> <span class="p">{</span>
+  <span class="k">display</span><span class="o">:</span> <span class="k">block</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">li</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;Glyphicons Halflings&#39;</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">9px</span><span class="p">;</span>
+  <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+  <span class="k">margin-top</span><span class="o">:</span> <span class="m">4px</span><span class="p">;</span>
+  <span class="k">margin-left</span><span class="o">:</span> <span class="m">-17px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.error</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.error</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\e014&quot;</span><span class="p">;</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.success</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.success</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\e013&quot;</span><span class="p">;</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Finally, render the component just above the form, back within the <code>Form</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=</span><span class="nx">textTransform</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+  <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nx">FormErrors</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span>
+    <span class="nx">formRules</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
+  <span class="p">...</span>
+</code></pre></div>
+<p>Run the tests.</p>
+
+<h4 id="validate-password-input">Validate password input</h4>
+
+<p>To keep things simple, we can start with validating a single input. To test, add the following spec to the login tests:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">.</span><span class="nx">only</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">validate</span> <span class="nx">the</span> <span class="nx">password</span> <span class="nx">field</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Login&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .success&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Update <code>validateForm()</code> to check whether the password has a length greater than 10:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateForm</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+  <span class="nx">rules</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">formRules</span><span class="o">:</span> <span class="nx">rules</span><span class="p">})</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">allTrue</span><span class="p">())</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then add the helper:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">allTrue</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">rule</span> <span class="nx">of</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span><span class="p">)</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This simply iterates through all the rules and returns <code>true</code> only if they are all valid. Then, to conditionally apply the CSS, update the <code>FormErrors</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">FormErrors</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;validation-list&quot;</span><span class="o">&gt;</span>
+        <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">props</span><span class="p">.</span><span class="nx">rules</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">rule</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">rule</span><span class="p">.</span><span class="nx">field</span> <span class="o">===</span> <span class="s1">&#39;username&#39;</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="o">&lt;</span><span class="nx">li</span>
+                  <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">?</span> <span class="s2">&quot;success&quot;</span> <span class="o">:</span> <span class="s2">&quot;error&quot;</span><span class="p">}</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span>
+                <span class="o">&lt;</span><span class="err">/li&gt;</span>
+              <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+              <span class="k">return</span> <span class="o">&lt;</span><span class="nx">li</span>
+                <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">?</span> <span class="s2">&quot;success&quot;</span> <span class="o">:</span> <span class="s2">&quot;error&quot;</span><span class="p">}</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span>
+              <span class="o">&lt;</span><span class="err">/li&gt;</span>
+            <span class="p">}</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/ul&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Update the containers, and then run the tests. Before moving on, we need to update the <code>componentWillReceiveProps</code> method, to reset the <code>rules</code> on a route change. Why is this necessary? Let&#39;s look. Update the test:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">validate</span> <span class="nx">the</span> <span class="nx">password</span> <span class="nx">field</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Login&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .success&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Add a method to update the value of <code>valid</code> to <code>false</code> for all rules:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">initRules</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">rule</span> <span class="nx">of</span> <span class="nx">rules</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">formRules</span><span class="o">:</span> <span class="nx">rules</span><span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then call it:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">initRules</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Re-build the containers. Test again. Now, we just need to apply that same logic to the remaining fields...</p>
+
+<h4 id="validate-inputs">Validate inputs</h4>
+
+<p>First, add a password to the top of <em>login.test.js</em>, <em>register.test.js</em>, and <em>status.test.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">password</span> <span class="o">=</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Change <code>.typeText(&#39;input[name=&quot;password&quot;]&#39;, &#39;test&#39;)</code> to <code>.typeText(&#39;input[name=&quot;password&quot;]&#39;, password)</code> in those same files, and then run the tests to ensure they still properly fail.</p>
+
+<p>Update <code>validateForm()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateForm</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">rule</span> <span class="nx">of</span> <span class="nx">rules</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">validateEmail</span><span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">))</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">formRules</span><span class="o">:</span> <span class="nx">rules</span><span class="p">})</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">allTrue</span><span class="p">())</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Add:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateEmail</span><span class="p">(</span><span class="nx">email</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// eslint-disable-next-line</span>
+  <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="sr">/^(([^&lt;&gt;()\[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()\[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">re</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">email</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Re-build. Test. Commit your code.</p>
 
 
           
@@ -861,10 +879,10 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-four-e2e-test-specs">&laquo; e2e Test Specs</a>
+              <a class="prev btn left-align" href="/part-four-react-component-refactor">&laquo; React Component Refactor</a>
             
             
-              <a class="next btn right-align" href="/part-four-staging-environment">Staging Environment &raquo;</a>
+              <a class="next btn right-align" href="/part-four-react-flash-messages">React Flash Messaging &raquo;</a>
             
           </div>
 
@@ -874,7 +892,7 @@
 
           <h2>React Form Validation</h2>
 
-          <p>In this lesson, we&#39;ll add form validation to the register and sign in forms...</p>
+          <p>In this lesson, we&#39;ll add form validation to the register and sign in forms (<a href="https://www.youtube.com/watch?v=cN1IzZDgxZo">example</a>)...</p>
 
 <hr>
 
@@ -892,308 +910,6 @@
 
 <p>Since we now have a means of testing on the client, let&#39;s test-drive this change.</p>
 
-<h4 id="class-based-component">Class-based component</h4>
-
-<p>Before jumping into validation, let&#39;s refactor the <code>Form</code> component into a class-based component, so state can be managed in the component itself.</p>
-
-<p>Update <em>src/components/Form.jsx</em> like so:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
-
-<span class="kr">class</span> <span class="nx">Form</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
-  <span class="p">}</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="o">/&gt;</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-        <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
-          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;Register&#39;</span> <span class="o">&amp;&amp;</span>
-            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-              <span class="o">&lt;</span><span class="nx">input</span>
-                <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-                <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-                <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
-                <span class="nx">required</span>
-                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-                <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
-              <span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="p">}</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">input</span>
-              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
-              <span class="nx">required</span>
-              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
-            <span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">input</span>
-              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
-              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
-              <span class="nx">required</span>
-              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
-              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
-            <span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="nx">input</span>
-            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
-            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
-            <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
-          <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="err">/form&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
-</code></pre></div>
-<p>Update the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
-</code></pre></div>
-<p>And then run the tests to ensure we didn&#39;t break anything.</p>
-
-<p>Now, instead of passing everything down via the props, we can manage the state of the component within the component itself.</p>
-
-<p>Again, update <em>src/components/Form.jsx</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
-
-<span class="kr">class</span> <span class="nx">Form</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-        <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="nx">clearForm</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
-      <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
-    <span class="p">});</span>
-  <span class="p">}</span>
-  <span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
-    <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-    <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span>
-    <span class="kd">let</span> <span class="nx">data</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-        <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
-        <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-        <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">auth</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">formType</span><span class="p">}</span><span class="err">`</span>
-    <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">);</span>
-    <span class="p">})</span>
-    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
-  <span class="p">}</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="o">/&gt;</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=</span><span class="s2">&quot;textTransform:capitalize;&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-        <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
-          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span> <span class="o">&amp;&amp;</span>
-            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-              <span class="o">&lt;</span><span class="nx">input</span>
-                <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-                <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-                <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
-                <span class="nx">required</span>
-                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-                <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-              <span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="p">}</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">input</span>
-              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
-              <span class="nx">required</span>
-              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-            <span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">input</span>
-              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
-              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
-              <span class="nx">required</span>
-              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
-              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-            <span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="nx">input</span>
-            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
-            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
-            <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
-          <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="err">/form&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
-</code></pre></div>
-<p>Then update <em>src/App.jsx</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">Route</span><span class="p">,</span> <span class="nx">Switch</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span>
-<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
-
-<span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">About</span> <span class="nx">from</span> <span class="s1">&#39;./components/About&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">NavBar</span> <span class="nx">from</span> <span class="s1">&#39;./components/NavBar&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">Form</span> <span class="nx">from</span> <span class="s1">&#39;./components/Form&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">Logout</span> <span class="nx">from</span> <span class="s1">&#39;./components/Logout&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">UserStatus</span> <span class="nx">from</span> <span class="s1">&#39;./components/UserStatus&#39;</span><span class="p">;</span>
-
-<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">()</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
-      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;TestDriven.io&#39;</span><span class="p">,</span>
-      <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">users</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
-    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
-  <span class="p">}</span>
-  <span class="nx">logoutUser</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span> <span class="p">});</span>
-  <span class="p">}</span>
-  <span class="nx">loginUser</span><span class="p">(</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">,</span> <span class="nx">token</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">NavBar</span>
-          <span class="nx">title</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span>
-          <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-        <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
-              <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-              <span class="o">&lt;</span><span class="nx">Switch</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">UsersList</span>
-                    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">Form</span>
-                    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;register&#39;</span><span class="p">}</span>
-                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-                    <span class="nx">loginUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/login&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">Form</span>
-                    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;login&#39;</span><span class="p">}</span>
-                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-                    <span class="nx">loginUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/logout&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">Logout</span>
-                    <span class="nx">logoutUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
-                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/status&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-                  <span class="o">&lt;</span><span class="nx">UserStatus</span>
-                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-                  <span class="o">/&gt;</span>
-                <span class="p">)}</span> <span class="o">/&gt;</span>
-              <span class="o">&lt;</span><span class="err">/Switch&gt;</span>
-            <span class="o">&lt;</span><span class="err">/div&gt;</span>
-          <span class="o">&lt;</span><span class="err">/div&gt;</span>
-        <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span>
-</code></pre></div>
-<p>Review the changes. Notice anything new? There&#39;s a number of changes, but really the only thing new is the use of the <code>componentWillReceiveProps</code> <a href="https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle">Lifecycle Method</a>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>This method is called <em>after</em> the initial rendering and <em>before</em> a component receives new props. So, if you have a change in props, not on the initial render, then this method will fire.</p>
-
-<p>Remember: We are sharing state for both signing up and logging in. This can cause problems with form validation on a route change - i.e., <code>/login</code> to <code>/register</code> - if the state is not cleared out. In other words, if an end user fills out the login form, and it validates correctly, and for whatever reason does not submit the form but instead navigates to <code>/register</code>, the registration form will automatically be valid. To prevent that from happening, <code>componentWillReceiveProps()</code> fires on the route change, clearing the form.</p>
-
-<p>It&#39;s important to note that this method can be called by React for strange reasons, at odd times. For that reason, you should <em>always</em> compare the current (<code>this.props.formType</code>) and next prop values (<code>nextProps.formType</code>) if you only want to do something based on a prop change.</p>
-
-<p>With that, update the containers and run the tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
-<span class="nv">$ </span>testcafe chrome e2e
-</code></pre></div>
 <h4 id="disable-button">Disable button</h4>
 
 <p>Let&#39;s add a <code>disabled</code> attribute to the button and set the initial value to <code>true</code> so the form cannot be submitted. Then, when the form validates properly, <code>disabled</code> will be set to <code>false</code>.</p>
@@ -1244,11 +960,289 @@
   <span class="k">this</span><span class="p">.</span><span class="nx">validateForm</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Re-build. Run the tests. Now, we need to add validation logic to <code>validateForm()</code>...</p>
+<p>Re-build. Run the tests.</p>
+
+<p>We still need to add validation logic to <code>validateForm()</code>, but before that we need to defined the rules...</p>
 
 <h4 id="validation-rules">Validation rules</h4>
 
-<p>WIP</p>
+<p>Next, let&#39;s add the validation rules below each input field, starting with some tests...</p>
+
+<p>Update <em>should display the sign in form</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">sign</span> <span class="k">in</span> <span class="nx">form</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Login&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Email must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Update <em>should display the registration form</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">registration</span> <span class="nx">form</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Username must be greater than 5 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>To fix, we first need to define the rules:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+  <span class="p">},</span>
+  <span class="nx">formRules</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Username must be greater than 5 characters.&#39;</span><span class="p">,</span>
+      <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Email must be greater than 10 characters.&#39;</span><span class="p">,</span>
+      <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Email must be a valid email address.&#39;</span><span class="p">,</span>
+      <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">,</span>
+      <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You could render these within the <code>Form</code> component, but since there is a bit of logic separate from the form, let&#39;s create a new functional component.</p>
+
+<p><em>FormErrors.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="s1">&#39;./FormErrors.css&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">FormErrors</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;validation-list&quot;</span><span class="o">&gt;</span>
+        <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">props</span><span class="p">.</span><span class="nx">formRules</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">rule</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">rule</span><span class="p">.</span><span class="nx">field</span> <span class="o">===</span> <span class="s1">&#39;username&#39;</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;error&quot;</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/li&gt;</span>
+              <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+              <span class="k">return</span> <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;error&quot;</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/li&gt;</span>
+            <span class="p">}</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/ul&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">FormErrors</span><span class="p">;</span>
+</code></pre></div>
+<p>Add this file to the &quot;components&quot; directory, and then add the associated styles to a new file called <em>FormErrors.css</em>:</p>
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.validation-list</span> <span class="p">{</span>
+  <span class="k">padding-left</span><span class="o">:</span> <span class="m">25px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.validation-list</span> <span class="o">&gt;</span> <span class="nt">li</span> <span class="p">{</span>
+  <span class="k">display</span><span class="o">:</span> <span class="k">block</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">li</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;Glyphicons Halflings&#39;</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">9px</span><span class="p">;</span>
+  <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+  <span class="k">margin-top</span><span class="o">:</span> <span class="m">4px</span><span class="p">;</span>
+  <span class="k">margin-left</span><span class="o">:</span> <span class="m">-17px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.error</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.error</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\e014&quot;</span><span class="p">;</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.success</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.success</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\e013&quot;</span><span class="p">;</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Finally, render the component just above the form, back within the <code>Form</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=</span><span class="nx">textTransform</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+  <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nx">FormErrors</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span>
+    <span class="nx">formRules</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
+  <span class="p">...</span>
+</code></pre></div>
+<p>Run the tests.</p>
+
+<h4 id="validate-password-input">Validate password input</h4>
+
+<p>To keep things simple, we can start with validating a single input. To test, add the following spec to the login tests:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">.</span><span class="nx">only</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">validate</span> <span class="nx">the</span> <span class="nx">password</span> <span class="nx">field</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Login&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .success&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Update <code>validateForm()</code> to check whether the password has a length greater than 10:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateForm</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+  <span class="nx">rules</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">formRules</span><span class="o">:</span> <span class="nx">rules</span><span class="p">})</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">allTrue</span><span class="p">())</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then add the helper:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">allTrue</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">rule</span> <span class="nx">of</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span><span class="p">)</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This simply iterates through all the rules and returns <code>true</code> only if they are all valid. Then, to conditionally apply the CSS, update the <code>FormErrors</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">FormErrors</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;validation-list&quot;</span><span class="o">&gt;</span>
+        <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">props</span><span class="p">.</span><span class="nx">rules</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">rule</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">rule</span><span class="p">.</span><span class="nx">field</span> <span class="o">===</span> <span class="s1">&#39;username&#39;</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="o">&lt;</span><span class="nx">li</span>
+                  <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">?</span> <span class="s2">&quot;success&quot;</span> <span class="o">:</span> <span class="s2">&quot;error&quot;</span><span class="p">}</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span>
+                <span class="o">&lt;</span><span class="err">/li&gt;</span>
+              <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+              <span class="k">return</span> <span class="o">&lt;</span><span class="nx">li</span>
+                <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">?</span> <span class="s2">&quot;success&quot;</span> <span class="o">:</span> <span class="s2">&quot;error&quot;</span><span class="p">}</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">rule</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span>
+              <span class="o">&lt;</span><span class="err">/li&gt;</span>
+            <span class="p">}</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/ul&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Update the containers, and then run the tests. Before moving on, we need to update the <code>componentWillReceiveProps</code> method, to reset the <code>rules</code> on a route change. Why is this necessary? Let&#39;s look. Update the test:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">validate</span> <span class="nx">the</span> <span class="nx">password</span> <span class="nx">field</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Login&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .success&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;Password must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Add a method to update the value of <code>valid</code> to <code>false</code> for all rules:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">initRules</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">rule</span> <span class="nx">of</span> <span class="nx">rules</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">formRules</span><span class="o">:</span> <span class="nx">rules</span><span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then call it:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">initRules</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Re-build the containers. Test again. Now, we just need to apply that same logic to the remaining fields...</p>
+
+<h4 id="validate-inputs">Validate inputs</h4>
+
+<p>First, add a password to the top of <em>login.test.js</em>, <em>register.test.js</em>, and <em>status.test.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">password</span> <span class="o">=</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Change <code>.typeText(&#39;input[name=&quot;password&quot;]&#39;, &#39;test&#39;)</code> to <code>.typeText(&#39;input[name=&quot;password&quot;]&#39;, password)</code> in those same files, and then run the tests to ensure they still properly fail.</p>
+
+<p>Update <code>validateForm()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateForm</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">rule</span> <span class="nx">of</span> <span class="nx">rules</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">validateEmail</span><span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">))</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">formRules</span><span class="o">:</span> <span class="nx">rules</span><span class="p">})</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">allTrue</span><span class="p">())</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Add:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateEmail</span><span class="p">(</span><span class="nx">email</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// eslint-disable-next-line</span>
+  <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="sr">/^(([^&lt;&gt;()\[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()\[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">re</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">email</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Re-build. Test. Commit your code.</p>
 
 
           
@@ -1259,10 +1253,10 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-four-e2e-test-specs">&laquo; e2e Test Specs</a>
+              <a class="prev btn left-align" href="/part-four-react-component-refactor">&laquo; React Component Refactor</a>
             
             
-              <a class="next btn right-align" href="/part-four-staging-environment">Staging Environment &raquo;</a>
+              <a class="next btn right-align" href="/part-four-react-flash-messages">React Flash Messaging &raquo;</a>
             
           </div>
 

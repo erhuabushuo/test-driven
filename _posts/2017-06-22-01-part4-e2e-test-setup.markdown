@@ -223,7 +223,8 @@ services:
   - docker
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.11.2
+  global:
+    - DOCKER_COMPOSE_VERSION=1.11.2
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -240,7 +241,8 @@ before_script:
   - docker-compose up --build -d
 
 script:
-  - sh test.sh
+  - docker-compose run users-service python manage.py test
+  - testcafe chrome e2e/index.test.js
 
 after_script:
   - docker-compose down

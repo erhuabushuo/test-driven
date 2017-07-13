@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -516,14 +558,14 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 <p>Next, let&#39;s update the GET ALL <code>/users</code> route to order the users by <code>created_at</code> date descending.</p>
 
 <p>We&#39;ll start with a test of course, but first we need to change the functionality of the <code>add_user()</code> helper so that we can pass it an optional <code>created_at</code> date. Why? So, we can easily seed the database with users created in the past.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span><span class="p">)</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">user</span>
 </code></pre></div>
 <p>Then, update the <code>__init__</code> method in <em>flask-microservices-users/project/api/models.py</em> to take an optional argument as well:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">created_at</span>
@@ -531,7 +573,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 <p>Run the tests to make sure we didn&#39;t break anything. Now, we can update the <code>test_all_users()</code> test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_all_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure get all users behaves correctly.&quot;&quot;&quot;</span>
-    <span class="n">created</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">created</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">)</span>
     <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;michael&#39;</span><span class="p">,</span> <span class="s">&#39;michael@realpython.com&#39;</span><span class="p">,</span> <span class="n">created</span><span class="p">)</span>
     <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;fletcher&#39;</span><span class="p">,</span> <span class="s">&#39;fletcher@realpython.com&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
@@ -671,14 +713,14 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 <p>Next, let&#39;s update the GET ALL <code>/users</code> route to order the users by <code>created_at</code> date descending.</p>
 
 <p>We&#39;ll start with a test of course, but first we need to change the functionality of the <code>add_user()</code> helper so that we can pass it an optional <code>created_at</code> date. Why? So, we can easily seed the database with users created in the past.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span><span class="p">)</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">user</span>
 </code></pre></div>
 <p>Then, update the <code>__init__</code> method in <em>flask-microservices-users/project/api/models.py</em> to take an optional argument as well:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">created_at</span>
@@ -686,7 +728,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 <p>Run the tests to make sure we didn&#39;t break anything. Now, we can update the <code>test_all_users()</code> test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_all_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure get all users behaves correctly.&quot;&quot;&quot;</span>
-    <span class="n">created</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">created</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">)</span>
     <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;michael&#39;</span><span class="p">,</span> <span class="s">&#39;michael@realpython.com&#39;</span><span class="p">,</span> <span class="n">created</span><span class="p">)</span>
     <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;fletcher&#39;</span><span class="p">,</span> <span class="s">&#39;fletcher@realpython.com&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>

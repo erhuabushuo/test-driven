@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -480,7 +522,9 @@
 
 <hr>
 
-<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just ran in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
+<p>Let&#39;s add an <code>/about</code> route!</p>
+
+<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just run in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
 
 <blockquote>
 <p>Keep in mind that React Router is only necessary for apps that have more than one page.</p>
@@ -560,11 +604,11 @@
             <span class="o">&lt;</span><span class="nx">AddUser</span>
               <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
               <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
-              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
             <span class="o">/&gt;</span>
             <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
           <span class="o">&lt;</span><span class="err">/div&gt;</span>
         <span class="o">&lt;</span><span class="err">/div&gt;</span>
       <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -640,7 +684,7 @@
 </code></pre></div>
 <p>Then add the component to the <code>render</code> method, just below the <code>UsersList</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">...</span>
-<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
 <span class="o">&lt;</span><span class="nx">About</span><span class="o">/&gt;</span>
 <span class="p">...</span>
 </code></pre></div>
@@ -661,11 +705,11 @@
                 <span class="o">&lt;</span><span class="nx">AddUser</span>
                   <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
                   <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
-                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
                 <span class="o">/&gt;</span>
                 <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
               <span class="o">&lt;</span><span class="err">/div&gt;</span>
             <span class="p">)}</span> <span class="o">/&gt;</span>
             <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>
@@ -713,7 +757,9 @@
 
 <hr>
 
-<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just ran in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
+<p>Let&#39;s add an <code>/about</code> route!</p>
+
+<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just run in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
 
 <blockquote>
 <p>Keep in mind that React Router is only necessary for apps that have more than one page.</p>
@@ -793,11 +839,11 @@
             <span class="o">&lt;</span><span class="nx">AddUser</span>
               <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
               <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
-              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
             <span class="o">/&gt;</span>
             <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
           <span class="o">&lt;</span><span class="err">/div&gt;</span>
         <span class="o">&lt;</span><span class="err">/div&gt;</span>
       <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -873,7 +919,7 @@
 </code></pre></div>
 <p>Then add the component to the <code>render</code> method, just below the <code>UsersList</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">...</span>
-<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
 <span class="o">&lt;</span><span class="nx">About</span><span class="o">/&gt;</span>
 <span class="p">...</span>
 </code></pre></div>
@@ -894,11 +940,11 @@
                 <span class="o">&lt;</span><span class="nx">AddUser</span>
                   <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
                   <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
-                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
                 <span class="o">/&gt;</span>
                 <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
               <span class="o">&lt;</span><span class="err">/div&gt;</span>
             <span class="p">)}</span> <span class="o">/&gt;</span>
             <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>

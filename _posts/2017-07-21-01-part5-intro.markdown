@@ -7,4 +7,14 @@ part: 5
 share: true
 ---
 
+Topics covered:
+
+1. Incorporating Docker Hub into the CI/CD process
+1. Adding a private image registry
+1. Setting up a new service
+1. Configuring Redis
+1. Scaling the application with ECS/Kubernetes/Docker Swarm
+
+---
+
 Coming Soon!

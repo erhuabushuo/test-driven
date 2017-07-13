@@ -6,11 +6,9 @@ permalink: part-three-update-component
 share: true
 ---
 
-In this last lesson, we'll refactor the `UsersList` component...
+In this last lesson, we'll refactor the `UsersList` component remove the add user form and display a Bootstrap-styled table of users....
 
 ---
-
-Let's remove the add user form and display a Boostrap-styled table of users.
 
 In the terminal, navigate to the *flask-microservices-users* project, activate a virtual environment, and then run the Flask server:
 
@@ -41,7 +39,7 @@ const UsersList = (props) => {
       <hr/><br/>
       {
         props.users.map((user) => {
-          return <h4 key={ user.id } className="well"><strong>{ user.username }</strong> - <em>{user.created_at}</em></h4>
+          return <h4 key={user.id} className="well"><strong>{user.username}</strong> - <em>{user.created_at}</em></h4>
         })
       }
     </div>
@@ -82,18 +80,17 @@ const UsersList = (props) => {
             <th>User ID</th>
             <th>Email</th>
             <th>Username</th>
-            <th>Created Date</th>
           </tr>
         </thead>
         <tbody>
           {
             props.users.map((user) => {
               return (
-                <tr key={ user.id }>
-                  <td>{ user.id }</td>
-                  <td>{ user.email }</td>
-                  <td>{ user.username }</td>
-                  <td>{ user.created_at }</td>
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.email}</td>
+                  <td>{user.username}</td>
+                  <td>{user.created_at}</td>
                 </tr>
               )
             })
@@ -109,4 +106,4 @@ export default UsersList;
 
 That's it. Short lesson. Commit you code.
 
-> You may have noticed that we are not handling errors on the client. We'll tackle that in the next part!
+> You may have noticed that we are not handling errors on the client. We'll tackle that in the next part 4!

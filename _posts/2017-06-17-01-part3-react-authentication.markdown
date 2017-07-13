@@ -24,7 +24,7 @@ With the `Form` component set up, we can now configure the methods to:
 Turn to *Form.jsx*. Which method gets fired on the form submit?
 
 ```javascript
-<form onSubmit={ (event) => props.handleUserFormSubmit(event) }>
+<form onSubmit={(event) => props.handleUserFormSubmit(event)}>
 ```
 
 Add the method to the `App` component:
@@ -127,7 +127,7 @@ Test logging in as well. Again, you should see the very same object in the conso
 After a user register or logs in, we need to:
 
 1. Clear the `formData` object
-1. Save the auth token in the browser's [LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Storage/LocalStorage)
+1. Save the auth token in the browser's [LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Storage/LocalStorage), a client-side data store
 1. Update the state to indicate that the user is authenticated
 1. Redirect the user to `/`
 
@@ -155,7 +155,7 @@ window.localStorage.setItem('authToken', res.data.auth_token);
 
 Try logging in again. After a successful login, open the Application tab within [Chrome DevTools](https://developer.chrome.com/devtools). Click the arrow before [LocalStorage](https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage) and select `http://localhost:3000`. You should see a key of `authToken` with a value of the actual token in the pane.
 
-Instead of always checking LocalStorage for the auth token, let's add a boolean to the state so we can quickly tell if there us a user authenticated.
+Instead of always checking LocalStorage for the auth token, let's add a boolean to the state so we can quickly tell if there is a user authenticated.
 
 Add an `isAuthenticated` property to the state:
 
@@ -373,7 +373,6 @@ render() {
         <li><strong>User ID:</strong> {this.state.id}</li>
         <li><strong>Email:</strong> {this.state.email}</li>
         <li><strong>Username:</strong> {this.state.username}</li>
-        <li><strong>Created Date:</strong> {this.state.created_at}</li>
       </ul>
     </div>
   )
@@ -458,7 +457,6 @@ render() {
         <li><strong>User ID:</strong> {this.state.id}</li>
         <li><strong>Email:</strong> {this.state.email}</li>
         <li><strong>Username:</strong> {this.state.username}</li>
-        <li><strong>Created Date:</strong> {this.state.created_at}</li>
       </ul>
     </div>
   )

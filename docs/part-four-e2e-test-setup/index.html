@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -648,7 +690,8 @@ inspect <span class="nv">$?</span> e2e
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker</span>
 
 <span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">DOCKER_COMPOSE_VERSION</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1.11.2</span>
+  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DOCKER_COMPOSE_VERSION=1.11.2</span>
 
 <span class="l-Scalar-Plain">before_install</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo rm /usr/local/bin/docker-compose</span>
@@ -665,7 +708,8 @@ inspect <span class="nv">$?</span> e2e
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose up --build -d</span>
 
 <span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sh test.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose run users-service python manage.py test</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e/index.test.js</span>
 
 <span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose down</span>
@@ -690,7 +734,7 @@ inspect <span class="nv">$?</span> e2e
               <a class="prev btn left-align" href="/part-four-intro">&laquo; Introduction</a>
             
             
-              <a class="next btn right-align" href="/part-four-e2e-test-specs">e2e Test Specs &raquo;</a>
+              <a class="next btn right-align" href="/part-four-e2e-test-specs">End-to-End Test Specs &raquo;</a>
             
           </div>
 
@@ -872,7 +916,8 @@ inspect <span class="nv">$?</span> e2e
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker</span>
 
 <span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">DOCKER_COMPOSE_VERSION</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1.11.2</span>
+  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DOCKER_COMPOSE_VERSION=1.11.2</span>
 
 <span class="l-Scalar-Plain">before_install</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo rm /usr/local/bin/docker-compose</span>
@@ -889,7 +934,8 @@ inspect <span class="nv">$?</span> e2e
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose up --build -d</span>
 
 <span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sh test.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose run users-service python manage.py test</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e/index.test.js</span>
 
 <span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose down</span>
@@ -914,7 +960,7 @@ inspect <span class="nv">$?</span> e2e
               <a class="prev btn left-align" href="/part-four-intro">&laquo; Introduction</a>
             
             
-              <a class="next btn right-align" href="/part-four-e2e-test-specs">e2e Test Specs &raquo;</a>
+              <a class="next btn right-align" href="/part-four-e2e-test-specs">End-to-End Test Specs &raquo;</a>
             
           </div>
 

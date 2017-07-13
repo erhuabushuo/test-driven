@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -476,7 +518,7 @@
 
           <h2>Introduction</h2>
 
-          <p>In Part 4, we&#39;ll add an <em>end-to-end</em> (e2e) testing solution, a <em>Swagger</em> service to document the API, and deal with some tech debt. We&#39;ll also set up a staging environment to test on before the app goes into production.</p>
+          <p>In Part 4, we&#39;ll add an <em>end-to-end</em> (e2e) testing solution, <em>form validation</em> to the React app, a <em>Swagger</em> service to document the API, and deal with some tech debt. We&#39;ll also set up a staging environment to test on before the app goes into production.</p>
 
 <h4 id="objectives">Objectives</h4>
 
@@ -485,11 +527,95 @@
 <ol>
 <li>Test the entire set of services with functional, end-to-end tests via TestCafe</li>
 <li>Integrate TestCafe into a continuous integration process</li>
+<li>Handle form validation within React</li>
+<li>Add a flash messaging system to the React app</li>
+<li>Describe the purpose of Swagger</li>
+<li>Generate a Swagger Spec based on an existing RESTful API</li>
+<li>Configure Swagger to interact with a service running inside a Docker Container</li>
+<li>Set up a staging environment on AWS</li>
 </ol>
 
-<hr>
+<h4 id="app">App</h4>
 
-<p>WIP</p>
+<div style="text-align:left;">
+  <img src="/assets/img/testdriven-architecture-part4.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
+</div>
+
+<p>Check out the live app, running on EC2 -</p>
+
+<ol>
+<li>Main app - <a href="http://54.89.0.180/">http://54.89.0.180/</a></li>
+<li>Swagger - <a href="http://54.89.0.180:8080">http://54.89.0.180:8080</a></li>
+</ol>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
+
+<p>Grab the code:</p>
+
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-swagger">flask-microservices-swagger</a></li>
+</ol>
 
 
           
@@ -513,7 +639,7 @@
 
           <h2>Introduction</h2>
 
-          <p>In Part 4, we&#39;ll add an <em>end-to-end</em> (e2e) testing solution, a <em>Swagger</em> service to document the API, and deal with some tech debt. We&#39;ll also set up a staging environment to test on before the app goes into production.</p>
+          <p>In Part 4, we&#39;ll add an <em>end-to-end</em> (e2e) testing solution, <em>form validation</em> to the React app, a <em>Swagger</em> service to document the API, and deal with some tech debt. We&#39;ll also set up a staging environment to test on before the app goes into production.</p>
 
 <h4 id="objectives">Objectives</h4>
 
@@ -522,11 +648,95 @@
 <ol>
 <li>Test the entire set of services with functional, end-to-end tests via TestCafe</li>
 <li>Integrate TestCafe into a continuous integration process</li>
+<li>Handle form validation within React</li>
+<li>Add a flash messaging system to the React app</li>
+<li>Describe the purpose of Swagger</li>
+<li>Generate a Swagger Spec based on an existing RESTful API</li>
+<li>Configure Swagger to interact with a service running inside a Docker Container</li>
+<li>Set up a staging environment on AWS</li>
 </ol>
 
-<hr>
+<h4 id="app">App</h4>
 
-<p>WIP</p>
+<div style="text-align:left;">
+  <img src="/assets/img/testdriven-architecture-part4.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
+</div>
+
+<p>Check out the live app, running on EC2 -</p>
+
+<ol>
+<li>Main app - <a href="http://54.89.0.180/">http://54.89.0.180/</a></li>
+<li>Swagger - <a href="http://54.89.0.180:8080">http://54.89.0.180:8080</a></li>
+</ol>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
+
+<p>Grab the code:</p>
+
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-swagger">flask-microservices-swagger</a></li>
+</ol>
 
 
           

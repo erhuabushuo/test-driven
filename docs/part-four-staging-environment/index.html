@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -476,17 +518,304 @@
 
           <h2>Staging Environment</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll set up a staging environment on AWS...</p>
 
 <hr>
 
-<p>Environment overview</p>
+<p>It&#39;s important to test applications out in an environment as close to production as possible when deploying to avoid hitting unexpected environment-specific bugs. Docker containers help to eliminate much of the disparity between development and production, but problems can (and will) still arise. So, let&#39;s set up a staging environment.</p>
 
-<ol>
-<li>URL</li>
-<li>docker-files</li>
-<li>how to run tests, how to setup, etc</li>
-</ol>
+<h4 id="staging">Staging</h4>
+
+<p>Create a new Docker machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create --driver amazonec2 staging
+</code></pre></div>
+<p>While the new EC2 instance is being provisioned, create a new file called <em>docker-compose-staging.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+
+  <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git#master:project/db</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l-Scalar-Plain">healthcheck</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">exit 0</span>
+
+  <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git</span>
+    <span class="l-Scalar-Plain">expose</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;5000&#39;</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APP_SETTINGS=project.config.StagingConfig</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_staging</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SECRET_KEY=${SECRET_KEY}</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_healthy</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">command</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">gunicorn -b 0.0.0.0:5000 manage:app</span>
+
+  <span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
+    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">80:80</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+      <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">web-service</span>
+
+  <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">web-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-client.git</span>
+      <span class="l-Scalar-Plain">args</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+
+  <span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-swagger.git</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Take note of any changes, and then commit and push your code to GitHub. Next, update <em>flask-microservices-users/project/db/create.sql</em>:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_prod</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_staging</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_dev</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_test</span><span class="p">;</span>
+</code></pre></div>
+<p>Then add a <code>StagingConfig</code> to <em>flask-microservices-users/project/config.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">StagingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Staging configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Commit and push your code, and then change the machine to <code>staging</code> with <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env staging
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env staging<span class="k">)</span>
+</code></pre></div>
+<p>Let&#39;s create a new secret key. Open the Python shell and run:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">binascii</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
+<span class="n">b</span><span class="s">&#39;b476f58095eae2db74ce721a48c88ab2385e942688f7ddab&#39;</span>
+</code></pre></div>
+<p>Exit the shell. Set it as an environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span>b476f58095eae2db74ce721a48c88ab2385e942688f7ddab
+</code></pre></div>
+<p>Grab the IP for the <code>staging</code> machine and use it for the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_STAGING_IP
+</code></pre></div>
+<p>Spin up the containers, create and seed the database, and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-staging.yml <span class="se">\</span>
+  up -d --build
+<span class="nv">$ </span>docker-compose -f docker-compose-staging.yml <span class="se">\</span>
+  run users-service <span class="se">\</span>
+  python manage.py db upgrade
+<span class="nv">$ </span>docker-compose -f docker-compose-staging.yml <span class="se">\</span>
+  run users-service <span class="se">\</span>
+  python manage.py seed_db
+</code></pre></div>
+<p>Run the users service tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-staging.yml run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Set the <code>TEST_URL</code> variable for the end-to-end tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_STAGING_IP
+</code></pre></div>
+<p>Run the end-to-end tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<p>You also need to add port 8080 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a> since Swagger is listening on that port.</p>
+
+<h4 id="travis">Travis</h4>
+
+<p>Next, update the <code>before_script</code> and <code>script</code> within the <em>.travis.yml</em> file to use the <em>docker-compose-staging.yml</em> file for the build and test run:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export TEST_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export SECRET_KEY=my_precious</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export DISPLAY=:99.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sh -e /etc/init.d/xvfb start</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 3</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-staging.yml up -d --build</span>
+
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-staging.yml run users-service python manage.py test</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e/index.test.js</span>
+</code></pre></div>
+<p>Commit and push your code. Make sure the tests pass on Travis.</p>
+
+<h4 id="production">Production</h4>
+
+<p>Let&#39;s update production with the changes from this part thus far. Start by adding swagger to <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+  <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-swagger.git</span>
+  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+  <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+  <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Switch to the prod machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+</code></pre></div>
+<p>Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_AWS_IP
+</code></pre></div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<p>Ensure all is well.</p>
+
+<h4 id="local">Local</h4>
+
+<p>To simplify, local development, let&#39;s make a few changes to the <em>docker-compose.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+
+  <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-users/project/db</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l-Scalar-Plain">healthcheck</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">exit 0</span>
+
+  <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-users</span>
+      <span class="l-Scalar-Plain">dockerfile</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Dockerfile-local</span>
+    <span class="l-Scalar-Plain">volumes</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;../flask-microservices-users:/usr/src/app&#39;</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5001:5000</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APP_SETTINGS=project.config.DevelopmentConfig</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SECRET_KEY=my_precious</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_healthy</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-db</span>
+
+  <span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
+    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">80:80</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+      <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">web-service</span>
+
+  <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">web-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-client</span>
+      <span class="l-Scalar-Plain">dockerfile</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Dockerfile-local</span>
+    <span class="l-Scalar-Plain">volumes</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;../flask-microservices-client:/usr/src/app&#39;</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;/usr/src/app/node_modules&#39;</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+
+  <span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-swagger</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Not too many changes, right? We added volumes and are now referencing a new, development-only Dockerfile for the web service - <em>Dockerfile-local</em>.</p>
+
+<p>Be sure to add the new file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM node:latest
+
+# set working directory
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+ADD package.json /usr/src/app/package.json
+RUN npm install --silent
+RUN npm install react-scripts@0.9.5 -g --silent
+
+# start app
+CMD [&quot;npm&quot;, &quot;start&quot;]
+</code></pre></div>
+<p>To test, switch to the dev machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Commit and push your code!</p>
 
 
           
@@ -497,10 +826,10 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-four-react-form-validation">&laquo; React Form Validation</a>
+              <a class="prev btn left-align" href="/part-four-swagger-setup">&laquo; Swagger Setup</a>
             
             
-              <a class="next btn right-align" href="/part-five-intro">Introduction &raquo;</a>
+              <a class="next btn right-align" href="/part-four-workflow">Workflow &raquo;</a>
             
           </div>
 
@@ -510,17 +839,304 @@
 
           <h2>Staging Environment</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll set up a staging environment on AWS...</p>
 
 <hr>
 
-<p>Environment overview</p>
+<p>It&#39;s important to test applications out in an environment as close to production as possible when deploying to avoid hitting unexpected environment-specific bugs. Docker containers help to eliminate much of the disparity between development and production, but problems can (and will) still arise. So, let&#39;s set up a staging environment.</p>
 
-<ol>
-<li>URL</li>
-<li>docker-files</li>
-<li>how to run tests, how to setup, etc</li>
-</ol>
+<h4 id="staging">Staging</h4>
+
+<p>Create a new Docker machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create --driver amazonec2 staging
+</code></pre></div>
+<p>While the new EC2 instance is being provisioned, create a new file called <em>docker-compose-staging.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+
+  <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git#master:project/db</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l-Scalar-Plain">healthcheck</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">exit 0</span>
+
+  <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git</span>
+    <span class="l-Scalar-Plain">expose</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;5000&#39;</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APP_SETTINGS=project.config.StagingConfig</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_staging</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SECRET_KEY=${SECRET_KEY}</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_healthy</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">command</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">gunicorn -b 0.0.0.0:5000 manage:app</span>
+
+  <span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
+    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">80:80</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+      <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">web-service</span>
+
+  <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">web-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-client.git</span>
+      <span class="l-Scalar-Plain">args</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+
+  <span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-swagger.git</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Take note of any changes, and then commit and push your code to GitHub. Next, update <em>flask-microservices-users/project/db/create.sql</em>:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_prod</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_staging</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_dev</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_test</span><span class="p">;</span>
+</code></pre></div>
+<p>Then add a <code>StagingConfig</code> to <em>flask-microservices-users/project/config.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">StagingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Staging configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Commit and push your code, and then change the machine to <code>staging</code> with <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env staging
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env staging<span class="k">)</span>
+</code></pre></div>
+<p>Let&#39;s create a new secret key. Open the Python shell and run:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">binascii</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
+<span class="n">b</span><span class="s">&#39;b476f58095eae2db74ce721a48c88ab2385e942688f7ddab&#39;</span>
+</code></pre></div>
+<p>Exit the shell. Set it as an environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span>b476f58095eae2db74ce721a48c88ab2385e942688f7ddab
+</code></pre></div>
+<p>Grab the IP for the <code>staging</code> machine and use it for the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_STAGING_IP
+</code></pre></div>
+<p>Spin up the containers, create and seed the database, and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-staging.yml <span class="se">\</span>
+  up -d --build
+<span class="nv">$ </span>docker-compose -f docker-compose-staging.yml <span class="se">\</span>
+  run users-service <span class="se">\</span>
+  python manage.py db upgrade
+<span class="nv">$ </span>docker-compose -f docker-compose-staging.yml <span class="se">\</span>
+  run users-service <span class="se">\</span>
+  python manage.py seed_db
+</code></pre></div>
+<p>Run the users service tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-staging.yml run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Set the <code>TEST_URL</code> variable for the end-to-end tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_STAGING_IP
+</code></pre></div>
+<p>Run the end-to-end tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<p>You also need to add port 8080 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a> since Swagger is listening on that port.</p>
+
+<h4 id="travis">Travis</h4>
+
+<p>Next, update the <code>before_script</code> and <code>script</code> within the <em>.travis.yml</em> file to use the <em>docker-compose-staging.yml</em> file for the build and test run:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export TEST_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export SECRET_KEY=my_precious</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export DISPLAY=:99.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sh -e /etc/init.d/xvfb start</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 3</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-staging.yml up -d --build</span>
+
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-staging.yml run users-service python manage.py test</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e/index.test.js</span>
+</code></pre></div>
+<p>Commit and push your code. Make sure the tests pass on Travis.</p>
+
+<h4 id="production">Production</h4>
+
+<p>Let&#39;s update production with the changes from this part thus far. Start by adding swagger to <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+  <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-swagger.git</span>
+  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+  <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+  <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Switch to the prod machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+</code></pre></div>
+<p>Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_AWS_IP
+</code></pre></div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<p>Ensure all is well.</p>
+
+<h4 id="local">Local</h4>
+
+<p>To simplify, local development, let&#39;s make a few changes to the <em>docker-compose.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+
+  <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-users/project/db</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l-Scalar-Plain">healthcheck</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">exit 0</span>
+
+  <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-users</span>
+      <span class="l-Scalar-Plain">dockerfile</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Dockerfile-local</span>
+    <span class="l-Scalar-Plain">volumes</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;../flask-microservices-users:/usr/src/app&#39;</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5001:5000</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APP_SETTINGS=project.config.DevelopmentConfig</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SECRET_KEY=my_precious</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_healthy</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-db</span>
+
+  <span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
+    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">80:80</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+      <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">web-service</span>
+
+  <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">web-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-client</span>
+      <span class="l-Scalar-Plain">dockerfile</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Dockerfile-local</span>
+    <span class="l-Scalar-Plain">volumes</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;../flask-microservices-client:/usr/src/app&#39;</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;/usr/src/app/node_modules&#39;</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+
+  <span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-swagger</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Not too many changes, right? We added volumes and are now referencing a new, development-only Dockerfile for the web service - <em>Dockerfile-local</em>.</p>
+
+<p>Be sure to add the new file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM node:latest
+
+# set working directory
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+ADD package.json /usr/src/app/package.json
+RUN npm install --silent
+RUN npm install react-scripts@0.9.5 -g --silent
+
+# start app
+CMD [&quot;npm&quot;, &quot;start&quot;]
+</code></pre></div>
+<p>To test, switch to the dev machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Commit and push your code!</p>
 
 
           
@@ -531,10 +1147,10 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-four-react-form-validation">&laquo; React Form Validation</a>
+              <a class="prev btn left-align" href="/part-four-swagger-setup">&laquo; Swagger Setup</a>
             
             
-              <a class="next btn right-align" href="/part-five-intro">Introduction &raquo;</a>
+              <a class="next btn right-align" href="/part-four-workflow">Workflow &raquo;</a>
             
           </div>
 

@@ -49,13 +49,13 @@ class TestUserModel(BaseTestCase):
 
     def test_add_user(self):
         user = User(
-            username='test@test.com',
+            username='justatest',
             email='test@test.com',
         )
         db.session.add(user)
         db.session.commit()
         self.assertTrue(user.id)
-        self.assertEqual(user.username, 'test@test.com')
+        self.assertEqual(user.username, 'justatest')
         self.assertEqual(user.email, 'test@test.com')
         self.assertTrue(user.active)
         self.assertTrue(user.created_at)
@@ -147,7 +147,7 @@ class User(db.Model):
     active = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, username, email, created_at=datetime.datetime.now()):
+    def __init__(self, username, email, created_at=datetime.datetime.utcnow()):
         self.username = username
         self.email = email
         self.created_at = created_at
@@ -167,13 +167,13 @@ Run the tests again. They should pass! Before moving on, let's add a few more te
 ```python
 def test_add_user_duplicate_username(self):
     user = User(
-        username='test@test.com',
+        username='justatest',
         email='test@test.com',
     )
     db.session.add(user)
     db.session.commit()
     duplicate_user = User(
-        username='test@test.com',
+        username='justatest',
         email='test@test2.com',
     )
     db.session.add(duplicate_user)
@@ -181,20 +181,20 @@ def test_add_user_duplicate_username(self):
 
 def test_add_user_duplicate_email(self):
     user = User(
-        username='test@test.com',
+        username='justatest',
         email='test@test.com',
     )
     db.session.add(user)
     db.session.commit()
     duplicate_user = User(
-        username='test@test2.com',
+        username='justanothertest',
         email='test@test.com',
     )
     db.session.add(duplicate_user)
     self.assertRaises(IntegrityError, db.session.commit)
 ```
 
-Notice how we didn't invoke `db.session.commit`. Instead, we passed it to `assertRaises()` and let it invoke it and assert the exception was raised.
+Notice how we didn't invoke `db.session.commit` the second time, when adding a user. Instead, we passed it to `assertRaises()` and let it invoke it and assert the exception was raised.
 
 Add the import:
 
@@ -225,7 +225,7 @@ from project import db
 from project.api.models import User
 
 
-def add_user(username, email, created_at=datetime.datetime.now()):
+def add_user(username, email, created_at=datetime.datetime.utcnow()):
     user = User(username=username, email=email, created_at=created_at)
     db.session.add(user)
     db.session.commit()
@@ -254,26 +254,26 @@ from project.tests.utils import add_user
 class TestUserModel(BaseTestCase):
 
     def test_add_user(self):
-        user = add_user('test@test.com', 'test@test.com')
+        user = add_user('justatest', 'test@test.com')
         self.assertTrue(user.id)
-        self.assertEqual(user.username, 'test@test.com')
+        self.assertEqual(user.username, 'justatest')
         self.assertEqual(user.email, 'test@test.com')
         self.assertTrue(user.active)
         self.assertTrue(user.created_at)
 
     def test_add_user_duplicate_username(self):
-        add_user('test@test.com', 'test@test.com')
+        add_user('justatest', 'test@test.com')
         duplicate_user = User(
-            username='test@test.com',
+            username='justatest',
             email='test@test2.com',
         )
         db.session.add(duplicate_user)
         self.assertRaises(IntegrityError, db.session.commit)
 
     def test_add_user_duplicate_email(self):
-        add_user('test@test.com', 'test@test.com')
+        add_user('justatest', 'test@test.com')
         duplicate_user = User(
-            username='test@test2.com',
+            username='justatest2',
             email='test@test.com',
         )
         db.session.add(duplicate_user)

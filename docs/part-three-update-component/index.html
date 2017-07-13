@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -476,11 +518,9 @@
 
           <h2>Update Component</h2>
 
-          <p>In this last lesson, we&#39;ll refactor the <code>UsersList</code> component...</p>
+          <p>In this last lesson, we&#39;ll refactor the <code>UsersList</code> component remove the add user form and display a Bootstrap-styled table of users....</p>
 
 <hr>
-
-<p>Let&#39;s remove the add user form and display a Boostrap-styled table of users.</p>
 
 <p>In the terminal, navigate to the <em>flask-microservices-users</em> project, activate a virtual environment, and then run the Flask server:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py runserver
@@ -503,7 +543,7 @@
       <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
       <span class="p">{</span>
         <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h4</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">id</span> <span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/strong&gt; - &lt;em&gt;{user.created_at}&lt;/em&gt;&lt;/h4&gt;</span>
+          <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h4</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/strong&gt; - &lt;em&gt;{user.created_at}&lt;/em&gt;&lt;/h4&gt;</span>
         <span class="p">})</span>
       <span class="p">}</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -538,18 +578,17 @@
             <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
             <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
             <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
-            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Created</span> <span class="nb">Date</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
           <span class="o">&lt;</span><span class="err">/tr&gt;</span>
         <span class="o">&lt;</span><span class="err">/thead&gt;</span>
         <span class="o">&lt;</span><span class="nx">tbody</span><span class="o">&gt;</span>
           <span class="p">{</span>
             <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
               <span class="k">return</span> <span class="p">(</span>
-                <span class="o">&lt;</span><span class="nx">tr</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">id</span> <span class="p">}</span><span class="o">&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">id</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">email</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">created_at</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                <span class="o">&lt;</span><span class="nx">tr</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">created_at</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
                 <span class="o">&lt;</span><span class="err">/tr&gt;</span>
               <span class="p">)</span>
             <span class="p">})</span>
@@ -565,7 +604,7 @@
 <p>That&#39;s it. Short lesson. Commit you code.</p>
 
 <blockquote>
-<p>You may have noticed that we are not handling errors on the client. We&#39;ll tackle that in the next part!</p>
+<p>You may have noticed that we are not handling errors on the client. We&#39;ll tackle that in the next part 4!</p>
 </blockquote>
 
 
@@ -590,11 +629,9 @@
 
           <h2>Update Component</h2>
 
-          <p>In this last lesson, we&#39;ll refactor the <code>UsersList</code> component...</p>
+          <p>In this last lesson, we&#39;ll refactor the <code>UsersList</code> component remove the add user form and display a Bootstrap-styled table of users....</p>
 
 <hr>
-
-<p>Let&#39;s remove the add user form and display a Boostrap-styled table of users.</p>
 
 <p>In the terminal, navigate to the <em>flask-microservices-users</em> project, activate a virtual environment, and then run the Flask server:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py runserver
@@ -617,7 +654,7 @@
       <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
       <span class="p">{</span>
         <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h4</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">id</span> <span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/strong&gt; - &lt;em&gt;{user.created_at}&lt;/em&gt;&lt;/h4&gt;</span>
+          <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h4</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/strong&gt; - &lt;em&gt;{user.created_at}&lt;/em&gt;&lt;/h4&gt;</span>
         <span class="p">})</span>
       <span class="p">}</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -652,18 +689,17 @@
             <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
             <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
             <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
-            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Created</span> <span class="nb">Date</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
           <span class="o">&lt;</span><span class="err">/tr&gt;</span>
         <span class="o">&lt;</span><span class="err">/thead&gt;</span>
         <span class="o">&lt;</span><span class="nx">tbody</span><span class="o">&gt;</span>
           <span class="p">{</span>
             <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
               <span class="k">return</span> <span class="p">(</span>
-                <span class="o">&lt;</span><span class="nx">tr</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">id</span> <span class="p">}</span><span class="o">&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">id</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">email</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">created_at</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                <span class="o">&lt;</span><span class="nx">tr</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">created_at</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
                 <span class="o">&lt;</span><span class="err">/tr&gt;</span>
               <span class="p">)</span>
             <span class="p">})</span>
@@ -679,7 +715,7 @@
 <p>That&#39;s it. Short lesson. Commit you code.</p>
 
 <blockquote>
-<p>You may have noticed that we are not handling errors on the client. We&#39;ll tackle that in the next part!</p>
+<p>You may have noticed that we are not handling errors on the client. We&#39;ll tackle that in the next part 4!</p>
 </blockquote>
 
 

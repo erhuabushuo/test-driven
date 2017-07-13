@@ -52,6 +52,7 @@ This series uses the following tools and technologies:
 
 1. TestCafe v0.16.1
 1. node-randomstring v1.1.5
+1. Swagger UI v3.0.8
 
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 

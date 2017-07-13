@@ -1,28 +1,14 @@
 ---
-title: React Form Validation
+title: React Component Refactor
 layout: post
 date: 2017-06-25 23:59:59
-permalink: part-four-react-form-validation
+permalink: part-four-react-component-refactor
 share: true
 ---
 
-In this lesson, we'll add form validation to the register and sign in forms...
+In this lesson, we'll convert a stateless, functional component to a stateful, class-based component...
 
 ---
-
-Turn to *flask-microservices-client*.
-
-Since we are using [controlled inputs](https://facebook.github.io/react/docs/forms.html#controlled-components) to obtain the user submitted input, we can evaluate whether the form is valid on every value change since the input values are on the state.
-
-Validation rules:
-
-1. Username and email are greater than 5 characters
-1. Password must be greater than 10 characters
-1. Email is a valid email address (`something@something.something`)
-
-Since we now have a means of testing on the client, let's test-drive this change.
-
-#### Class-based component
 
 Before jumping into validation, let's refactor the `Form` component into a class-based component, so state can be managed in the component itself.
 
@@ -44,7 +30,7 @@ class Form extends Component {
       <div>
         <h1>{this.props.formType}</h1>
         <hr/><br/>
-        <form onSubmit={ (event) => this.props.handleUserFormSubmit(event) }>
+        <form onSubmit={(event) => this.props.handleUserFormSubmit(event)}>
           {this.props.formType === 'Register' &&
             <div className="form-group">
               <input
@@ -174,7 +160,7 @@ class Form extends Component {
       <div>
         <h1 style="textTransform:capitalize;">{this.props.formType}</h1>
         <hr/><br/>
-        <form onSubmit={ (event) => this.handleUserFormSubmit(event) }>
+        <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
           {this.props.formType === 'register' &&
             <div className="form-group">
               <input
@@ -319,7 +305,7 @@ class App extends Component {
 export default App
 ```
 
-Review the changes. Notice anything new? There's a number of changes, but really the only thing new is the use of the `componentWillReceiveProps` [Lifecycle Method](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle):
+Review the changes. Notice anything new? There's a number of changes, but really the only thing that you have not seen before is the use of the `componentWillReceiveProps` [Lifecycle Method](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle):
 
 ```javascript
 componentWillReceiveProps(nextProps) {
@@ -341,77 +327,3 @@ With that, update the containers and run the tests:
 $ docker-compose up -d --build
 $ testcafe chrome e2e
 ```
-
-#### Disable button
-
-Let's add a `disabled` attribute to the button and set the initial value to `true` so the form cannot be submitted. Then, when the form validates properly, `disabled` will be set to `false`.
-
-Add the following assert to *should display the registration form* and *should display the sign in form*:
-
-```javascript
-.expect(Selector('input[disabled]').exists).ok()
-```
-
-Re-build and then run the tests. Ensure they fail, and then update the `input` button in *src/components/Form.jsx*:
-
-```javascript
-<input
-  type="submit"
-  className="btn btn-primary btn-lg btn-block"
-  value="Submit"
-  disabled
-/>
-```
-
-Re-build and run again. Those specific tests will pass, but a number of new ones will fail since the form can no longer be submitted. To update that, let's validate the form on submit.
-
-Add a new property called `valid` to the state in the `Form()` component:
-
-```javascript
-this.state = {
-  formData: {
-    username: '',
-    email: '',
-    password: ''
-  },
-  valid: false
-}
-```
-
-As the name suggests, when `valid` is `true`, the form input values are valid and the form can be properly submitted.
-
-Next, update the `input` button again, changing how the `disabled` attribute is set:
-
-```javascript
-<input
-  type="submit"
-  className="btn btn-primary btn-lg btn-block"
-  value="Submit"
-  disabled={!this.state.valid}
-/>
-```
-
-So, when the form is valid, `disabled` is `false`. Next, Add a method to update the state of `valid`:
-
-```javascript
-validateForm() {
-  this.setState({valid: true});
-}
-```
-
-When should we call this method?
-
-```javascript
-handleFormChange(event) {
-  const obj = this.state.formData;
-  obj[event.target.name] = event.target.value;
-  this.setState(obj);
-  this.validateForm()
-}
-```
-
-Re-build. Run the tests. Now, we need to add validation logic to `validateForm()`...
-
-#### Validation rules
-
-WIP

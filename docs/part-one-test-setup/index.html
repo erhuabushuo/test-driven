@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -425,7 +427,17 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-specs"
-            >e2e Test Specs</a>
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
           </li>
         </ul>
       
@@ -444,8 +456,38 @@
           <li>
             <a
               class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-four-staging-environment"
             >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
           </li>
         </ul>
       
@@ -528,7 +570,7 @@
         <span class="k">return</span> <span class="n">app</span>
 
     <span class="k">def</span> <span class="nf">test_app_is_development</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
@@ -543,7 +585,7 @@
         <span class="k">return</span> <span class="n">app</span>
 
     <span class="k">def</span> <span class="nf">test_app_is_testing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;</span><span class="p">])</span>
@@ -559,7 +601,7 @@
         <span class="k">return</span> <span class="n">app</span>
 
     <span class="k">def</span> <span class="nf">test_app_is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
 
@@ -610,7 +652,7 @@
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>You should see the following error:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">self.assertTrue<span class="o">(</span>app.config<span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span> is <span class="s1">&#39;my_precious&#39;</span><span class="o">)</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">self.assertTrue<span class="o">(</span>app.config<span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;my_precious&#39;</span><span class="o">)</span>
 </code></pre></div>
 <p>Update the base config:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
@@ -700,7 +742,7 @@ OK
         <span class="k">return</span> <span class="n">app</span>
 
     <span class="k">def</span> <span class="nf">test_app_is_development</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
@@ -715,7 +757,7 @@ OK
         <span class="k">return</span> <span class="n">app</span>
 
     <span class="k">def</span> <span class="nf">test_app_is_testing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;</span><span class="p">])</span>
@@ -731,7 +773,7 @@ OK
         <span class="k">return</span> <span class="n">app</span>
 
     <span class="k">def</span> <span class="nf">test_app_is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
 
@@ -782,7 +824,7 @@ OK
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>You should see the following error:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">self.assertTrue<span class="o">(</span>app.config<span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span> is <span class="s1">&#39;my_precious&#39;</span><span class="o">)</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">self.assertTrue<span class="o">(</span>app.config<span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;my_precious&#39;</span><span class="o">)</span>
 </code></pre></div>
 <p>Update the base config:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
