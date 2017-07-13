@@ -11,6 +11,10 @@
   >
   <link
     rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <link
+    rel="stylesheet"
     href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   >
   <link
@@ -20,6 +24,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
     rel="stylesheet"
     type="text/css"
   >
@@ -39,12 +48,22 @@
   <body>
 
     <nav class="red darken-1">
-  <div class="container hide-on-small-and-down">
-    <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo center hide-on-small-and-down">
+      Test Driven Development Courses
+    </a>
+    <a href="/" class="brand-logo hide-on-med-and-up">
+      TDD Courses
+    </a>
+    <ul class="right">
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
+      </li>
+    </ul>
   </div>
-  <div class="hide-on-med-and-up">
-    <h3 class="brand-logo"><a href="/">TDD Courses</a></h3>
-  <div>
 </nav>
 
 
@@ -393,6 +412,86 @@
         </ul>
       
         
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-e2e-test-setup"
+            >End-to-End Test Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-e2e-test-specs"
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-form-validation"
+            >React Form Validation</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-staging-environment"
+            >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
           <li>
             <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
               Part 5
@@ -435,8 +534,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install react-scripts@0.9.5 -g
+RUN npm install --silent
+RUN npm install react-scripts@0.9.5 -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -506,8 +605,8 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install pushstate-server -g
+RUN npm install --silent
+RUN npm install pushstate-server -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -588,6 +687,9 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 
     location / {
         proxy_pass http://web-service:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -595,6 +697,9 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 
     location /users {
         proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -727,8 +832,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install react-scripts@0.9.5 -g
+RUN npm install --silent
+RUN npm install react-scripts@0.9.5 -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -798,8 +903,8 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install pushstate-server -g
+RUN npm install --silent
+RUN npm install pushstate-server -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -880,6 +985,9 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 
     location / {
         proxy_pass http://web-service:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -887,6 +995,9 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 
     location /users {
         proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

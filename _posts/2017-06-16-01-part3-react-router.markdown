@@ -10,9 +10,13 @@ In this lesson, we'll wire up routing in our React App to manage navigation betw
 
 ---
 
-At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it's just ran in the browser. For more on this, review the excellent [Deep dive into client-side routing](http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash) article.
+Let's add an `/about` route!
+
+At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it's just run in the browser. For more on this, review the excellent [Deep dive into client-side routing](http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash) article.
 
 > Keep in mind that React Router is only necessary for apps that have more than one page.
+
+
 
 In the terminal, open *flask-microservices-client* and then install [react-router-dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom):
 
@@ -89,11 +93,11 @@ class App extends Component {
             <AddUser
               username={this.state.username}
               email={this.state.email}
-              handleChange={ this.handleChange.bind(this) }
-              addUser={ this.addUser.bind(this) }
+              handleChange={this.handleChange.bind(this)}
+              addUser={this.addUser.bind(this)}
             />
             <br/>
-            <UsersList users={ this.state.users }/>
+            <UsersList users={this.state.users}/>
           </div>
         </div>
       </div>
@@ -186,7 +190,7 @@ Then add the component to the `render` method, just below the `UsersList` compon
 
 ```javascript
 ...
-<UsersList users={ this.state.users }/>
+<UsersList users={this.state.users}/>
 <About/>
 ...
 ```
@@ -210,11 +214,11 @@ render() {
                 <AddUser
                   username={this.state.username}
                   email={this.state.email}
-                  handleChange={ this.handleChange.bind(this) }
-                  addUser={ this.addUser.bind(this) }
+                  handleChange={this.handleChange.bind(this)}
+                  addUser={this.addUser.bind(this)}
                 />
                 <br/>
-                <UsersList users={ this.state.users }/>
+                <UsersList users={this.state.users}/>
               </div>
             )} />
             <Route exact path='/about' component={About}/>

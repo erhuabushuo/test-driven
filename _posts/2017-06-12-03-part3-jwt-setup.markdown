@@ -37,7 +37,7 @@ Before writing any code, add the following test to `TestUserModel()` in *flask-m
 
 ```python
 def test_encode_auth_token(self):
-    user = add_user('test@test.com', 'test@test.com', 'test')
+    user = add_user('justatest', 'test@test.com', 'test')
     auth_token = user.encode_auth_token(user.id)
     self.assertTrue(isinstance(auth_token, bytes))
 ```
@@ -46,7 +46,7 @@ As always, make sure the tests fail. Next, add the `encode_auth_token` method to
 
 ```python
 def encode_auth_token(self, user_id):
-    """Generates the auth toke"""
+    """Generates the auth token"""
     try:
         payload = {
             'exp': datetime.datetime.utcnow() + datetime.timedelta(
@@ -66,7 +66,7 @@ def encode_auth_token(self, user_id):
 Given a user id, `encode_auth_token` encodes and returns a token. Take note of the payload. This is where we add metadata about the token and information about the user. This info is often referred to as [JWT Claims](https://scotch.io/tutorials/the-anatomy-of-a-json-web-token#payload). We utilized the following "claims":
 
 1. `exp`: token expiration date
-1. `iat`: token generation date
+1. `iat` (issued at): token generation date
 1. `sub`: the subject of the token e.g., - the user whom it identifies
 
 Add the import:
@@ -82,7 +82,7 @@ Turn to the app config. The secret key needs to be updated for production. Let's
 First, within *test_config.py*, change:
 
 ```python
-self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
 ```
 
 To:
@@ -235,7 +235,7 @@ Moving on, add the following test to *test_user_model.py* for decoding a token:
 
 ```python
 def test_decode_auth_token(self):
-    user = add_user('test@test.com', 'test@test.com', 'test')
+    user = add_user('justatest', 'test@test.com', 'test')
     auth_token = user.encode_auth_token(user.id)
     self.assertTrue(isinstance(auth_token, bytes))
     self.assertTrue(User.decode_auth_token(auth_token), user.id)

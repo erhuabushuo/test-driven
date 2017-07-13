@@ -24,8 +24,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install react-scripts@0.9.5 -g
+RUN npm install --silent
+RUN npm install react-scripts@0.9.5 -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -115,8 +115,8 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install pushstate-server -g
+RUN npm install --silent
+RUN npm install pushstate-server -g --silent
 
 # add app
 ADD . /usr/src/app
@@ -217,6 +217,9 @@ server {
 
     location / {
         proxy_pass http://web-service:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -224,6 +227,9 @@ server {
 
     location /users {
         proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

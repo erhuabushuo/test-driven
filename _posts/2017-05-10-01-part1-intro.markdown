@@ -45,7 +45,13 @@ share: true
 1. PyJWT v1.5.0
 1. react-router-dom v4.1.1
 1. React Bootstrap v0.31.0
-1. React Router Bootstrap v@0.24.2
+1. React Router Bootstrap v0.24.2
+
+**Part 4**
+
+1. TestCafe v0.16.1
+1. node-randomstring v1.1.5
+1. Swagger UI v3.0.8
 
 Before b在开始前，你应该熟悉以下主题，参考如下获取更多信息：
 

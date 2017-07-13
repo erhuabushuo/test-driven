@@ -220,7 +220,7 @@ from project import db
 from project.api.models import User
 ```
 
-确保在编写view之前测试中断：
+Ensure the test breaks before writing the view:
 
 ```python
 @users_blueprint.route('/users/<user_id>', methods=['GET'])
@@ -238,12 +238,12 @@ def get_single_user(user_id):
     return make_response(jsonify(response_object)), 200
 ```
 
-这是测试应该可以通过。那现在错误处理怎么弄？
+The tests should pass. Now, what about error handling?
 
-1. 如果不提供id
-1. 如果id不存在
+1. An id is not provided
+1. The id does not exist
 
-测试：
+Tests:
 
 ```python
 def test_single_user_no_id(self):
@@ -265,7 +265,7 @@ def test_single_user_incorrect_id(self):
         self.assertIn('fail', data['status'])
 ```
 
-更新view：
+Updated view:
 
 ```python
 @users_blueprint.route('/users/<user_id>', methods=['GET'])

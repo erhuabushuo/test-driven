@@ -6,7 +6,7 @@ permalink: part-three-react-bootstrap
 share: true
 ---
 
-In this lesson, we'll add a Navbar and a form component with React Bootstrap...
+In this lesson, we'll add a Navbar and a form component with React Bootstrap to set the stage for adding in full auth...
 
 ---
 
@@ -109,11 +109,11 @@ render() {
                   <AddUser
                     username={this.state.username}
                     email={this.state.email}
-                    handleChange={ this.handleChange.bind(this) }
-                    addUser={ this.addUser.bind(this) }
+                    handleChange={this.handleChange.bind(this)}
+                    addUser={this.addUser.bind(this)}
                   />
                   <br/>
-                  <UsersList users={ this.state.users }/>
+                  <UsersList users={this.state.users}/>
                 </div>
               )} />
               <Route exact path='/about' component={About}/>
@@ -142,7 +142,7 @@ const Form = (props) => {
     <div>
       <h1>{props.formType}</h1>
       <hr/><br/>
-      <form onSubmit={ (event) => props.handleUserFormSubmit(event) }>
+      <form onSubmit={(event) => props.handleUserFormSubmit(event)}>
         {props.formType === 'Register' &&
           <div className="form-group">
             <input

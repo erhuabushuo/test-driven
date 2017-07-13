@@ -11,6 +11,10 @@
   >
   <link
     rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <link
+    rel="stylesheet"
     href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   >
   <link
@@ -20,6 +24,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
     rel="stylesheet"
     type="text/css"
   >
@@ -39,12 +48,22 @@
   <body>
 
     <nav class="red darken-1">
-  <div class="container hide-on-small-and-down">
-    <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo center hide-on-small-and-down">
+      Test Driven Development Courses
+    </a>
+    <a href="/" class="brand-logo hide-on-med-and-up">
+      TDD Courses
+    </a>
+    <ul class="right">
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
+      </li>
+    </ul>
   </div>
-  <div class="hide-on-med-and-up">
-    <h3 class="brand-logo"><a href="/">TDD Courses</a></h3>
-  <div>
 </nav>
 
 
@@ -393,6 +412,86 @@
         </ul>
       
         
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-e2e-test-setup"
+            >End-to-End Test Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-e2e-test-specs"
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-form-validation"
+            >React Form Validation</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-staging-environment"
+            >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
           <li>
             <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
               Part 5
@@ -423,7 +522,9 @@
 
 <hr>
 
-<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just ran in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
+<p>Let&#39;s add an <code>/about</code> route!</p>
+
+<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just run in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
 
 <blockquote>
 <p>Keep in mind that React Router is only necessary for apps that have more than one page.</p>
@@ -503,11 +604,11 @@
             <span class="o">&lt;</span><span class="nx">AddUser</span>
               <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
               <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
-              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
             <span class="o">/&gt;</span>
             <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
           <span class="o">&lt;</span><span class="err">/div&gt;</span>
         <span class="o">&lt;</span><span class="err">/div&gt;</span>
       <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -583,7 +684,7 @@
 </code></pre></div>
 <p>Then add the component to the <code>render</code> method, just below the <code>UsersList</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">...</span>
-<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
 <span class="o">&lt;</span><span class="nx">About</span><span class="o">/&gt;</span>
 <span class="p">...</span>
 </code></pre></div>
@@ -604,11 +705,11 @@
                 <span class="o">&lt;</span><span class="nx">AddUser</span>
                   <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
                   <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
-                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
                 <span class="o">/&gt;</span>
                 <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
               <span class="o">&lt;</span><span class="err">/div&gt;</span>
             <span class="p">)}</span> <span class="o">/&gt;</span>
             <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>
@@ -656,7 +757,9 @@
 
 <hr>
 
-<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just ran in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
+<p>Let&#39;s add an <code>/about</code> route!</p>
+
+<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just run in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
 
 <blockquote>
 <p>Keep in mind that React Router is only necessary for apps that have more than one page.</p>
@@ -736,11 +839,11 @@
             <span class="o">&lt;</span><span class="nx">AddUser</span>
               <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
               <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
-              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
             <span class="o">/&gt;</span>
             <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
           <span class="o">&lt;</span><span class="err">/div&gt;</span>
         <span class="o">&lt;</span><span class="err">/div&gt;</span>
       <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -816,7 +919,7 @@
 </code></pre></div>
 <p>Then add the component to the <code>render</code> method, just below the <code>UsersList</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">...</span>
-<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
 <span class="o">&lt;</span><span class="nx">About</span><span class="o">/&gt;</span>
 <span class="p">...</span>
 </code></pre></div>
@@ -837,11 +940,11 @@
                 <span class="o">&lt;</span><span class="nx">AddUser</span>
                   <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
                   <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
-                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+                  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
                 <span class="o">/&gt;</span>
                 <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
               <span class="o">&lt;</span><span class="err">/div&gt;</span>
             <span class="p">)}</span> <span class="o">/&gt;</span>
             <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>

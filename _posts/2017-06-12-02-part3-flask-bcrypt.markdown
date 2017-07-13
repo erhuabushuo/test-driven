@@ -66,15 +66,15 @@ Before we update the model, add the following test to *test_user_model.py*:
 
 ```python
 def test_passwords_are_random(self):
-    user_one = add_user('test@test.com', 'test@test.com', 'test')
-    user_two = add_user('test@test2.com', 'test@test2.com', 'test')
+    user_one = add_user('justatest', 'test@test.com', 'test')
+    user_two = add_user('justatest2', 'test@test2.com', 'test')
     self.assertNotEqual(user_one.password, user_two.password)
 ```
 
 Update the helper to take a password:
 
 ```python
-def add_user(username, email, password, created_at=datetime.datetime.now()):
+def add_user(username, email, password, created_at=datetime.datetime.utcnow()):
     user = User(
         username=username,
         email=email,
@@ -91,7 +91,7 @@ Finally, update `test_add_user()` from *test_user_model.py*:
 
 ```python
 def test_add_user(self):
-    user = add_user('test@test.com', 'test@test.com', 'test')
+    user = add_user('justatest', 'test@test.com', 'test')
     self.assertTrue(user.id)
     self.assertEqual(user.username, 'test@test.com')
     self.assertEqual(user.email, 'test@test.com')
@@ -185,10 +185,10 @@ raise ValueError('Password must be non-empty.')
 ValueError: Password must be non-empty.
 ```
 
-To fix, add a new exception handler to the try/except block in the `add_user` view handler:
+To fix, add a another exception handler to the try/except block in the `add_user` view handler:
 
 ```python
-except ValueError as e:
+except (exc.IntegrityError, ValueError) as e:
     db.session().rollback()
     response_object = {
         'status': 'fail',
@@ -210,7 +210,7 @@ class TestDevelopmentConfig(TestCase):
         return app
 
     def test_app_is_development(self):
-        self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+        self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
         self.assertTrue(app.config['DEBUG'] is True)
         self.assertFalse(current_app is None)
         self.assertTrue(
@@ -226,7 +226,7 @@ class TestTestingConfig(TestCase):
         return app
 
     def test_app_is_testing(self):
-        self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+        self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
         self.assertTrue(app.config['DEBUG'])
         self.assertTrue(app.config['TESTING'])
         self.assertFalse(app.config['PRESERVE_CONTEXT_ON_EXCEPTION'])
@@ -243,7 +243,7 @@ class TestProductionConfig(TestCase):
         return app
 
     def test_app_is_production(self):
-        self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+        self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
         self.assertFalse(app.config['DEBUG'])
         self.assertFalse(app.config['TESTING'])
         self.assertTrue(app.config['BCRYPT_LOG_ROUNDS'] == 13)
@@ -292,5 +292,7 @@ Run the tests again!
 
 1. Do they pass?
 1. Are they faster? (0.371s vs 4.322s on my end)
+
+> Need help deciding how many rounds to use in production? Check out [this]((https://security.stackexchange.com/questions/17207/recommended-of-rounds-for-bcrypt)) Stack Exchange article.
 
 With that, let's get JWT up and running...

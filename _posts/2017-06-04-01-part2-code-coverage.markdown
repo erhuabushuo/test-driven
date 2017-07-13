@@ -185,7 +185,7 @@ Open *test_config.py*. Right now we're hard-coding the database URI. Let's pull 
 
 ```python
 def test_app_is_development(self):
-    self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+    self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
     self.assertTrue(app.config['DEBUG'] is True)
     self.assertFalse(current_app is None)
     self.assertTrue(
@@ -198,7 +198,7 @@ def test_app_is_development(self):
 
 ```python
 def test_app_is_testing(self):
-    self.assertTrue(app.config['SECRET_KEY'] is 'my_precious')
+    self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
     self.assertTrue(app.config['DEBUG'])
     self.assertTrue(app.config['TESTING'])
     self.assertFalse(app.config['PRESERVE_CONTEXT_ON_EXCEPTION'])

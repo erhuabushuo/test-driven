@@ -47,7 +47,7 @@ users_blueprint = Blueprint('users', __name__, template_folder='./templates')
           <br>
           <h1>All Users</h1>
           <hr><br>
-          <form action="/test" method="POST">
+          <form action="/" method="POST">
             <div class="form-group">
               <input name="username" class="form-control input-lg" type="text" placeholder="Enter a username" required>
             </div>

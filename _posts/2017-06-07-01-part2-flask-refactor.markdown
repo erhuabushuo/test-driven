@@ -55,7 +55,7 @@ Next, let's update the GET ALL `/users` route to order the users by `created_at`
 We'll start with a test of course, but first we need to change the functionality of the `add_user()` helper so that we can pass it an optional `created_at` date. Why? So, we can easily seed the database with users created in the past.
 
 ```python
-def add_user(username, email, created_at=datetime.datetime.now()):
+def add_user(username, email, created_at=datetime.datetime.utcnow()):
     user = User(username=username, email=email, created_at=created_at)
     db.session.add(user)
     db.session.commit()
@@ -65,7 +65,7 @@ def add_user(username, email, created_at=datetime.datetime.now()):
 Then, update the `__init__` method in *flask-microservices-users/project/api/models.py* to take an optional argument as well:
 
 ```python
-def __init__(self, username, email, created_at=datetime.datetime.now()):
+def __init__(self, username, email, created_at=datetime.datetime.utcnow()):
     self.username = username
     self.email = email
     self.created_at = created_at
@@ -76,7 +76,7 @@ Run the tests to make sure we didn't break anything. Now, we can update the `tes
 ```python
 def test_all_users(self):
     """Ensure get all users behaves correctly."""
-    created = datetime.datetime.now() + datetime.timedelta(-30)
+    created = datetime.datetime.utcnow() + datetime.timedelta(-30)
     add_user('michael', 'michael@realpython.com', created)
     add_user('fletcher', 'fletcher@realpython.com')
     with self.client:

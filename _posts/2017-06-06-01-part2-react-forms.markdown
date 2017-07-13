@@ -67,7 +67,7 @@ render() {
           <hr/><br/>
           <AddUser/>
           <br/>
-          <UsersList users={ this.state.users }/>
+          <UsersList users={this.state.users}/>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@ Now, since this is a single page application, we want to prevent the normal brow
 To handle the submit event, simply update the `form` element in *AddUser.jsx*:
 
 ```javascript
-<form onSubmit={ (event) => event.preventDefault() }>
+<form onSubmit={(event) => event.preventDefault()}>
 ```
 
 Try submitting the form. Nothing should happen, which is exactly what we want - we prevented the normal browser behavior.
@@ -108,7 +108,7 @@ addUser(event) {
 Since `AddUser` is a functional component, we need to pass this method down to it via props. Update the `AddUser` element like so:
 
 ```javascript
-<AddUser addUser={ this.addUser.bind(this) }/>
+<AddUser addUser={this.addUser.bind(this)}/>
 ```
 
 Here, we bound the context of `this` manually via `bind()`. Without it, the context of `this` inside the method will not have the correct context. Want to test this out? Simply add `console.log(this)` to the `addUser()` and then submit the form. What's the context? Remove the `bind` and test it again. What's the context now?
@@ -118,7 +118,7 @@ Here, we bound the context of `this` manually via `bind()`. Without it, the cont
 Update the `form` element again:
 
 ```javascript
-<form onSubmit={ (event) => props.addUser(event) }>
+<form onSubmit={(event) => props.addUser(event)}>
 ```
 
 Test it out in the browser. You should see `sanity check!` in the JavaScript console on form submit.
@@ -143,7 +143,7 @@ Then pass them through to the component:
 <AddUser
   username={this.state.username}
   email={this.state.email}
-  addUser={ this.addUser.bind(this) }
+  addUser={this.addUser.bind(this)}
 />
 ```
 
@@ -194,8 +194,8 @@ Pass it to the component:
 <AddUser
   username={this.state.username}
   email={this.state.email}
-  handleChange={ this.handleChange.bind(this) }
-  addUser={ this.addUser.bind(this) }
+  handleChange={this.handleChange.bind(this)}
+  addUser={this.addUser.bind(this)}
 />
 ```
 

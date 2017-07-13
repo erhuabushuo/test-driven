@@ -129,3 +129,18 @@ $ docker-compose build --no-cache
 ```sh
 $ docker rmi $(docker images -q)
 ```
+
+#### Postgres
+
+Want to access the database via psql?
+
+```sh
+$ docker exec -ti users-db psql -U postgres -W
+```
+
+Then, you can connect to the database and run SQL queries. For example:
+
+```sh
+# \c users_dev
+# select * from users;
+```

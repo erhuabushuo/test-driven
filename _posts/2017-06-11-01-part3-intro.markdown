@@ -32,18 +32,19 @@ Check out the live app, running on EC2 - [http://54.89.0.180/](http://54.89.0.18
 
 You can also test out the following endpoints...
 
-| Endpoint        | HTTP Method | Authenticated?  | Active?   | Admin? |
-|-----------------|-------------|-----------------|-----------|--------|
-| /auth/register  | POST        | No              | N/A       | N/A    |
-| /auth/login     | POST        | No              | N/A       | N/A    |
-| /auth/logout    | Get         | Yes             | Yes       | No     |
-| /auth/status    | Get         | Yes             | Yes       | No     |
-| /users          | GET         | No              | N/A       | N/A    |
-| /users/:id      | GET         | No              | N/A       | N/A    |
-| /users          | POST        | Yes             | Yes       | Yes    |
+| Endpoint        | HTTP Method | Authenticated?  | Result            |
+|-----------------|-------------|-----------------|-------------------|
+| /auth/register  | POST        | No              | register user     |
+| /auth/login     | POST        | No              | log in user       |
+| /auth/logout    | GET         | Yes             | log out user      |
+| /auth/status    | GET         | Yes             | check user status |
+| /users          | GET         | No              | get all users     |
+| /users/:id      | GET         | No              | get single user   |
+| /users          | POST        | Yes (admin)     | add a user        |
+| /ping           | GET         | No              | sanity check      |
 
 Grab the code:
 
-1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main)
-1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users)
-1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client)
+1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main/releases/tag/part3)
+1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users/releases/tag/part3)
+1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client/releases/tag/part3)

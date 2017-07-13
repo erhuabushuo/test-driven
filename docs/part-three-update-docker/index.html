@@ -11,6 +11,10 @@
   >
   <link
     rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <link
+    rel="stylesheet"
     href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   >
   <link
@@ -20,6 +24,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
     rel="stylesheet"
     type="text/css"
   >
@@ -39,12 +48,22 @@
   <body>
 
     <nav class="red darken-1">
-  <div class="container hide-on-small-and-down">
-    <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo center hide-on-small-and-down">
+      Test Driven Development Courses
+    </a>
+    <a href="/" class="brand-logo hide-on-med-and-up">
+      TDD Courses
+    </a>
+    <ul class="right">
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
+      </li>
+    </ul>
   </div>
-  <div class="hide-on-med-and-up">
-    <h3 class="brand-logo"><a href="/">TDD Courses</a></h3>
-  <div>
 </nav>
 
 
@@ -393,6 +412,86 @@
         </ul>
       
         
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-e2e-test-setup"
+            >End-to-End Test Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-e2e-test-specs"
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-form-validation"
+            >React Form Validation</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-staging-environment"
+            >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
           <li>
             <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
               Part 5
@@ -419,7 +518,7 @@
 
           <h2>Update Docker</h2>
 
-          <p>In this lesson, we&#39;ll update Docker locally and on AWS...</p>
+          <p>In this lesson, we&#39;ll update Docker locally and on AWS, since we&#39;ve been working outside of Docker this entire part thus far...</p>
 
 <hr>
 
@@ -449,6 +548,9 @@
 
     location / {
         proxy_pass http://web-service:9000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -456,6 +558,19 @@
 
     location /users {
         proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /ping {
+        proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -463,6 +578,9 @@
 
     location /auth {
         proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -517,6 +635,7 @@
 
 <p>To create a key, open the Python shell and run:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">binascii</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
 <span class="n">b</span><span class="s">&#39;0ccd512f8c3493797a23557c32db38e7d51ed74f14fa7580&#39;</span>
 </code></pre></div>
@@ -526,7 +645,7 @@
 <p>Grab the IP for the <code>aws</code> machine and use it for the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_AWS_IP
 </code></pre></div>
-<p>Update the containers, e-create and seed the database, and run the tests:</p>
+<p>Update the containers, re-create and seed the database, and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
@@ -556,7 +675,7 @@
 
           <h2>Update Docker</h2>
 
-          <p>In this lesson, we&#39;ll update Docker locally and on AWS...</p>
+          <p>In this lesson, we&#39;ll update Docker locally and on AWS, since we&#39;ve been working outside of Docker this entire part thus far...</p>
 
 <hr>
 
@@ -586,6 +705,9 @@
 
     location / {
         proxy_pass http://web-service:9000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -593,6 +715,19 @@
 
     location /users {
         proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /ping {
+        proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -600,6 +735,9 @@
 
     location /auth {
         proxy_pass http://users-service:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -654,6 +792,7 @@
 
 <p>To create a key, open the Python shell and run:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">binascii</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
 <span class="n">b</span><span class="s">&#39;0ccd512f8c3493797a23557c32db38e7d51ed74f14fa7580&#39;</span>
 </code></pre></div>
@@ -663,7 +802,7 @@
 <p>Grab the IP for the <code>aws</code> machine and use it for the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_AWS_IP
 </code></pre></div>
-<p>Update the containers, e-create and seed the database, and run the tests:</p>
+<p>Update the containers, re-create and seed the database, and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db

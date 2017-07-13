@@ -27,8 +27,8 @@ Run the tests to make sure nothing broke.
 |-----------------|-------------|-----------------|-----------------|
 | /auth/register  | POST        | No              | register a user |
 | /auth/login     | POST        | No              | log in a user   |
-| /auth/logout    | Get         | Yes             | log out a user  |
-| /auth/status    | Get         | Yes             | get user status |
+| /auth/logout    | GET         | Yes             | log out a user  |
+| /auth/status    | GET         | Yes             | get user status |
 
 Add a new file to the "api" directory called *auth.py*:
 
@@ -86,7 +86,7 @@ def test_user_registration(self):
         response = self.client.post(
             '/auth/register',
             data=json.dumps(dict(
-                username='test@test.com',
+                username='justatest',
                 email='test@test.com',
                 password='123456'
             )),
@@ -172,7 +172,7 @@ def test_user_registration_invalid_json_keys_no_email(self):
         response = self.client.post(
             '/auth/register',
             data=json.dumps(dict(
-                username='test@test.com', password='test')),
+                username='justatest', password='test')),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
@@ -185,7 +185,7 @@ def test_user_registration_invalid_json_keys_no_password(self):
         response = self.client.post(
             '/auth/register',
             data=json.dumps(dict(
-                username='test@test.com', email='test@test.com')),
+                username='justatest', email='test@test.com')),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
@@ -238,14 +238,7 @@ def register_user():
             }
             return make_response(jsonify(response_object)), 400
     # handler errors
-    except exc.IntegrityError as e:
-        db.session().rollback()
-        response_object = {
-            'status': 'error',
-            'message': 'Invalid payload.'
-        }
-        return make_response(jsonify(response_object)), 400
-    except ValueError as e:
+    except (exc.IntegrityError, ValueError) as e:
         db.session().rollback()
         response_object = {
             'status': 'error',
