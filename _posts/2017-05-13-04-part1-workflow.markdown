@@ -1,35 +1,35 @@
 ---
-title: Workflow
+title: 工作流
 layout: post
 date: 2017-05-13 23:59:59
 permalink: part-one-workflow
 share: true
 ---
 
-#### Aliases
+#### 别名
 
-To save some previous keystrokes, let's create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
+我们先为`docker-compose`和`docker-machine`创建别名`dc`和`dm`。
 
-Simply add the following lines to your *.bashrc* file:
+简单添加如下指令到*.bashrc*文件：
 
 ```
 alias dc='docker-compose'
 alias dm='docker-machine'
 ```
 
-Save the file, then execute it:
+保存文件，并执行：
 
 ```sh
 $ source ~/.bashrc
 ```
 
-Test out the new aliases!
+测试我们的别名！
 
-> On Windows? You will first need to create a [PowerShell Profile](https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise) (if you don't already have one), and then you can add the aliases to it using [Set-Alias](https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias) - i.e., `Set-Alias dc docker-compose`.
+> 使用 Windows? 你需要先创建 [PowerShell Profile](https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise) (如果你还没有的话), 然后你可以通过 [Set-Alias](https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias)来创建 - 如, `Set-Alias dc docker-compose`.
 
-#### "Saved" State
+#### "Saved" 状态
 
-Is the VM stuck in a "Saved" state?
+是否VM卡在了"Saved"状态？
 
 ```sh
 $ docker-machine ls
@@ -39,14 +39,14 @@ aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.0
 dev    -        virtualbox   Saved                                         Unknown
 ```
 
-To break out of this, you'll need to power off the VM:
+你只能停掉VM：
 
-1. Start virtualbox - `virtualbox`
-1. Select the VM and click "start"
-1. Exit the VM and select "Power off the machine"
-1. Exit virtualbox
+1. 启动 virtualbox - `virtualbox`
+1. 选择VM并按 "启动"
+1. 退出VM并选择 "关闭电源"
+1. 退出virtualbox
 
-The VM should now have a "Stopped" state:
+T现在VM应该成"Stopped"状态：
 
 ```sh
 $ docker-machine ls
@@ -56,13 +56,13 @@ aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.0
 dev    -        virtualbox   Stopped                                       Unknown
 ```
 
-Now you can start the machine:
+现在你可以启动机器了：
 
 ```sh
 $ docker-machine start dev
 ```
 
-It should be "Running":
+现在应该是"Running"：
 
 ```sh
 $ docker-machine ls
@@ -72,59 +72,59 @@ aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.0
 dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
 ```
 
-#### Common Commands
+#### 常用命令
 
-Build the images:
+构建镜像：
 
 ```sh
 $ docker-compose build
 ```
 
-Run the containers:
+启动容器:
 
 ```sh
 $ docker-compose up -d
 ```
 
-Create the database:
+创建数据库：
 
 ```sh
 $ docker-compose run users-service python manage.py recreate_db
 ```
 
-Seed the database:
+初始化数据：
 
 ```sh
 $ docker-compose run users-service python manage.py seed_db
 ```
 
-Run the tests:
+执行测试：
 
 ```sh
 $ docker-compose run users-service python manage.py test
 ```
 
-#### Other commands
+#### 其他命令
 
-To stop the containers:
+停止容器：
 
 ```sh
 $ docker-compose stop
 ```
 
-To bring down the containers:
+停止并移除容器：
 
 ```sh
 $ docker-compose down
 ```
 
-Want to force a build?
+想要强制构建？
 
 ```sh
 $ docker-compose build --no-cache
 ```
 
-Remove images:
+移除镜像：
 
 ```sh
 $ docker rmi $(docker images -q)
