@@ -1,5 +1,5 @@
 ---
-title: Introduction
+title: 介绍
 layout: post
 date: 2017-06-01 23:59:59
 permalink: part-two-intro
@@ -7,30 +7,31 @@ part: 2
 share: true
 ---
 
-In Part 2, we'll split the project into three distinct projects. We'll also add *code coverage* and *continuous integration* testing to ensure that each service can be run and tested independently from the whole. Finally, we'll add *ReactJS* to the client-side.
+在第二部分，我们会将项目拆成三个独立项目。我也会增加“代码覆盖率(code coverage"和"持续结成（continuous integration)"来确保每个服务可独立运行，并且可以独立测试。最终，我们将在前端使用*ReactJS*。
 
-#### Structure
+
+#### 结构
 
 1. *flask-microservices-main* - Docker Compose files, Nginx, admin scripts
 1. *flask-microservices-users* - Flask app
 1. *flask-microservices-client* - client-side
 
-#### Objectives
+#### 目标
 
-By the end of this part, you should be able to...
+在这个部分后，你将……
 
-1. Manage services housed in multiple git repos from a single Docker Compose file
-1. Utilize a git repo as the "build context" for Docker Compose
-1. Run the unit and integration tests with code coverage
-1. Work with each service independently without Docker
-1. Configure Travis CI for continuous integration testing
-1. Explain what React is
-1. Work with React running inside a Docker Container
-1. Create a Single Page Application with React components
-1. Use React props and state appropriately
-1. Manage the state of a React component via component lifecycle methods
-1. Pass environment variables to a Docker image at build time
-1. Use React controlled components to handle form submissions
+1. 从单个Docker Compose文件管理多个不同git仓库里的服务
+1. 使用git仓库来做Docker Compose 构建上下文
+1. 单元测试集成测试覆盖率
+1. 不通过Docker每个服务独立工作
+1. 配置Travis CI实现持续集成测试
+1. 解释React是什么
+1. 容器里使用React
+1. 使用React组件构建单页面应用
+1. 使用React属性和状态
+1. 通过组件生存周期方法来管理React组件状态
+1. 构建时传递环境变量
+1. 使用React处理表单提交
 
 #### App
 
@@ -38,9 +39,9 @@ By the end of this part, you should be able to...
   <img src="/assets/img/testdriven-architecture.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
 
-Check out the live app, running on EC2 - [http://54.89.0.180/](http://54.89.0.180/)
+查看托管在EC2的在线DEMO  - [http://54.89.0.180/](http://54.89.0.180/)
 
-You can also test out the following endpoints...
+你也可以通过如下endpoints进行测试……
 
 | Endpoint    | HTTP Method | CRUD Method | Result          |
 |-------------|-------------|-------------|-----------------|
@@ -48,9 +49,9 @@ You can also test out the following endpoints...
 | /users/:id  | GET         | READ        | get single user |
 | /users      | POST        | CREATE      | add a user      |
 
-> The `/users` POST endpoint is restricted as of Part 3.
+> `/users` POST endpoint 将在 Part 3 实现.
 
-Grab the code:
+获取代码：
 
 1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main/releases/tag/part2)
 1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users/releases/tag/part2)
