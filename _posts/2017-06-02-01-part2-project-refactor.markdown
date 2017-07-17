@@ -1,58 +1,58 @@
 ---
-title: Project Refactor
+title: 项目重构
 layout: post
 date: 2017-06-02 23:59:58
 permalink: part-two-project-refactor
 share: true
 ---
 
-In this lesson, we'll break up the base project structure into multiple projects to maintain a clear separation between each service...
+在本课，我们将项目拆成多个项目，通过服务方式来划分。
 
 ---
 
-Before we break up the mono project, it's important to note that you *can* manage a microservice architecture in a single project (with a single git repo). You could add each individual service to a "services" directory as a separate directory, for example. There are pros and cons to each approach - mono repo vs multiple repo. Do your research.
+在我们拆开单体应用前。你可以选择将微服务架构存放在单个项目（通过单个git仓库）。你可以通过每个独立的"services"目录来区分它们，每种方式都有利有弊，多做一些关于mono repo和mutiple repo调研。
 
-With that, create two new projects:
+我们现在创建两个新项目：
 
 1. *flask-microservices-main*
 1. *flask-microservices-client*
 
-For each, init a new git repo and add a *.gitignore* file.
+针对每个项目创建git仓库添加*.gitignore*文件。
 
-The *main* project will house the Docker Compose files, Nginx config, and any admin scripts. Essentially, you'll manage all services from this project. Meanwhile, we'll add React to the *client*.
+*main* 项目将存储Docker compose文件，Nginx配置文件和任何管理脚本。大体上，你将从该项目来管理所有的服务，同时我们将会在*client*端增加React。
 
-*Steps:*
+*步骤:*
 
-1. Test current structure
-1. Refactor
-1. Test new structure
-1. Update production
+1. 测试当前的结构
+1. 重构
+1. 测试新的
+1. 更新生产服务
 
-#### Test current structure
+#### 测试当前结构
 
-Run the tests:
+执行测试：
 
 ```sh
 $ docker-compose run users-service python manage.py test
 ```
 
-All should pass. With tests in place, we can refactor with confidence.
+应该是所有测试通过。通过已有的测试，我们可以更加有把握进行重构。
 
-#### Refactor
+#### 重构
 
-Bring down the containers and remove the images:
+停掉容器并移除镜像：
 
 ```sh
 $ docker-compose down
 ```
 
-Then remove the containers:
+然后移除容器
 
 ```sh
 $ docker-compose rm
 ```
 
-Do the same for production. Change the active host and point the Docker client at it, and then bring down the containers and remove them along with the images:
+在生产服务器上做相同操作。更改活动的主机并且指向Docker client，然后停掉容器，移除相关镜像：
 
 ```sh
 $ docker-machine env aws
@@ -61,25 +61,24 @@ $ docker-compose -f docker-compose-prod.yml down
 $ docker-compose -f docker-compose-prod.yml rm
 ```
 
-Switch the active host back to dev:
+切换回活动主机到dev:
 
 ```sh
 $ docker-machine env dev
 $ eval $(docker-machine env dev)
 ```
-
-Move the following files and folders from *flask-microservices-users* to the *flask-microservices-main* project:
+将*flask-microservices-users*以下文件和目录移到*flask-microservices-main*项目：
 
 ```sh
 docker-compose-prod.yml
 docker-compose.yml
-nginx/Dockerfile
-nginx/flask.conf
+project/nginx/Dockerfile
+project/nginx/flask.conf
 ```
 
-Back in the *flask-microservices-users* project, commit your code and push up the changes.
+回到*flask-microservices-users* 项目，提交变更的代码。
 
-Then update the `build` commands for `users-db` and `users-service` to point to the [git repo](https://docs.docker.com/engine/reference/commandline/build/#git-repositories) within both Docker Compose files:
+然后更新 `users-db`和`users-service`里的`build`指令指向[git 仓库](https://docs.docker.com/engine/reference/commandline/build/#git-repositories)：
 
 1. `users-db`
 
@@ -87,7 +86,7 @@ Then update the `build` commands for `users-db` and `users-service` to point to 
     build: https://github.com/realpython/flask-microservices-users.git#master:project/db
     ```
 
-    > `master:project/db` uses the *Dockerfile* found in "project/db" in the `master` branch.
+    > `master:project/db` 表示在**master**分支里的"project/db"目录下找*Dockerfile*。
 
 1. `users-service`:
 
@@ -95,17 +94,17 @@ Then update the `build` commands for `users-db` and `users-service` to point to 
     build: https://github.com/realpython/flask-microservices-users.git
     ```
 
-Since this changes the "build context" from the local machine to a git repo, we need to remove the volume from `users-service`. Once removed, build the images and spin up the containers:
+由于我们将“构建上下文”从本地机器到了git仓库，所以我们需要从`users-service*移除volume。一旦移除，我们就可以构建镜像，并且启动容器：
 
 ```sh
 $ docker-compose up -d --build
 ```
 
-> While this is spinning up think about why we had to remove the volume. What is the "build context"? Turn to Google for help.
+> 在它启动的同时请思考以下我们为什么要移除volume，什么是构建上下文，去Google查询一些帮助吧。
 
-#### Test new structure
+#### 测试新的结构
 
-Once up, create and seed the db and run the tests:
+一旦启动后，创建和初始化db，然后执行测试：
 
 ```sh
 $ docker-compose run users-service python manage.py recreate_db
@@ -113,24 +112,24 @@ $ docker-compose run users-service python manage.py seed_db
 $ docker-compose run users-service python manage.py test
 ```
 
-Grab the IP, from `docker-machine ip dev`, and make sure the app works in the browser.
+通过`docker-machine ip dev`获取到IP，确保在应用在浏览器中工作。
 
-#### Update production
+#### 更新生产服务器
 
-First, change the active host and point the Docker client at it:
+首先，切换活动主机，并将Docker client指向它：
 
 ```sh
 $ docker-machine env aws
 $ eval $(docker-machine env aws)
 ```
 
-Bring up the containers:
+启动容器：
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml up -d --build
 ```
 
-Just like before, create and seed the db and run the tests:
+跟之前一样，创建和初始化数据库，然后执行测试：
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
@@ -138,4 +137,4 @@ $ docker-compose -f docker-compose-prod.yml run users-service python manage.py s
 $ docker-compose -f docker-compose-prod.yml run users-service python manage.py test
 ```
 
-Test in the browser as well. Commit your code and push up to GitHub.
+在浏览器访问确认，然后提交代码到GitHub。
