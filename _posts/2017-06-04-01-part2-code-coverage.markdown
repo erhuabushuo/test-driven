@@ -1,16 +1,16 @@
 ---
-title: Code Coverage
+title: 代码覆盖率
 layout: post
 date: 2017-06-04 23:59:57
 permalink: part-two-code-coverage
 share: true
 ---
 
-In this lesson, we'll add code coverage via [Coverage.py](http://coverage.readthedocs.io/en/coverage-4.4.1/) to the *flask-microservices-users* project...
+本节，我们将通过[Coverage.py](http://coverage.readthedocs.io/en/coverage-4.4.1/)给*flask-microservices-users*项目增加代码覆盖率……
 
 ---
 
-Navigate to the *flask-microservices-users* project directory, create and activate a virtual environment, and then install Coverage.py:
+导航到*flask-microservices-users*项目目录，创建并且激活虚拟环境，然后安装Coverage.py：
 
 ```sh
 $ python3.6 -m venv env
@@ -19,7 +19,7 @@ $ source env/bin/activate
 (env)$ pip freeze > requirements.txt
 ```
 
-From there, we need to configure the coverage reports in *manage.py*. Start by adding the configuration right after the imports:
+接下来，我们需要在*mamage.py*配置覆盖率报表，在导入包后我们进行如下配置：
 
 ```python
 COV = coverage.coverage(
@@ -32,7 +32,7 @@ COV = coverage.coverage(
 COV.start()
 ```
 
-Then add the new manager command:
+添加一个新的命令：
 
 ```python
 @manager.command
@@ -51,13 +51,13 @@ def cov():
     return 1
 ```
 
-Don't forget the import!
+别忘记导入包
 
 ```python
 import coverage
 ```
 
-The file should now look like:
+文件应该像如下所示：
 
 ```python
 # manage.py
@@ -134,11 +134,11 @@ if __name__ == '__main__':
     manager.run()
 ```
 
-#### Sanity Check
+#### 检查
 
-Finally, let's make sure we can run and test this project in isolation, without Docker Compose.
+最后，我们确保可以不依赖Docker Compose单独测试该项目。
 
-First, set up Postgres and create the databases - `users_dev` and `users_test`, and then add the environment variables:
+首先配置Postgres然后初始化数据库 - `users_dev`和`users_test`，然后添加环境变量：
 
 ```sh
 (env)$ export APP_SETTINGS=project.config.DevelopmentConfig
@@ -146,9 +146,9 @@ First, set up Postgres and create the databases - `users_dev` and `users_test`, 
 (env)$ export DATABASE_TEST_URL=postgres://postgres:postgres@localhost:5432/users_test
 ```
 
-> You may need to change the username and password depending on your local Postgres config.
+> 依赖于你本地环境，你可能需要更改的你用户名和密码.
 
-Create and seed the local database and run the tests (without coverage):
+创建和初始化数据库，然后执行测试（不带测试覆盖率）：
 
 ```sh
 (env)$ python manage.py recreate_db
@@ -156,7 +156,7 @@ Create and seed the local database and run the tests (without coverage):
 (env)$ python manage.py test
 ```
 
-You should see two failures:
+你应该可以看到如下错误：
 
 ```sh
 ======================================================================
@@ -179,7 +179,7 @@ AssertionError: False is not true
 Ran 15 tests in 0.330s
 ```
 
-Open *test_config.py*. Right now we're hard-coding the database URI. Let's pull the URI from the environment variable instead, so the config will [scale a bit cleaner](https://12factor.net/config) across environments.
+打开*test_config.py*。当前我们是硬编码数据URI，让我们更改为成环境变量获取。这样配置就能更[更干净一点](https://12factor.net/config)。
 
 `test_app_is_development()`:
 
@@ -208,19 +208,19 @@ def test_app_is_testing(self):
     )
 ```
 
-Add the import:
+增加导入包：
 
 ```python
 import os
 ```
 
-The tests should now pass. Try running them with coverage:
+现在测试应该可以通过。尝试执行代码覆盖率：
 
 ```sh
 (env)$ python manage.py cov
 ```
 
-You should see something like:
+你应该可以看到人如下输出
 
 ```sh
 Coverage Summary:
@@ -234,24 +234,23 @@ project/config.py          16      0      0      0   100%
 TOTAL                      94     15     10      0    86%
 ```
 
-The web version can be viewed within the newly created "htmlcov" directory. Now you can quickly see which parts of the code are, and are not, covered by a test.
-Add this directory to the *.gitignore* file, commit your code, and push it to GitHub.
+可以在新建的"htmlcov"目录下查看web版本。现在你可以快速查看哪些代码被测试覆盖了。将该目录增加到*.gitignore**文件，提交代码到GitHub.
 
-Let's now run a quick sanity check using Docker Compose.
+让我们快速尝试在Docker Compose验证。
 
-Deactivate the virtual environment in *flask-microservices-users*, navigate to the *flask-microservices-main* project directory, make sure the active machine is `dev` (via `docker-machine ls`), and then update the containers:
+退出当前*flask-microservices-users*虚拟环境，切换到*flask-microservices-main*目录中，确保当前激活dev主机（通过`docker-machine ls`)，然后更新容器：
 
 ```sh
 $ docker-compose up -d --build
 ```
 
-Run the tests with coverage:
+使用代码覆盖率执行测试
 
 ```sh
 $ docker-compose run users-service python manage.py cov
 ```
 
-Finally, switch over to the `aws` machine, update the containers, and then test with coverage:
+最终，我们切换到`aws`机器，更新容器，然后执行代码覆盖率测试：
 
 ```sh
 $ docker-machine env aws

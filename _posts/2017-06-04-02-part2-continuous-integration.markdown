@@ -1,16 +1,16 @@
 ---
-title: Continuous Integration
+title: 持续集成
 layout: post
 date: 2017-06-04 23:59:58
 permalink: part-two-continuous-integration
 share: true
 ---
 
-In this lesson, we'll add continuous integration (CI), via [Travis CI](travis-ci.org), to our projects...
+本节，我们将增加持续集成(CI)，这里我们使用[Travis CI](travis-ci.org)。
 
 ---
 
-Follow the [Getting Started guide](https://docs.travis-ci.com/user/getting-started/) (steps 1 and 2) to enable Travis on the *flask-microservices-users* project. To trigger a build, add a *.travis.yml* to the project root:
+跟着 [初学指南](https://docs.travis-ci.com/user/getting-started/) (第一步和第二步) 将*flask-microservices-users*项目在Travis中开启，要触发构建，需要在项目根目录增加一个*.travis.yml*文件：
 
 ```
 language: python
@@ -34,15 +34,15 @@ script:
   - python manage.py test
 ```
 
-Commit your changes, and then push to GitHub. This should trigger a new build, which should pass. For now, while the project structure is still somewhat simple, we'll use the following workflow:
+提交修改到GitHub。这将会触发一个新的构建并且测试通过。到现在，项目结构还是比较简单，我们遵循如下工作流：
 
-1. Code new feature locally
-1. Commit and push code
-1. Ensure tests pass on Travis
+1. 本地添加新功能
+1. 提交代码
+1. 确保Travis中测试通过
 
-With that, let's turn to *flask-microservices-main*. We need to get CI configured on this project as well. Here, we'll test out all services with Docker.
+好了，来看看*flask-microservices-main*，我们同样需要配置该项目走CI。这里我们将在Docker中测试我们的所有服务。
 
-Enable Travis, and add a a *.travis.yml* file:
+开启 Travis, 添加*.travis.yml*文件：
 
 ```
 sudo: required
@@ -70,4 +70,4 @@ after_script:
   - docker-compose down
 ```
 
-Commit. Push to GitHub. Make sure the build passes before moving on.
+提交代码到GitHub，确保在继续前该测试是通过的。
