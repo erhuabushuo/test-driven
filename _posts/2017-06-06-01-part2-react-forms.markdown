@@ -1,16 +1,16 @@
 ---
-title: React Forms
+title: React 表单
 layout: post
 date: 2017-06-06 23:59:58
 permalink: part-two-react-forms
 share: true
 ---
 
-In this lesson, we'll create a new functional component for adding a new user....
+在本节，我们将创建一个函数式组件用来创建新的用户……
 
 ---
 
-Within *flask-microservices-client*, add a new file called *AddUser.jsx* to the "components" directory:
+在项目 *flask-microservices-client*, 添加一个新的 *AddUser.jsx* 文件到 "components" 目录里:
 
 ```javascript
 import React from 'react';
@@ -48,13 +48,13 @@ const AddUser = (props) => {
 export default AddUser;
 ```
 
-Import the component in *index.js*:
+在 *index.js* 导入组件:
 
 ```javascript
 import AddUser from './components/AddUser';
 ```
 
-Then update the `render` method:
+然后更新 `render` 方法：
 
 ```javascript
 render() {
@@ -75,28 +75,28 @@ render() {
 }
 ```
 
-Ensure the `dev` machine is up and running and the `REACT_APP_USERS_SERVICE_URL` environment variable is properly assigned to the IP associated with the `dev` machine. Run `npm start` to test. If all went well, you should see the form along with the users.
+确保`dev`机器开启，设置`REACT_APP_USERS_SERVICE_URL`环境变量设置为实际`dev`机器关联的IP地址。执行`npm start`进行测试。如果正常的话，你应该可以看到紧随这用户列表多了一个表单。
 
-Now, since this is a single page application, we want to prevent the normal browser behavior when a form is submitted to avoid a page refresh.
+现在，由于这是一个单页面应用，我们想移除掉表单提交后刷新页面的默认行为：
 
 *Steps*:
 
-1. Handle form submit event
-1. Obtain user input
-1. Send AJAX request
-1. Update the page
+1. 处理表单提交事件
+1. 获取用户输入
+1. 发送AJAX请求
+1. 更新页面
 
-#### Handle form submit event
+#### 处理表单事件
 
-To handle the submit event, simply update the `form` element in *AddUser.jsx*:
+要处理表单事件，更新*AddUser.jsx*里的`form`元素：
 
 ```javascript
 <form onSubmit={(event) => event.preventDefault()}>
 ```
 
-Try submitting the form. Nothing should happen, which is exactly what we want - we prevented the normal browser behavior.
+尝试提交表单，应该没有任何事情发生，正是我们想要的 —— 组织浏览器默认行为。
 
-Next, add the following method to the `App` component:
+接下来，添加如下方法到 `App`组件中：
 
 ```javascript
 addUser(event) {
@@ -105,15 +105,15 @@ addUser(event) {
 }
 ```
 
-Since `AddUser` is a functional component, we need to pass this method down to it via props. Update the `AddUser` element like so:
+由于 `AddUser` 是函数式组件，我们需要通过props传递该方法到下游。更新 `AddUser` 元素如下：
 
 ```javascript
 <AddUser addUser={this.addUser.bind(this)}/>
 ```
 
-Here, we bound the context of `this` manually via `bind()`. Without it, the context of `this` inside the method will not have the correct context. Want to test this out? Simply add `console.log(this)` to the `addUser()` and then submit the form. What's the context? Remove the `bind` and test it again. What's the context now?
+这里，我们使用`bind()`手动绑定上下文`this`。如果没有这样的话，方法内部就不用正确引用正确的上下文。想验证的话，简单在`addUser()`加入`console.log(this)`，提交表单验证下。上下文是什么？移除`bind()`再次测试看看上下文是什么？
 
-> For more on this, review [Handling Events](https://facebook.github.io/react/docs/handling-events.html) from the offical React docs.
+> 更多关于该信息查看官方文档 [事情处理](https://facebook.github.io/react/docs/handling-events.html).
 
 Update the `form` element again:
 
@@ -121,13 +121,13 @@ Update the `form` element again:
 <form onSubmit={(event) => props.addUser(event)}>
 ```
 
-Test it out in the browser. You should see `sanity check!` in the JavaScript console on form submit.
+在浏览器中测试，你应该可以在JavaScript控制台中看到`sanity check!`输出。
 
-#### Obtain user input
+#### 获取用户输入
 
-We'll use [controlled components](https://facebook.github.io/react/docs/forms.html#controlled-components) to obtain the user submitted input.
+我们将使用 [受控组件](https://facebook.github.io/react/docs/forms.html#controlled-components)来获取用户提交。
 
-Start by adding two new properties to the state object:
+添加两个新属性到state对象：
 
 ```javascript
 this.state = {
@@ -137,7 +137,7 @@ this.state = {
 }
 ```
 
-Then pass them through to the component:
+然后传递到组件：
 
 ```javascript
 <AddUser
@@ -147,7 +147,7 @@ Then pass them through to the component:
 />
 ```
 
-These are accessible now via `props`, which can be used as the current value of the input like so:
+现在这个可以通过`props`访问，可以用来获取到当前的输入值：
 
 ```javascript
 <div className="form-group">
@@ -172,13 +172,13 @@ These are accessible now via `props`, which can be used as the current value of 
 </div>
 ```
 
-So, this defines the value of the inputs from the parent component. Test out the form now. What happens? You shouldn't see anything being typed since the value is being "pushed" down from the parent.
+所以，这里通过父空间来定义输入值。测试表单，发生了什么？你应该在输入框不能键入任何内容，因为这些值都是由父空间推入的。
 
-> What do you think will happen if the initial state of those values was set as `test` rather than an empty string? Try it.
+> 如果初始值该为`test`又会是什么情况呢？试试看。
 
-How do we update the state in the parent component then?
+那么我们如何在父组件来更新state？
 
-First, add a `handleChange` method to the `App` component:
+首先，添加一个`handleChange`方法到`App`组件中：
 
 ```javascript
 handleChange(event) {
@@ -188,7 +188,7 @@ handleChange(event) {
 }
 ```
 
-Pass it to the component:
+传递到控件:
 
 ```javascript
 <AddUser
@@ -199,7 +199,7 @@ Pass it to the component:
 />
 ```
 
-Add it to the form inputs:
+添加到form输入框中：
 
 ```javascript
 <div className="form-group">
@@ -226,7 +226,7 @@ Add it to the form inputs:
 </div>
 ```
 
-Test the form out now. It should be working. You can see the value of the state by logging it to the console in the `addUser` method:
+现在测试下表单，现在应该正常工作了,你可以如下一样加入日志输出到`addUser`在控制台查看state的值：
 
 ```javascript
 addUser(event) {
@@ -235,11 +235,11 @@ addUser(event) {
 }
 ```
 
-Now that we have the values, let's send the AJAX request so the data can be added to the database and then update the DOM...
+现在我们已经取到值了，让我们通过AJAX发送输出保存到数据库，并且更新DOM……
 
-#### Send AJAX request
+#### 发送AJAX请求
 
-Turn back to *flask-microservices-users*. What do we need to send in the JSON payload to add a user - username and email, right? Let's use Axios to send the POST request:
+回到 *flask-microservices-users*. 我们需要什么JSON结构来添加用户- username 和 email, 对吗? 我们使用 Axios 来发送POST请求。
 
 ```javascript
 addUser(event) {
@@ -254,13 +254,14 @@ addUser(event) {
 }
 ```
 
+测试，如果邮箱唯一的话应该都是正常工作的。
 Test it out. It should work as long as the email address is unique.
 
-> If you have problems, analyze the response object from the "Network" tab in Developer Tools. You can also fire up *flask-microservices-users* outside of Docker and debug using the Flask debugger or with `print` statements.
+> 如果你遇到问题了，分析一下开发者工具里"network"选项里的response对象，你也可以在Docker外启动*flask-microservices-users*，使用Flask debugger或者`print`语句诊断。
 
-#### Update the page
+#### 更新页面
 
-Finally, let's update the list of users on a successful form submit and then clear the form.
+最后，让我们在成功提交后更新用户列表并清理表单。
 
 ```javascript
 addUser(event) {
@@ -278,4 +279,4 @@ addUser(event) {
 }
 ```
 
-That's it. Test it out. Review and then commit your code.
+搞定，测试一下。审查并提交你的代码。
