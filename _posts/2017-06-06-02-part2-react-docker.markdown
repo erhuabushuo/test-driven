@@ -1,16 +1,16 @@
 ---
-title: React and Docker
+title: React和Docker
 layout: post
 date: 2017-06-06 23:59:58
 permalink: part-two-react-docker
 share: true
 ---
 
-Let's containerize the React app...
+让我们来容器话React应用……
 
 ---
 
-Navigate to the *flask-microservices-client* directory. Add a *Dockerfile* to the root, making sure to review the code comments:
+切换*flask-microservices-client*目录，在根目录下增加*Dockerfile*文件，确保审查了代码注释：
 
 ```
 FROM node:latest
@@ -34,7 +34,7 @@ ADD . /usr/src/app
 CMD ["npm", "start"]
 ```
 
-Commit the code and then push it up to GitHub. Then, within *flask-microservices-main*, add the new service to the *docker-compose.yml* file like so:
+提交代码，然后推送到GitHub，在*flask-microservices-main*项目中，添加一个新的服务到*docker-compose.yml*文件：
 
 ```
 web-service:
@@ -52,46 +52,46 @@ web-service:
     - users-service
 ```
 
-In the terminal, make sure `dev` is the active machine and then add the valid IP to *flask-microservices-main*:
+打开终端，确保`dev`是当前激活机器，然后添加有效IP到*flask-microservices-main*:
 
 ```sh
 $ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP
 ```
 
-Build the image and fire up the new container:
+构建镜像并启动容器：
 
 ```sh
 $ docker-compose up --build -d web-service
 ```
 
-Navigate to [http://DOCKER_MACHINE_IP:3007/](http://DOCKER_MACHINE_IP:3007/) in your browser to test the app.
+在浏览器访问 [http://DOCKER_MACHINE_IP:3007/](http://DOCKER_MACHINE_IP:3007/) 来测试应用。
 
-What happens if you navigate to the main route? Since we're still routing traffic to the Flask app (via Nginx), you will see the old app, served up with server-side templating. We need to update the Nginx configuration to route traffic to that main route to the React app. Before we update this, though, let's create a [build](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment) with Create React App locally, outside of Docker, which will generate static files.
+在切换到主路由时发生了什么？由于我们仍然路由到Flask应用（通过Nginx)，你看到的还是旧的应用。我们需要更新Nginx配置路由到React应用。在操作前，让我们创建一个[build](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment)本地React应用，在Docker之外，我们将生成静态文件.
 
-#### Create React App Build
+#### 创建React应用Build
 
-Make sure the `REACT_APP_USERS_SERVICE_URL` environment variable is set:
+确保`REACT_APP_USERS_SERVICE_URL`环境变量值设置正确:
 
 ```sh
 $ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP
 ```
 
-> All environment variables are [embedded](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables
-) into the app at build time. Keep this in mind.
+> 所有的环境变量都是[embedded](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables
+) 在构建时嵌入到应用的. 这个需要注意.
 
-Then run the `build` command in *flask-microservices-client*:
+然后运行在*flask-microservices-client*下运行`build`命令： 
 
 ```sh
 $ npm run build
 ```
 
-You should see a "build" directory with the static files. We need to serve this up with a basic web server. Let's use the [HTTP server](https://docs.python.org/3/library/http.server.html#module-http.server) from the standard library. Navigate to the "build" directory, and then run the server:
+你应该会看到一个"build"目录，里面存放了静态文件。我们需要启动一个基本的web服务器来运行它。我们使用标注库[HTTP server](https://docs.python.org/3/library/http.server.html#module-http.server)。切换到"build"目录，然后运行服务器：
 
 ```sh
 $ python3 -m http.server
 ```
 
-This will serve up the app on [http://localhost:8000/](http://localhost:8000/). Test it out in the browser to make sure it works. Once done, kill the server and navigate back to the project root.
+服务将会监听在 [http://localhost:8000/](http://localhost:8000/). 在浏览器进行测试并确保工作。一旦完成，结束服务器，切换回项目根目录。
 
 #### Dockerfile
 

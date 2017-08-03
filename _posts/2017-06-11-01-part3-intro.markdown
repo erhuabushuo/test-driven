@@ -1,5 +1,5 @@
 ---
-title: Introduction
+title: 介绍
 layout: post
 date: 2017-06-11 23:59:59
 permalink: part-three-intro
@@ -7,20 +7,20 @@ part: 3
 share: true
 ---
 
-In Part 3, we'll add *database migrations* along with *password hashing* in order to implement *token-based authentication* to the users service with JSON Web Tokens (JWTs). We'll then turn our attention to the client and add *React Router* to the React app to enable client-side routing along with client-side authentication.
+在第三部分，我们将加入*数据库迁移*和*Hash密码*用来实现基于JSON Web Tokens(JWTs)实现的*token验证机制*。我们将会把重心转移到*React Router*应用到React应用里，用来实现客户端路由，以及客户端验证。
 
-#### Objectives
+#### 目标
 
-By the end of part 3, you should be able to...
+在第三部分末，你将学会……
 
-1. Use Flask Migration to handle database migrations
-1. Configure Flask Bcrypt for password hashing
-1. Implement user authentication with JWTs
-1. Write tests to create and verify JWTs and user authentication
-1. Use React Router to define client-side routes in React
-1. Build UI components with React Bootstrap
-1. Explain the difference between user authentication and authorization
-1. Implement user authorization
+1. 使用Flask Migration处理数据库迁移
+1. 配置Flask Bcrypt实现密码Hash
+1. 使用JWTs实现用户验证
+1. 编写测试用来创建和验证JWTs和用户验证
+1. 使用React Router定义React客户端路由
+1. 使用React Bootstrap构建UI组件
+1. 阐述authentication和authorization区别
+1. 实现authorization
 
 #### App
 
@@ -28,22 +28,22 @@ By the end of part 3, you should be able to...
   <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
 
-Check out the live app, running on EC2 - [http://54.89.0.180/](http://54.89.0.180/)
+查看运行在EC2示例 - [http://54.89.0.180/](http://54.89.0.180/)
 
-You can also test out the following endpoints...
+也可以尝试测试以下链接。
 
-| Endpoint        | HTTP Method | Authenticated?  | Result            |
+| Endpoint        | HTTP 方法    | 验证?           | 结果            |
 |-----------------|-------------|-----------------|-------------------|
-| /auth/register  | POST        | No              | register user     |
-| /auth/login     | POST        | No              | log in user       |
-| /auth/logout    | GET         | Yes             | log out user      |
-| /auth/status    | GET         | Yes             | check user status |
-| /users          | GET         | No              | get all users     |
-| /users/:id      | GET         | No              | get single user   |
-| /users          | POST        | Yes (admin)     | add a user        |
-| /ping           | GET         | No              | sanity check      |
+| /auth/register  | POST        | 否              | 用户注册           |
+| /auth/login     | POST        | 否              | 用户登录           |
+| /auth/logout    | GET         | 是              | 用户登出           | 
+| /auth/status    | GET         | 是              | 检查用户状态        |
+| /users          | GET         | 否              | 获取所有用户     |
+| /users/:id      | GET         | 否              | 获取单个用户   |
+| /users          | POST        | 是 (admin)      | 添加一个用户        |
+| /ping           | GET         | 否              | 健康检查      |
 
-Grab the code:
+获取代码:
 
 1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main/releases/tag/part3)
 1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users/releases/tag/part3)
